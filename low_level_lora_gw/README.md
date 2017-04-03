@@ -1,45 +1,12 @@
 Low-cost LoRa gateway with Raspberry
 ====================================
 
-Please consult the web page: http://cpham.perso.univ-pau.fr/LORA/RPIgateway.html
+Please also consult the web page: http://cpham.perso.univ-pau.fr/LORA/RPIgateway.html.
 
-**NEW**: get the zipped SD card image (Raspbian Jessie) with all the advanced features already installed and working out-of-the-box with the Arduino_LoRa_Simple_temp example on a demo ThingSpeak channel.
-
-[raspberrypi-jessie-WAZIUP-demo.dmg.zip](http://cpham.perso.univ-pau.fr/LORA/WAZIUP/raspberrypi-jessie-WAZIUP-demo.dmg.zip)
-
-- Based on Raspbian Jessie 
-- Supports Raspberry 1B+, RPI2 and RPI3
-- Includes all the advanced features described in the gw_advanced github
-- Get the zipped image, unzip it, install it on an 8GB SD card, see [this tutorial](https://www.raspberrypi.org/documentation/installation/installing-images/) from www.raspberrypi.org
-- Plug the SD card into your Raspberry
-- Connect a radio module (see http://cpham.perso.univ-pau.fr/LORA/RPIgateway.html)
-- Power-on the Raspberry
-- The LoRa gateway starts automatically when RPI is powered on
-- By default, incoming data are uploaded to the [WAZIUP ThingSpeak demo channel](https://thingspeak.com/channels/123986)
-- Works out-of-the-box with the [Arduino_LoRa_Simple_temp sketch](https://github.com/CongducPham/LowCostLoRaGw/tree/master/Arduino/Arduino_LoRa_Simple_temp)
-
-There are also 2 tutorial videos on YouTube:
+2 tutorial videos on YouTube: video of all the steps to build the whole framework from scratch:
 
 - [Build your low-cost, long-range IoT device with WAZIUP](https://www.youtube.com/watch?v=YsKbJeeav_M)
 - [Build your low-cost LoRa gateway with WAZIUP](https://www.youtube.com/watch?v=peHkDhiH3lE)
-
-that show in images all the steps to build the whole framework from scratch.
-
-Install Raspbian Wheezy or Jessie
-=================================
-
-Fisrt install a Raspberry with Raspbian, Jessie is recommended. 
-
-then (you need to have Internet access on your Raspberry):
-
-	> sudo apt-get update
-	> sudo apt-get upgrade
-
-Jessie has been tested on RPI1, RPI2 and RPI3, and works great.
-
-Wheezy has been tested on RPI1 and RPI2 and works great. Wheezy on RPI3 is not recommended because built-in WiFi and Bluetooth will not work properly.
-
-We recommend buying either RPI2 or RPI3. RPI3 with Jessie has built-in WiFi and Bluetooth so it is definitely a good choice. In addition RPI3 with Jessie will have a better support lifetime. 
 
 Connect a radio module to Raspberry
 ===================================
@@ -51,9 +18,11 @@ Install the low-level LoRa gateway
 
 Log as **pi** user on your Raspberry using ssh or connect a display and a keyboard. To get all the low-level LoRa gateway files you can use svn:
 
-	> svn checkout https://github.com/Waziup/Platform/trunk/gateway/IoTBridge/low_level_lora_gw lora_gateway
+https://github.com/Waziup/waziup-gateway
+
+	> svn checkout https://github.com/Waziup/waziup-gateway/trunk/low_level_lora_gw lora_gateway
 	
-That will create the lora_gateway folder and get all the file of (GitHub) Waziup/Platform/gateway/IoTBridge/low_level_lora_gw in it. Then:
+That will create the lora_gateway folder and get all the file of (GitHub) Waziup/waziup-gateway/low_level_lora_gw in it. Then:
 
 	> cd lora_gateway
 
@@ -145,7 +114,31 @@ Pre-defined channels in 868MHz, 915MHz and 433MHz band (most of them from initia
 | 18 | 868.1* |  - |   -    |  - |   -    |
 |  - |   -    |  - |   -    |  - |   -    |
 
+ANNEX.B: Troubleshooting
+========================
 
+Verify if the low-level gateway program detects your radio module and if the radio module is working by simply run the low-level gateway program with:
+
+	> sudo ./lora_gateway
+	
+You should see the following output
+
+	SX1276 detected, starting.
+	SX1276 LF/HF calibration
+	...
+	^$**********Power ON: state 0
+	^$Default sync word: 0x12
+	^$LoRa mode 1
+	^$Setting mode: state 0
+	^$Channel CH_10_868: state 0
+	^$Set LoRa power dBm to 14
+	^$Power: state 0
+	^$Get Preamble Length: state 0
+	^$Preamble Length: 8
+	^$LoRa addr 1: state 0
+	^$SX1272/76 configured as LR-BS. Waiting RF input for transparent RF-serial bridge	
+
+If one of the state result is different from 0 then it might be a power/current issue. If the Preamble Length is different from 8 then it can also be a power/current issue but also indicate more important failure of the radio module. Get the "faulty" radio module and connect it to an Arduino board running the interactive end-device sketch. If the Preamble Length is now correct, then retry again with the Raspberry gateway. If the problem on the Raspberry persists, try with another radio module.
 	
 WARNING
 =======
