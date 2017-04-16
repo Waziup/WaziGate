@@ -9,11 +9,31 @@
 			"enabled":false
 		},
 		{	
+			"name":"SMS Service",
+			"script":"python CloudSMS.py",
+			"type":"smsservice",
+			"pin":0,
+			"contacts":["+33623582483","+33688097467","+33625467074"],
+			"gammurc_file":"/home/pi/.gammurc",
+			"enabled":false,
+			"always_enabled":false
+		},	
+		{	
+			"name":"WAZIUP SMS Service ",
+			"script":"python CloudWAZIUP-SMS.py",
+			"type":"smsservice",
+			"pin":0,
+			"contacts":["+15186760367"],
+			"gammurc_file":"/home/pi/.gammurc",
+			"enabled":true,
+			"always_enabled":false
+		},		
+		{	
 			"name":"WAZIUP Orion cloud",
 			"script":"python CloudWAZIUP.py",
 			"type":"iotcloud",			
 			"write_key":"",
-			"enabled":false
+			"enabled":true
 		},			
 		{	
 			"name":"ThingSpeak cloud",

@@ -28,38 +28,11 @@ import datetime
 import sys
 import re
 
-####################################################
-#server: CAUTION must exist
-waziup_server="http://broker.waziup.io/v2"
-
-#project name
-project_name="waziup"
-
-#your organization: CHANGE HERE
-#choose one of the following: "DEF", "UPPA", "EGM", "IT21", "CREATENET", "CTIC", "UI", "ISPACE", "UGB", "WOELAB", "FARMERLINE", "C4A", "PUBD"
-#organization_name="UPPA"
-organization_name="DEF"
-
-#service tree: CHANGE HERE at your convenience
-#should start with /
-#use public prefix to indicate that data is public
-#service_tree='/LIUPPA/T2I/CPHAM'
-service_tree='/public/test'
-
-#sensor name: CHANGE HERE but maybe better to leave it as Sensor
-#the final name will contain the sensor address
-sensor_name="Sensor"
-
-#service path: DO NOT CHANGE HERE
-service_path='/'+organization_name+service_tree
-
-#SUMMARY
-#the entity name will then be sensor_name+scr_addr, e.g. "Sensor1"
-#the Fiware-ServicePath will be service_path which is based on both organization_name and service_tree, e.g. "/UPPA/LIUPPA/T2I/CPHAM"
-#the Fiware-Service will be project_name, e.g. "waziup"
+# get key definition from external file to ease
+# update of cloud script in the future
+import key_WAZIUP
 
 ####################################################
-
 #To create a new entitiy
 # curl http://broker.waziup.io/v2/entities -s -S --header 'Content-Type: application/json' --header 'Fiware-Service:waziup' --header 'Fiware-ServicePath:/UPPA' -X POST -d '{ "id": "Sensor1", "type": "SensingDevice", "TC": { "value": 23, "type": "Number" }, "PR": { "value": 720, "type": "Number" } }'
 
@@ -71,9 +44,6 @@ service_path='/'+organization_name+service_tree
 
 #To retrieve the last data point inserted:
 # curl http://broker.waziup.io/v2/entities/Sensor1/attrs/TC/value --header 'Fiware-Service:waziup' --header 'Fiware-ServicePath:/UPPA' -X GET
-
-
-
 ####################################################
 
 #error messages from server
@@ -95,7 +65,7 @@ def test_network_available():
 	while(not connection and iteration < 4) :
 	    	try:
 	    		# 3sec timeout in case of server available but overcrowded
-			response=urllib2.urlopen(waziup_server, timeout=3)
+			response=urllib2.urlopen(key_WAZIUP.waziup_server, timeout=3)
 			connection = True
 	    	except urllib2.URLError, e: pass
 		except socket.timeout: pass
@@ -120,7 +90,7 @@ def create_new_entity(data, src, nomenclatures):
 	
 	print "WAZIUP: create new entity"
 	
-	cmd = 'curl '+waziup_server+'/entities -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"id\":\"'+src+'\",\"type\":\"SensingDevice\",'
+	cmd = 'curl '+key_WAZIUP.waziup_server+'/entities -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"id\":\"'+src+'\",\"type\":\"SensingDevice\",'
 	
 	i=0
 	while i < len(data)-2 :
@@ -159,13 +129,13 @@ def send_data(data, src, nomenclatures):
 	i=0
 	
 	if data[0]=='':
-		data[0]=project_name
+		data[0]=key_WAZIUP.project_name
 
 	if data[1]=='':
-		data[1]=service_path
+		data[1]=key_WAZIUP.service_path
 			
 	while i < len(data)-2  and not entity_need_to_be_created:
-		cmd = 'curl '+waziup_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
+		cmd = 'curl '+key_WAZIUP.waziup_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
 		i += 1
 
 		print "CloudWAZIUP: will issue curl cmd"
@@ -223,7 +193,7 @@ def WAZIUP_uploadData(nomenclatures, data, src):
 	# if we got a response from the server, send the data to it
 	if(connected):
 		print("WAZIUP: uploading")
-		send_data(data, sensor_name+src, nomenclatures)
+		send_data(data, key_WAZIUP.sensor_name+src, nomenclatures)
 	else:
 		print("WAZIUP: not uploading")
 		

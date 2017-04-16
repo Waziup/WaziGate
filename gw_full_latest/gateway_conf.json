@@ -22,13 +22,15 @@
 		"status" : 600,
 		"aux_radio" : 0
 	},
-	"alert_conf_template" : {
+	"alert_conf" : {
 		"use_mail" : false,
 		"contact_mail" : "the_contact_mail_address,another_contact_mail_address_if_needed",
 		"mail_from" : "a_gmail_address",
 		"mail_server" : "smtp.gmail.com",
 		"mail_passwd" : "your_passwd",
 		"use_sms" : false,
-		"contact_sms" : "your_phone_with_country_prefix"
+		"pin":0,
+		"contact_sms":["+33XXXXXXXXX","+33XXXXXXXXX"],
+		"gammurc_file":"/home/pi/.gammurc"
 	}	
 }
