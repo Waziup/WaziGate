@@ -442,7 +442,7 @@ if _use_sms_alert:
 		print "missing .gammurc file"
 		print "overriding use_sms to false"
 		_use_sms_alert = False		
-	
+		
 #==============================================================
 # Checking if the 3G dongle is detected
 def is_3G_dongle_detected():
@@ -527,6 +527,12 @@ def send_sms(data):
 					print('post_processing_gw.py sending SMS to %s successfully!' % (number))
 				except Exception, exc:
 					print('post_processing_gw.py sending to %s failed: %s' % (number, exc))	
+					
+if _use_sms_alert :
+	print "post_processing_gw.py sends SMS indicating that gateway has started post-processing stage..."
+	send_sms("Gateway "+_gwid+" has started post-processing stage")
+	print "Sending SMS done"
+	sys.stdout.flush()					
 		
 #------------------------------------------------------------
 #for handling images

@@ -13,7 +13,8 @@
 			"script":"python CloudSMS.py",
 			"type":"smsservice",
 			"pin":0,
-			"contacts":["+33623582483","+33688097467","+33625467074"],
+			"contacts":["+33XXXXXXXXX","+33XXXXXXXXX"],
+			"source_list":[],
 			"gammurc_file":"/home/pi/.gammurc",
 			"enabled":false,
 			"always_enabled":false
