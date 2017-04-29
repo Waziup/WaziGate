@@ -20,14 +20,12 @@ clouds.json contains a list of clouds where you want your data to be uploaded. H
 				"name":"ThingSpeak cloud",
 				"script":"python CloudThingSpeak.py",
 				"type":"iotcloud",			
-				"write_key":"",
 				"enabled":true
 			},
 			{	
 				"name":"GroveStreams cloud",
 				"script":"python CloudGroveStreams.py",
 				"type":"iotcloud",			
-				"write_key":"",
 				"enabled":true
 			}
 	}
@@ -72,7 +70,7 @@ These parameters are passed to the script. It is up to the cloud script to use t
 		DO-WHATEVER-YOU-NEED-TO-DO-FOR-DATA-UPLOADING
 		
 		USE-PARAMETERS-AS-YOU-NEED
-	
+			
 	if __name__ == "__main__":
 		main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
 
@@ -101,10 +99,66 @@ The main data upload processing task in post_processing_gw.py is very simple and
 		os.system(cmd_arg) 
 	print "--> cloud end"
 
-Good practice for storing keys
-------------------------------
+Good practice for storing keys or identification information
+------------------------------------------------------------
 
-Most of cloud platforms use some kind of keys for write access. These keys should be stored in a separate Python file so that updates on the cloud script can be realized independently from the existing keys (for instance if you already customized from a previous install). In the provided examples, key_FireBase.py, key_GroveStreams.py and key_ThingSpeak.py contain keys for their corresponding clouds. For instance, CloudThingSpeak.py starts with an "import key_ThingSpeak" statement. Only key_ThingSpeak.py has a usable key, which is our LoRa demo channel write key: SGSH52UGPVAUYG3S. For the other clouds, you have to create your own account in order to get your private key before being able to upload data to FireBase or GroveStreams.
+Most of cloud platforms use some kind of keys for write access. These keys should be stored in a separate Python file so that updates on the cloud script can be realized independently from the existing keys (for instance if you already customized from a previous install). In the provided examples, key_FireBase.py, key_GroveStreams.py and key_ThingSpeak.py contain keys for their corresponding clouds. For instance, CloudThingSpeak.py starts with an "import key_ThingSpeak" statement. Only key_ThingSpeak.py has a usable key, which is our LoRa demo channel write key: SGSH52UGPVAUYG3S. 
+
+	> cat key_ThingSpeak.py
+	# LoRa demo channel
+	_def_thingspeak_channel_key='SGSH52UGPVAUYG3S'
+
+For the other clouds, you have to create your own account in order to get your private key before being able to upload data to FireBase or GroveStreams.
+
+Indicate a list of allowed source addresses
+-------------------------------------------
+
+We also define in the key file a list of allowed device source address:
+
+	> cat key_ThingSpeak.py
+	# LoRa demo channel
+	_def_thingspeak_channel_key='SGSH52UGPVAUYG3S'
+	source_list=["3","10"]
+ 
+When source_list is set to [] then all device are accepted. If it specifies a list of device address, then the CloudThingSpeak.py will only upload data from these devices.
+
+The code of the CloudThingSpeak.py scripts looks like:
+
+	if (str(src) in key_ThingSpeak.source_list) or (len(key_ThingSpeak.source_list)==0):
+	
+		DO-WHATEVER-YOU-NEED-TO-DO-FOR-DATA-UPLOADING
+		
+		USE-PARAMETERS-AS-YOU-NEED
+	else:
+		print "Source is not is source list, not sending with CloudThingSpeak.py"
+		
+This feature is quite useful when you want to upload data to various different clouds, depending on the device. Suppose that you have 10 devices whose addresses are from 1 to 10. You want to upload data from sensors 1..5 to a ThingSpeak channel and data from sensors 6..10 to GroveStreams. Then you need to activate in clouds.json both clouds and specify in key_ThingSpeak.py source_list=["1","2","3","4","5"] and in key_GroveStreams.py source_list=["6","7","8","9","10"]. 
+
+Note that you can also upload to 2 different ThingSpeak channels by duplicating the CloudThingSpeak.py script into CloudThingSpeak_1.py, creating a new key_ThingSpeak_1.py file to store both the other ThingSpeak write key and source_list, changing in CloudThingSpeak_1.py the "import key_ThingSpeak" into "import key_ThingSpeak_1 as key_ThingSpeak" and then activating both CloudThingSpeak.py and CloudThingSpeak_1.py in clouds.json as follows:
+
+	{
+		"clouds" : [
+			{	
+				"notice":"do not remove the MongoDB cloud declaration, just change enabled and max_months_to_store if needed"
+				"name":"Local gateway MongoDB",
+				"script":"python CloudMongoDB.py",
+				"type":"database",
+				"max_months_to_store":2,
+				"enabled":false
+			},	
+			{	
+				"name":"ThingSpeak cloud",
+				"script":"python CloudThingSpeak.py",
+				"type":"iotcloud",			
+				"enabled":true
+			},
+				"name":"ThingSpeak cloud",
+				"script":"python CloudThingSpeak_1.py",
+				"type":"iotcloud",			
+				"enabled":true
+			}
+	}
+		
 
 Some words about data format
 ----------------------------
