@@ -30,12 +30,12 @@ import re
 
 # get key definition from external file to ease
 # update of cloud script in the future
-import key_WAZIUP
+import key_Orion
 
 try:
-	key_WAZIUP.source_list
+	key_Orion.source_list
 except AttributeError:
-	key_WAZIUP.source_list=[]
+	key_Orion.source_list=[]
 
 ####################################################
 #To create a new entitiy
@@ -50,7 +50,7 @@ except AttributeError:
 ####################################################
 
 #error messages from server
-WAZIUP_entity_not_created="The requested entity has not been found"
+Orion_entity_not_created="The requested entity has not been found"
 
 # didn't get a response from thingspeak server?
 connection_failure = False
@@ -68,7 +68,7 @@ def test_network_available():
 	while(not connection and iteration < 4) :
 	    	try:
 	    		# 3sec timeout in case of server available but overcrowded
-			response=urllib2.urlopen(key_WAZIUP.waziup_server, timeout=3)
+			response=urllib2.urlopen(key_Orion.orion_server, timeout=3)
 			connection = True
 	    	except urllib2.URLError, e: pass
 		except socket.timeout: pass
@@ -76,11 +76,11 @@ def test_network_available():
 	    	
 	    	# if connection_failure == True and the connection with the server is unavailable, don't waste more time, exit directly
 	    	if(connection_failure and response is None) :
-	    		print('WAZIUP: the server is still unavailable')
+	    		print('Orion: the server is still unavailable')
 	    		iteration = 4
 	    	# print connection failure
 	    	elif(response is None) :
-	    		print('WAZIUP: server unavailable, retrying to connect soon...')
+	    		print('Orion: server unavailable, retrying to connect soon...')
 	    		# wait before retrying
 	    		time.sleep(1)
 	    		iteration += 1
@@ -91,9 +91,9 @@ def create_new_entity(data, src, nomenclatures):
 
 	global connection_failure
 	
-	print "WAZIUP: create new entity"
+	print "Orion: create new entity"
 	
-	cmd = 'curl '+key_WAZIUP.waziup_server+'/entities -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"id\":\"'+src+'\",\"type\":\"SensingDevice\",'
+	cmd = 'curl '+key_Orion.orion_server+'/entities -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"id\":\"'+src+'\",\"type\":\"SensingDevice\",'
 	
 	i=0
 	while i < len(data)-2 :
@@ -103,7 +103,7 @@ def create_new_entity(data, src, nomenclatures):
 			cmd = cmd+","
 	cmd = cmd+"}" 	
 	
-	print "CloudWAZIUP: will issue curl cmd"
+	print "CloudOrion: will issue curl cmd"
 	print(cmd)
 	args = cmd.split()
 	print args	
@@ -112,13 +112,13 @@ def create_new_entity(data, src, nomenclatures):
 		out = subprocess.check_output(args, shell=False)
 		
 		if out != '':
-			print 'WAZIUP: returned msg from server is'
+			print 'Orion: returned msg from server is'
 			print out					
 		else :
-			print 'WAZIUP: entity creation success'
+			print 'Orion: entity creation success'
 			
 	except subprocess.CalledProcessError:
-		print "WAZUP: curl command failed (maybe a disconnection)"
+		print "Orion: curl command failed (maybe a disconnection)"
 		connection_failure = True	
 	
 	
@@ -132,16 +132,16 @@ def send_data(data, src, nomenclatures):
 	i=0
 	
 	if data[0]=='':
-		data[0]=key_WAZIUP.project_name
+		data[0]=key_Orion.project_name
 
 	if data[1]=='':
-		data[1]=key_WAZIUP.service_path
+		data[1]=key_Orion.service_path
 			
 	while i < len(data)-2  and not entity_need_to_be_created:
-		cmd = 'curl '+key_WAZIUP.waziup_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
+		cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
 		i += 1
 
-		print "CloudWAZIUP: will issue curl cmd"
+		print "CloudOrion: will issue curl cmd"
 		print(cmd)
 		args = cmd.split()
 		print args
@@ -157,16 +157,16 @@ def send_data(data, src, nomenclatures):
 	
 					# if server return 0, we didn't wait 15sec, wait then
 					if out != '':
-						print 'WAZIUP: returned msg from server is'
+						print 'Orion: returned msg from server is'
 						print out
-						print('WAZIUP: retrying in 3sec')
+						print('Orion: retrying in 3sec')
 						iteration += 1
 						time.sleep( 3 )
 					else:
-						'WAZIUP: upload success'
+						'Orion: upload success'
 						
 				except subprocess.CalledProcessError:
-					print "WAZUP: curl command failed (maybe a disconnection)"
+					print "Orion: curl command failed (maybe a disconnection)"
 					connection_failure = True
 					
 		# retry disabled
@@ -175,30 +175,30 @@ def send_data(data, src, nomenclatures):
 				out = subprocess.check_output(args, shell=False)
 				
 				if out != '':
-					print 'WAZIUP: returned msg from server is'
+					print 'Orion: returned msg from server is'
 					print out
 					
 					# the entity has not been created before
-					if WAZIUP_entity_not_created in out:
+					if Orion_entity_not_created in out:
 						entity_need_to_be_created=True
 						create_new_entity(data, src, nomenclatures)						
 				else :
-					print 'WAZIUP: upload success'
+					print 'Orion: upload success'
 					
 			except subprocess.CalledProcessError:
-				print "WAZUP: curl command failed (maybe a disconnection)"
+				print "Orion: curl command failed (maybe a disconnection)"
 				connection_failure = True
 	
-def WAZIUP_uploadData(nomenclatures, data, src):
+def Orion_uploadData(nomenclatures, data, src):
 	
 	connected = test_network_available()
 	
 	# if we got a response from the server, send the data to it
 	if(connected):
-		print("WAZIUP: uploading")
-		send_data(data, key_WAZIUP.sensor_name+src, nomenclatures)
+		print("Orion: uploading")
+		send_data(data, key_Orion.sensor_name+src, nomenclatures)
 	else:
-		print("WAZIUP: not uploading")
+		print("Orion: not uploading")
 		
 	# update grovestreams_connection_failure value
 	global connection_failure
@@ -227,7 +227,7 @@ def main(ldata, pdata, rdata, tdata, gwid):
 	SNR=arr[5]
 	RSSI=arr[6]
 	
-	if (str(src) in key_WAZIUP.source_list) or (len(key_WAZIUP.source_list)==0):
+	if (str(src) in key_Orion.source_list) or (len(key_Orion.source_list)==0):
 	
 		# this part depends on the syntax used by the end-device
 		# we use: TC/22.4/HU/85...
@@ -301,10 +301,10 @@ def main(ldata, pdata, rdata, tdata, gwid):
 				data.append(data_array[i+1])
 				i += 2
 	
-		# upload data to WAZIUP
-		WAZIUP_uploadData(nomenclatures, data, str(src))
+		# upload data to Orion
+		Orion_uploadData(nomenclatures, data, str(src))
 	else:
-		print "Source is not is source list, not sending with CloudWAZIUP.py"				
+		print "Source is not is source list, not sending with CloudOrion.py"				
 
 if __name__ == "__main__":
 	main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])

@@ -1,6 +1,6 @@
 ####################################################
 #server: CAUTION must exist
-waziup_server="http://broker.waziup.io/v2"
+orion_server="http://broker.waziup.io/v2"
 
 #project name
 project_name="waziup"

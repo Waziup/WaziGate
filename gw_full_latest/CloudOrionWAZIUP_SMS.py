@@ -27,13 +27,13 @@ import libSMS
 
 # get key definition from external file to ease
 # update of cloud script in the future
-import key_WAZIUP
-import key_WAZIUP_SMS
+import key_Orion
+import key_OrionWAZIUP_SMS
 
 try:
-	key_WAZIUP.source_list
+	key_Orion.source_list
 except AttributeError:
-	key_WAZIUP.source_list=[]
+	key_Orion.source_list=[]
 
 global sm, always_enabled, gammurc_file
 
@@ -57,7 +57,7 @@ clouds = json_array["clouds"]
 
 #here we check for our own script entry
 for cloud in clouds:
-	if "CloudWAZIUP-SMS.py" in cloud["script"]:
+	if "CloudOrionWAZIUP_SMS.py" in cloud["script"]:
 			
 		try:
 			always_enabled = cloud["always_enabled"]
@@ -78,10 +78,10 @@ else:
 	if (not libSMS.gammurcCheck(gammurc_file)):
 		sys.exit()
 
-if (libSMS.phoneConnection(gammurc_file, key_WAZIUP_SMS.PIN) == None):
+if (libSMS.phoneConnection(gammurc_file, key_OrionWAZIUP_SMS.PIN) == None):
 	sys.exit()
 else:	
-	sm = libSMS.phoneConnection(gammurc_file, key_WAZIUP_SMS.PIN)
+	sm = libSMS.phoneConnection(gammurc_file, key_OrionWAZIUP_SMS.PIN)
 		
 
 # main
@@ -105,7 +105,7 @@ def main(ldata, pdata, rdata, tdata, gwid):
 	cr=arr[1]
 	sf=arr[2]
 
-	if (str(src) in key_WAZIUP.source_list) or (len(key_WAZIUP.source_list)==0):
+	if (str(src) in key_Orion.source_list) or (len(key_Orion.source_list)==0):
 		
 		#this part depends on the syntax used by the end-device
 		#we use: thingspeak_channel#thingspeak_field#TC/22.4/HU/85... 
@@ -160,7 +160,7 @@ def main(ldata, pdata, rdata, tdata, gwid):
 		data_array[len(data_array)-1] = data_array[len(data_array)-1].replace('\0', '')	
 	
 		#sms data to be sent
-		sms_data = "SensorData "+key_WAZIUP.sensor_name+str(src)
+		sms_data = "SensorData "+key_Orion.sensor_name+str(src)
 	
 		#sms_data = "SRC#"+str(src)+"#RSSI#"+str(RSSI)+"#BW#"+str(bw)+"#CR#"+str(cr)+"#SF#"+str(sf)+"#GWID#"+gwid+"/"+data
 		#sms_data = "SensorData  Sensor"+str(src)+" RSSI "+str(RSSI)+" BW "+str(bw)+" CR "+str(cr)+" SF "+str(sf)+" GWID "+gwid+" "
@@ -173,10 +173,10 @@ def main(ldata, pdata, rdata, tdata, gwid):
 			i += 2
 	
 		if data_array[0]=='':
-			data_array[0]=key_WAZIUP.project_name
+			data_array[0]=key_Orion.project_name
 
 		if data_array[1]=='':
-			data_array[1]=key_WAZIUP.service_path
+			data_array[1]=key_Orion.service_path
 		
 		sms_data += " "+data_array[0]+" "+data_array[1]
 	
@@ -187,16 +187,16 @@ def main(ldata, pdata, rdata, tdata, gwid):
 				print('Internet is available, no need to use the SMS Service')
 				sys.exit()
 			else:
-				print("rcv msg to send via the WAZIUP SMS Service: "+sms_data)
-				success = libSMS.send_sms(sm, sms_data, key_WAZIUP_SMS.contacts)
+				print("rcv msg to send via the Orion WAZIUP SMS Service: "+sms_data)
+				success = libSMS.send_sms(sm, sms_data, key_OrionWAZIUP_SMS.contacts)
 		else:
-			print("rcv msg to send via the WAZIUP SMS Service: "+sms_data)
-			success = libSMS.send_sms(sm, sms_data, key_WAZIUP_SMS.contacts)
+			print("rcv msg to send via the Orion WAZIUP SMS Service: "+sms_data)
+			success = libSMS.send_sms(sm, sms_data, key_OrionWAZIUP_SMS.contacts)
 	
 		if (success):
 				print "Sending SMS done"	
 	else:
-		print "Source is not is source list, not sending with CloudWAZIUP_SMS.py"
+		print "Source is not is source list, not sending with CloudOrionWAZIUP_SMS.py"
 		
 if __name__ == "__main__":
         main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5])
