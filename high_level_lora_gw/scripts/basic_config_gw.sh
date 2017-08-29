@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #------------------------------------------------------------
-# Copyright 2016-2017 Congduc Pham, University of Pau, France.
+# Copyright 2017 Congduc Pham, University of Pau, France.
 # 
 # Congduc.Pham@univ-pau.fr
 #
@@ -22,30 +22,30 @@
 #------------------------------------------------------------
 
 #
-# example: ./basic_config_raspbian.sh
+# example: ./basic_config_gw.sh
 
 board=`cat /proc/cpuinfo | grep "Revision" | cut -d ':' -f 2 | tr -d " \t\n\r"`
 
 #get the last 5 bytes of the eth0 MAC addr
 gwid=`ifconfig | grep 'eth0' | awk '{print $NF}' | sed 's/://g' | awk '{ print toupper($1) }' | cut -c 3-`
 
-echo "Creating ../gateway_id.txt file"
+echo "Creating /home/pi/lora_gateway/gateway_id.txt file"
 echo "Writing 000000$gwid"
-echo "000000$gwid" > ../gateway_id.txt
+echo "000000$gwid" > /home/pi/lora_gateway/gateway_id.txt
 echo "Done"
 
-echo "Replacing gw id in ../gateway_conf.json"
-sed -i -- 's/"000000.*"/"000000'"$gwid"'"/g' ../gateway_conf.json
+echo "Replacing gw id in /home/pi/lora_gateway/gateway_conf.json"
+sed -i -- 's/"000000.*"/"000000'"$gwid"'"/g' /home/pi/lora_gateway/gateway_conf.json
 echo "Done"
 
-echo "Creating ~/Dropbox/LoRa-test"
-mkdir -p ~/Dropbox/LoRa-test
+echo "Creating /home/pi/Dropbox/LoRa-test"
+mkdir -p /home/pi/Dropbox/LoRa-test
 echo "Done"
 
-rm ../log
-echo "Creating log -> ~/Dropbox/LoRa-test"
-ln -s ~/Dropbox/LoRa-test ../log
-echo "Done"		
+rm /home/pi/lora_gateway/log
+echo "Creating log -> /home/pi/Dropbox/LoRa-test"
+ln -s /home/pi/Dropbox/LoRa-test /home/pi/lora_gateway/log
+echo "Done"
 
 echo "Replacing hot-spot ssid in /etc/hostapd/hostapd.conf"
 sudo sed -i 's/^ssid.*/ssid=WAZIUP_PI_GW_'"$gwid"'/g' /etc/hostapd/hostapd.conf
@@ -69,7 +69,7 @@ echo "Done"
 
 echo "Compile lora_gateway executable"
 
-cd ..
+pushd /home/pi/lora_gateway/
 if [ "$board" = "a01041" ] || [ "$board" = "a21041" ]
 	then
 		echo "You have a Raspberry 2"
@@ -86,7 +86,9 @@ else
 	make lora_gateway
 fi
 		
-cd scripts
+sudo chown -R pi:pi /home/pi/lora_gateway/
+		
+popd
 
 echo "You should reboot your Raspberry"
 echo "Bye."
