@@ -23,7 +23,7 @@
 
 
 #
-# example: ./config_raspbian.sh
+# example: ./config_gw.sh
 
 
 board=`cat /proc/cpuinfo | grep "Revision" | cut -d ':' -f 2 | tr -d " \t\n\r"`
@@ -36,7 +36,7 @@ read ouinon
 if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]
 	then
 		cd ..
-		if [ "$board" = "a01041" ] || [ "$board" = "a21041" ]
+		if [ "$board" = "a01041" ] || [ "$board" = "a21041" ] || [ "$board" = "a22042" ]
 			then
 				echo "You have a Raspberry 2"
 				echo "Compiling for Raspberry 2 and 3"
@@ -46,6 +46,11 @@ if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]
 				echo "You have a Raspberry 3"
 				echo "Compiling for Raspberry 2 and 3"
 				make lora_gateway_pi2
+		elif [ "$board" = "900092" ] || [ "$board" = "900093" ] || [ "$board" = "9000C1" ]
+			then
+				echo "You have a Raspberry Zero"
+				echo "Compiling for Raspberry 1"
+				make lora_gateway
 		else
 			echo "You have a Raspberry 1"		
 			echo "Compiling for Raspberry 1"
@@ -57,6 +62,18 @@ fi
 #get the last 5 bytes of the eth0 MAC addr
 gwid=`ifconfig | grep 'eth0' | awk '{print $NF}' | sed 's/://g' | awk '{ print toupper($1) }' | cut -c 3-`
 
+#get the last 5 bytes of the wlan0 MAC addr
+if [ "$gwid" = "" ]
+	then
+		gwid=`ifconfig | grep 'wlan0' | awk '{print $NF}' | sed 's/://g' | awk '{ print toupper($1) }' | cut -c 3-`
+fi
+
+#set a default value
+if [ "$gwid" = "" ]
+	then
+		gwid="XXXXXXDEF0"
+fi
+
 echo "Creating ../gateway_id.txt file"
 echo "Writing 000000$gwid"
 echo "000000$gwid" > ../gateway_id.txt
@@ -66,33 +83,33 @@ echo "Replacing gw id in ../gateway_conf.json"
 sed -i -- 's/"000000.*"/"000000'"$gwid"'"/g' ../gateway_conf.json
 echo "Done"
 
-if [ ! -d ~/Dropbox/LoRa-test ]
+if [ ! -d /home/pi/Dropbox/LoRa-test ]
 	then
-		echo "*****************************************************"
-		echo "*** create ~/Dropbox/LoRa-test (recommended) Y/N  ***"
-		echo "*****************************************************"
+		echo "************************************************************"
+		echo "*** create /home/pi/Dropbox/LoRa-test (recommended) Y/N  ***"
+		echo "************************************************************"
 		read ouinon
 
 		if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]
 			then
-				echo "Creating ~/Dropbox/LoRa-test"
-				mkdir -p ~/Dropbox/LoRa-test
+				echo "Creating /home/pi/Dropbox/LoRa-test"
+				mkdir -p /home/pi/Dropbox/LoRa-test
 				echo "Done"
 		fi
 	else
-		echo "~/Dropbox/LoRa-test already exist. OK."
+		echo "/home/pi/Dropbox/LoRa-test already exist. OK."
 fi
 				
-echo "********************************************************"
-echo "*** create log symb link to ~/Dropbox/LoRa-test Y/N  ***"
-echo "********************************************************"
+echo "***************************************************************"
+echo "*** create log symb link to /home/pi/Dropbox/LoRa-test Y/N  ***"
+echo "***************************************************************"
 read ouinon
 
 if [ "$ouinon" = "y" ] || [ "$ouinon" = "Y" ]
 	then
-		rm ../log
-		echo "Creating log -> ~/Dropbox/LoRa-test"
-		ln -s ~/Dropbox/LoRa-test ../log
+		rm /home/pi/lora_gateway/log
+		echo "Creating log -> /home/pi/Dropbox/LoRa-test"
+		ln -s /home/pi/Dropbox/LoRa-test /home/pi/lora_gateway/log
 		echo "Done"		
 fi	
 	
