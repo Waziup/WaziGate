@@ -55,6 +55,12 @@ else
 	fi
 fi
 
+echo "Keep a copy of /home/pi/lora_gateway/scripts/update_gw.sh"
+mkdir /home/pi/scripts
+cp /home/pi/lora_gateway/scripts/update_gw.sh /home/pi/scripts
+sudo chown -R pi:pi /home/pi/scripts 
+echo "Done"
+
 echo "Creating /home/pi/lora_gateway/gateway_id.txt file"
 echo "Writing 000000$gwid"
 echo "000000$gwid" > /home/pi/lora_gateway/gateway_id.txt
@@ -66,6 +72,7 @@ echo "Done"
 
 echo "Creating /home/pi/Dropbox/LoRa-test"
 mkdir -p /home/pi/Dropbox/LoRa-test
+sudo chown -R pi:pi /home/Dropbox
 echo "Done"
 
 rm /home/pi/lora_gateway/log
