@@ -124,6 +124,7 @@ $(function () {
 	    		//erase message after 5 seconds
 	    		setTimeout(function() {
   					$('#gw_update_msg').html("");
+  					window.location.reload();  					
 	     		},5000);
 	 		});
 		}
@@ -149,6 +150,7 @@ $(function () {
 	    		//erase message after 5 seconds
 	   		 	setTimeout(function() {
   					$('#gw_update_msg').html("");
+  					window.location.reload();  					
 	    		},5000);
         	})
 		}
@@ -170,6 +172,7 @@ $(function () {
 	    //erase message after 5 seconds
 	    setTimeout(function() {
   		$('#gw_update_msg').html("");
+  		window.location.reload();  		
 	    },5000);
         });
     });
@@ -216,6 +219,7 @@ $(function () {
 	    //erase message after 5 seconds
 	    setTimeout(function() {
   		$('#gw_update_msg').html("");
+  		window.location.reload();  		
 	    },5000);
         });
     });
@@ -401,10 +405,41 @@ $(function () {
     	}*/
     	
     });
-   										   
+
+//######################
+//# Setting PABOOST
+//######################
+    $('#td_edit_paboost').hide();
+    $('#td_paboost_submit').hide();
+    $("#gw_msg").hide();
+    //$("#div_mode_select").hide();
+    
+    $('#btn_edit_paboost').click(function() {	
+    	$('#td_edit_paboost').show();
+    	$('#td_paboost_submit').show();
+    });
+ 
+    $('#btn_paboost_submit').click(function() {	
+    	paboost = $( "input:checked" ).val();
+        $.get("process.php", {paboost: paboost}, function(data){
+            // handle the response (*) by storing the message into the DIV#message
+            //$('#gw_full_update_msg').html(res);
+	     $('#gw_config_msg').html(data);
+	    //erase message after 5 seconds
+	    setTimeout(function() {
+  		$('#gw_config_msg').html("");
+	    },5000);
+        });
+    	
+	if(paboost != '') 
+        	$('#paboost_value').html(paboost);
+        $('#td_edit_paboost').hide();
+    	$('#td_paboost_submit').hide();
+    });
+       										   
     
 //######################
-//# Setting Gatewway ID
+//# Setting Gateway ID
 //######################
     $('#td_edit_gw_id').hide();
     $('#td_gw_id_submit').hide();
@@ -468,6 +503,37 @@ $(function () {
     	$('#td_aes_submit').hide();
     });
 
+//######################
+//# Setting downlink
+//######################
+    $('#td_edit_downlink').hide();
+    $('#td_downlink_submit').hide();
+    $("#gw_msg").hide();
+    //$("#div_mode_select").hide();
+    
+    $('#btn_edit_downlink').click(function() {	
+    	$('#td_edit_downlink').show();
+    	$('#td_downlink_submit').show();
+    });
+ 
+    $('#btn_downlink_submit').click(function() {	
+    	downlink = $("#downlink_input").val();
+    	$.get("process.php", {downlink: downlink}, function(data){	
+			//$('#gw_msg').html(data);
+			//$('#gw_msg').show();
+			$("#gw_config_msg").html(data);
+            			//erase message after 5 seconds
+	   			setTimeout(function() {
+  					$('#gw_config_msg').html("");
+	     			},5000);
+        });
+
+        	$('#downlink_value').html(downlink);
+        	$("#downlink_input").val("");
+       		 $('#td_edit_downlink').hide();
+    		$('#td_downlink_submit').hide();
+    });
+    
 //######################
 //# Setting alert sms
 //######################
@@ -999,6 +1065,39 @@ $(function () {
     	$('#td_service_tree_submit').hide();
     });
 
+    
+//##############################
+//# Setting Waziup Orion token
+//##############################
+    $('#td_edit_orion_token').hide();
+    $('#td_orion_token_submit').hide();
+    $("#waziup_status_msg").hide();
+    
+    $('#btn_edit_orion_token').click(function() {	
+    	$('#td_edit_orion_token').show();
+    	$('#td_orion_token_submit').show();
+    });
+ 
+    $('#orion_token_submit').click(function() {	
+    	orion_token = $('#orion_token_input').val();
+    	//alert(serv);
+    	$.get("process.php", {orion_token: orion_token}, function(data){	
+			//$('#waziup_status_msg').html(data);
+			//$('#waziup_status_msg').show();
+			$('#cloud_msg').html(data);
+	   		 //erase message after 5 seconds
+	    		setTimeout(function() {
+  				$('#cloud_msg').html("");
+	    		},5000);
+        });
+    	
+	if(orion_token !='')		
+        	$('#orion_token_value').html(orion_token);
+        $('#orion_token_input').val("");
+        $('#td_edit_orion_token').hide();
+    	$('#td_orion_token_submit').hide();
+    });
+    
 //#######################
 //# Setting access point
 //#######################

@@ -105,7 +105,7 @@ require 'header.php';
    										   <tr>
     									    <td>Frequency</td>
     										<td id="freq_value"><?php echo $radio_conf['freq']; ?></td>
-    										<td align="right"><button id="btn_edit_freq" type="button" class="btn btn-primary" href="gateway.php?freq="><span class="fa fa-edit"></span></button></td>
+    										<td align="right"><button id="btn_edit_freq" type="button" class="btn btn-primary"><span class="fa fa-edit"></span></button></td>
    										   	<td id="td_edit_freq">
    										    	<div class="form-group">
                                             		<label>ISM Band </label>
@@ -121,8 +121,46 @@ require 'header.php';
                                         	</td>
                                         	<td id="freq_submit" align="right"><button id="btn_edit_mode" type="submit" class="btn btn-primary">Submit <span class="fa fa-arrow-right"></span></button></td> 
    										   </tr>
+
+   										   <tr>
+    									    <td>PA_BOOST</td>
+    										<td id="paboost_value">
+    											<?php
+    												$current_paboost=exec('egrep ^CFLAGS /home/pi/lora_gateway/radio.makefile');
+    												
+    												if ($current_paboost=='')
+													{
+    													echo "Disabled";    
+													}
+													else {
+   					 									echo "Enabled";   
+													}
+    											?>    										
+    										</td>
+    										<td align="right"><button id="btn_edit_paboost" type="button" class="btn btn-primary"><span class="fa fa-edit"></span></button></td>
+   										   	<td id="td_edit_paboost">
+   										    	<div id="div_paboost_options" class="form-group">
+                                            		<label></label>
+                                           			<div class="radio">
+                                                		<label>
+                                                    		<input type="radio" name="optionsRadios" id="paboost_true" value="Enabled" checked>Enabled
+                                                		</label>
+                                                		</br>
+                                                		<label>
+                                                    		<input type="radio" name="optionsRadios" id="paboost_false" value="Disabled" checked>Disabled
+                                                		</label>
+                                            		</div>
+                                        		</div>
+                                        	</td> 
+   										    <td id="td_paboost_submit" align="right">
+   										    		<button id="btn_paboost_submit" type="submit" class="btn btn-primary">Submit <span class="fa fa-arrow-right"></span></button>
+   										    </td>    									    
+   										   </tr>   										   
+   										   
 										</tbody>
     								  </table>
+    								  <p>PA_BOOST is required for some radio modules such as inAir9B, RFM92W, RFM95W, NiceRF LoRa1276</p>
+    								  <p>After changing the PA_BOOST settings, run <b>Gateway Update/Basic config</b> to recompile the low-level gateway program</p> 
     							     </div>
     							     
     							  </div>
@@ -191,6 +229,24 @@ require 'header.php';
    										    		<button id="btn_aes_submit" type="submit" class="btn btn-primary">Submit <span class="fa fa-arrow-right"></span></button>
    										    </td>
    										   </tr>
+   										   <tr>
+    									    <td>downlink</td>
+    										<td id="downlink_value">
+    											<?php echo $gw_conf['downlink'];?>
+    										</td>
+    										<td align="right"><button id="btn_edit_downlink" type="button" class="btn btn-primary"><span class="fa fa-edit"></span></button></td>
+   										   	<td id="td_edit_downlink">
+   										    	<div id="div_update_downlink" class="form-group">
+                                            		<label>Downlink timer</label>
+                                					<input id="downlink_input" class="form-control" placeholder="downlink timer in seconds" name="downlink" type="number" value="" autofocus>
+                                        			<p><font color="red">Enter 00 for 0. Specifying a value different from 0 triggers the downlink checking process at both post-processing and lora_gateway level. Run Gateway Update/Basic config to recompile lora_gateway with downlink support.</font></p>
+                                        		</div>
+                                        	</td> 
+   										    <td id="td_downlink_submit" align="right">
+   										    		<button id="btn_downlink_submit" type="submit" class="btn btn-primary">Submit <span class="fa fa-arrow-right"></span></button>
+   										    </td>
+   										   </tr>  										   
+   										   
 										 </tbody>
     								    </table>
     							      </div>

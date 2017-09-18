@@ -27,6 +27,8 @@ service_path='/'+organization_name+service_tree
 #the Fiware-ServicePath will be service_path which is based on both organization_name and service_tree, e.g. "/UPPA/LIUPPA/T2I/CPHAM"
 #the Fiware-Service will be project_name, e.g. "waziup"
 
+orion_token="the_orion_authorization_token"
+
 source_list=[]
 
 ####################################################

@@ -73,6 +73,21 @@ then
 	fi
 fi
 
+if [ "$1" = "paboost" ]
+then
+	###################################
+	# update paboost
+	###################################
+
+	if [ $2 == "Enabled" ]
+	then
+		sudo sed -i 's/#*CFLAGS/CFLAGS/g' /home/pi/lora_gateway/radio.makefile	
+	else
+		sudo sed -i 's/^CFLAGS/#CFLAGS/g' /home/pi/lora_gateway/radio.makefile
+	fi	
+fi	
+
+
 if [ "$1" = "install_gw" ]
 then
 
@@ -183,8 +198,12 @@ then
 	elif [ $2 == "organization_name" ]
 	then
 		sudo sed -i 's/^organization_name.*/organization_name=\"'"$3"'\"/g' /home/pi/lora_gateway/key_Orion.py
-	else #service_tree
+	elif [ $2 == "service_tree" ]
+	then
 		sudo sed -i 's/^service_tree.*/service_tree=\"'"$3"'\"/g' /home/pi/lora_gateway/key_Orion.py
+	elif [ $2 == "orion_token" ]
+	then
+		sudo sed -i 's/^orion_token.*/orion_token=\"'"$3"'\"/g' /home/pi/lora_gateway/key_Orion.py	
 	fi
 fi
 
