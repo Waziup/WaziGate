@@ -66,24 +66,24 @@ def test_network_available():
 	
 	# we try 4 times to connect to the server.
 	while(not connection and iteration < 4) :
-	    	try:
-	    		# 3sec timeout in case of server available but overcrowded
+		try:
+			# 3sec timeout in case of server available but overcrowded
 			response=urllib2.urlopen(key_Orion.orion_server, timeout=3)
 			connection = True
-	    	except urllib2.URLError, e: pass
+		except urllib2.URLError, e: pass
 		except socket.timeout: pass
 		except ssl.SSLError: pass
 	    	
-	    	# if connection_failure == True and the connection with the server is unavailable, don't waste more time, exit directly
-	    	if(connection_failure and response is None) :
-	    		print('Orion: the server is still unavailable')
-	    		iteration = 4
-	    	# print connection failure
-	    	elif(response is None) :
-	    		print('Orion: server unavailable, retrying to connect soon...')
-	    		# wait before retrying
-	    		time.sleep(1)
-	    		iteration += 1
+		# if connection_failure == True and the connection with the server is unavailable, don't waste more time, exit directly
+		if(connection_failure and response is None) :
+			print('Orion: the server is still unavailable')
+			iteration = 4
+			# print connection failure
+		elif(response is None) :
+			print('Orion: server unavailable, retrying to connect soon...')
+			# wait before retrying
+			time.sleep(1)
+			iteration += 1
 	    		
 	return connection
 
@@ -94,7 +94,7 @@ def create_new_entity(data, src, nomenclatures):
 	print "Orion: create new entity"
 	
 	cmd = 'curl '+key_Orion.orion_server+'/entities -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"id\":\"'+src+'\",\"type\":\"SensingDevice\",'
-	
+						
 	i=0
 	while i < len(data)-2 :
 		cmd = cmd+"\""+nomenclatures[i]+"\":{\"value\":"+data[i+2]+",\"type\":\"Number\"}"
@@ -123,7 +123,7 @@ def create_new_entity(data, src, nomenclatures):
 	
 	
 # send a data to the server
-def send_data(data, src, nomenclatures):
+def send_data(data, src, nomenclatures, tdata):
 
 	global connection_failure
 	
@@ -138,10 +138,16 @@ def send_data(data, src, nomenclatures):
 		data[1]=key_Orion.service_path
 			
 	while i < len(data)-2  and not entity_need_to_be_created:
-		cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
-		i += 1
+	
+		#cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
 
+		#we now push data with a timestamp value
+		cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/ -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d {\"'+nomenclatures[i]+'\":{\"value\":'+data[i+2]+',\"metadata\":{\"timestamp\":{\"type\":\"DateTime\",\"value\":\"'+tdata+'\"}}}}'
+
+		i += 1
+						
 		print "CloudOrion: will issue curl cmd"
+		
 		print(cmd)
 		args = cmd.split()
 		print args
@@ -189,14 +195,15 @@ def send_data(data, src, nomenclatures):
 				print "Orion: curl command failed (maybe a disconnection)"
 				connection_failure = True
 	
-def Orion_uploadData(nomenclatures, data, src):
+def Orion_uploadData(nomenclatures, data, src, tdata):
 	
 	connected = test_network_available()
 	
-	# if we got a response from the server, send the data to it
+	#if we got a response from the server, send the data to it	
 	if(connected):
 		print("Orion: uploading")
-		send_data(data, key_Orion.sensor_name+src, nomenclatures)
+		#here we prefix the device's address by key_Orion.sensor_name to get for instance UPPA_Sensor2
+		send_data(data, key_Orion.sensor_name+src, nomenclatures, tdata)
 	else:
 		print("Orion: not uploading")
 		
@@ -302,7 +309,8 @@ def main(ldata, pdata, rdata, tdata, gwid):
 				i += 2
 	
 		# upload data to Orion
-		Orion_uploadData(nomenclatures, data, str(src))
+		# here src is the address of the device, e.g. 2		
+		Orion_uploadData(nomenclatures, data, str(src), tdata)
 	else:
 		print "Source is not is source list, not sending with CloudOrion.py"				
 

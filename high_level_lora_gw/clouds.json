@@ -6,7 +6,7 @@
 			"script":"python CloudMongoDB.py",
 			"type":"database",
 			"max_months_to_store":2,
-			"enabled":false
+			"enabled":true
 		},
 		{	
 			"name":"SMS Service",
@@ -23,20 +23,26 @@
 			"gammurc_file":"/home/pi/.gammurc",
 			"enabled":false,
 			"always_enabled":false
-		},		
+		},	
+		{
+			"name":"Temporary storage for no Internet connection",
+			"script":"python CloudNoInternet.py",
+			"type":"file",            
+			"enabled":false
+        },								
 		{	
 			"name":"WAZIUP Orion cloud",
 			"script":"python CloudOrion.py",
 			"type":"iotcloud",			
 			"write_key":"",
-			"enabled":false
-		},			
+			"enabled":true
+		},				
 		{	
 			"name":"ThingSpeak cloud",
 			"script":"python CloudThingSpeak.py",
 			"type":"iotcloud",			
 			"write_key":"",
-			"enabled":true
+			"enabled":false
 		},
 		{	
 			"name":"GroveStreams cloud",

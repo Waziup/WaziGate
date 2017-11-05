@@ -18,7 +18,7 @@
 # You should have received a copy of the GNU General Public License
 # along with the program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# v3.4 - image modification and need to incorporate aux_radio features
+# v3.5 - image modification and need to incorporate aux_radio features
 # + copy post-processing feature
 #------------------------------------------------------------
 
@@ -31,6 +31,8 @@
 # END
 #////////////////////////////////////////////////////////////
 
+dateutil_tz=True
+
 import sys
 import subprocess
 import select
@@ -39,6 +41,11 @@ from threading import Timer
 import time
 from collections import deque
 import datetime
+try:
+	import dateutil.tz
+except ImportError:
+	print "no timezone support, time will be expressed only in local time"
+	dateutil_tz=False
 import getopt
 import os
 import os.path
@@ -262,6 +269,7 @@ def dht22_target():
 
 #you can enable periodic copy of post-processing.log file by setting to True
 #but you need to install the web admin interface in order to have the /var/www/html/admin/log/ folder
+#note that this feature is obsoleted by an option in the web admin interface to copy post-processing.log file on demand
 _gw_copy_post_processing=False
 
 def copy_post_processing():
@@ -284,7 +292,9 @@ def copy_post_processing():
 def copy_post_processing_target():
 	while True:
 		copy_post_processing()
-		sys.stdout.flush()	
+		sys.stdout.flush()
+		#change here if you want to change the time between 2 extraction
+		#here it is 30mins	
 		time.sleep(1800)
 	
 #------------------------------------------------------------
@@ -887,8 +897,9 @@ while True:
 				
 				if _use_sms_alert:
 					print "post_processing_gw.py sends SMS indicating that gateway has reset radio module..."
-					send_sms("Gateway "+_gwid+" has reset its radio module")
-					print "Sending SMS done"		
+					success = libSMS.send_sms(sm, "Gateway "+_gwid+" has reset its radio module", contact_sms)
+					if (success):
+						print "Sending SMS done"
 						
 		continue
 
@@ -933,6 +944,11 @@ while True:
 
 				ldata = getAllLine()
 				
+				if (dateutil_tz==True):
+					#replacing tdata to get time zone information when uploading to clouds
+					localdt = datetime.datetime.now(dateutil.tz.tzlocal())
+					tdata = localdt.replace(microsecond=0).isoformat()
+				
 				print "number of enabled clouds is %d" % len(_enabled_clouds)	
 				
 				#loop over all enabled clouds to upload data
@@ -950,6 +966,7 @@ while True:
 						print ude
 					else:
 						print cmd_arg
+						sys.stdout.flush()
 						try:
 							os.system(cmd_arg)
 						except:
@@ -1094,6 +1111,7 @@ while True:
 									print ude
 								else:
 									print cmd_arg
+									sys.stdout.flush()
 									try:
 										os.system(cmd_arg)
 									except:
@@ -1175,6 +1193,7 @@ while True:
 									print ude
 								else:
 									print cmd_arg
+									sys.stdout.flush()
 									try:
 										os.system(cmd_arg)
 									except:
