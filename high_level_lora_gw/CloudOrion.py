@@ -1,5 +1,5 @@
 #-------------------------------------------------------------------------------
-# Copyright 2016 Congduc Pham, University of Pau, France.
+# Copyright 2017 Congduc Pham, University of Pau, France.
 # 
 # Congduc.Pham@univ-pau.fr
 #
@@ -26,6 +26,8 @@ import ssl
 import socket
 import datetime
 import sys
+import os
+import json
 import re
 
 # get key definition from external file to ease
@@ -52,11 +54,41 @@ except AttributeError:
 #error messages from server
 Orion_entity_not_created="The requested entity has not been found"
 
-# didn't get a response from thingspeak server?
+# didn't get a response from server?
 connection_failure = False
 
 # retry if return from server is 0?
 retry = False
+
+global CloudNoInternet_enabled
+
+#------------------------------------------------------------
+# Open clouds.json file 
+#------------------------------------------------------------
+
+#name of json file containing the cloud declarations
+cloud_filename = "clouds.json"
+
+#open json file to retrieve enabled clouds
+f = open(os.path.expanduser(cloud_filename),"r")
+string = f.read()
+f.close()
+	
+#change it into a python array
+json_array = json.loads(string)
+
+#retrieving all cloud declarations
+clouds = json_array["clouds"]
+
+#here we check for our own script entry
+for cloud in clouds:
+	if "CloudNoInternet.py" in cloud["script"]:
+			
+		try:
+			CloudNoInternet_enabled = cloud["enabled"]
+		except KeyError:
+			print "enabled undefined"
+			CloudNoInternet_enabled = False
 
 # function to check connection availability with the server
 def test_network_available():
@@ -142,7 +174,7 @@ def send_data(data, src, nomenclatures, tdata):
 		#cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/'+nomenclatures[i]+'/value -s -S --header Content-Type:text/plain --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d '+data[i+2]
 
 		#we now push data with a timestamp value
-		cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/ -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X PUT -d {\"'+nomenclatures[i]+'\":{\"value\":'+data[i+2]+',\"metadata\":{\"timestamp\":{\"type\":\"DateTime\",\"value\":\"'+tdata+'\"}}}}'
+		cmd = 'curl '+key_Orion.orion_server+'/entities/'+src+'/attrs/ -s -S --header Content-Type:application/json --header Fiware-Service:'+data[0]+' --header Fiware-ServicePath:'+data[1]+' -X POST -d {\"'+nomenclatures[i]+'\":{\"value\":'+data[i+2]+',\"metadata\":{\"timestamp\":{\"type\":\"DateTime\",\"value\":\"'+tdata+'\"}}}}'
 
 		i += 1
 						
@@ -207,7 +239,7 @@ def Orion_uploadData(nomenclatures, data, src, tdata):
 	else:
 		print("Orion: not uploading")
 		
-	# update grovestreams_connection_failure value
+	# update connection_failure value
 	global connection_failure
 	connection_failure = not connected
 
@@ -307,10 +339,30 @@ def main(ldata, pdata, rdata, tdata, gwid):
 				nomenclatures.append(data_array[i])
 				data.append(data_array[i+1])
 				i += 2
+
+		connected = test_network_available()
 	
+		#if we got a response from the server, send the data to it	
+		if (connected):
+			print("Orion: uploading")
+			#here we prefix the device's address by key_Orion.sensor_name to get for instance UPPA_Sensor2
+			send_data(data, key_Orion.sensor_name+str(src), nomenclatures, tdata)
+		else:
+			print("Orion: not uploading")
+			
+			if (CloudNoInternet_enabled):
+				print("Using CloudNoInternet")
+				from CloudNoInternet import store_internet_pending
+				# we call store_internet_pending to store the message for future upload
+				store_internet_pending(ldata, pdata, rdata, tdata, gwid)
+			
+		# update connection_failure value
+		global connection_failure
+		connection_failure = not connected
+		
 		# upload data to Orion
 		# here src is the address of the device, e.g. 2		
-		Orion_uploadData(nomenclatures, data, str(src), tdata)
+		# Orion_uploadData(nomenclatures, data, str(src), tdata)
 	else:
 		print "Source is not is source list, not sending with CloudOrion.py"				
 
