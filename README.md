@@ -40,8 +40,8 @@ You can run the test campain like this:
 ./run_tests.sh
 ```
 
-Or view the API documentation:
+Or view the UI:
 ```
-firefox localhost:80/docs
+firefox localhost:80
 ```
 
