@@ -3,6 +3,8 @@ WAZIUP Edge gateway
 
 This repo contains the source code for the Waziup Edge gateway.
 
+** WARNING: this repo is work in progress. Do not use yet **
+
 Install
 -------
 
