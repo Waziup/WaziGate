@@ -1,0 +1,3 @@
+[submodule "waziup-system"]
+	path = waziup-system
+	url = git@github.com:Waziup/WaziGate.git
