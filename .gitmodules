@@ -1,3 +1,9 @@
 [submodule "waziup-edge"]
 	path = waziup-edge
 	url = git@github.com:Waziup/waziup-edge.git
+[submodule "wazigate-system"]
+	path = wazigate-system
+	url = git@github.com:Waziup/wazigate-system.git
+[submodule "wazigate-ui"]
+	path = wazigate-ui
+	url = git@github.com:Waziup/wazigate-ui.git
