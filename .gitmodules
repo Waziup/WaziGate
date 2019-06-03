@@ -1,6 +1,3 @@
-[submodule "waziup-system"]
-	path = waziup-system
-	url = git@github.com:Waziup/WaziGate.git
 [submodule "waziup-edge"]
 	path = waziup-edge
 	url = git@github.com:Waziup/waziup-edge.git
