@@ -2,9 +2,11 @@ version: '3'
 
 services:
   waziup-system:
+    build: ./waziup-system
     image: python:latest
     volumes:
-      - ./waziup-system/system:/app
+      - ./waziup-system:/app #Only for development
+      - ./waziup-system/conf.json:/app/conf.json
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
       - /sbin/shutdown:/sbin/shutdown
@@ -16,17 +18,15 @@ services:
     network_mode:
       "host"
     environment:
-      - FLASK_DEBUG=1
+      - FLASK_DEBUG=1 # for debug has to be set to 1
       - FLASK_PORT=5000
-#    command: sh -c "python /app/setup.py; python /app/api.py"
     command: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
-    # Infinite loop, to keep it alive, for debugging
-#    #command: bash -c "while true; do echo 'sleeping...' && sleep 10; done"
 
-  webui:
+  waziup-ui:
+	build: ./waziup-ui
     image: php:7.2-apache
     volumes:
-      - ./waziup-system/webui:/var/www/html/
+      - ./waziup-ui:/var/www/html
     ports:
       - "80:80"
     network_mode: "host"
