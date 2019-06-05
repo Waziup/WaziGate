@@ -5,10 +5,9 @@ services:
 
   wazigate-system:
     build: ./wazigate-system
-#    image: python:latest
     image: waziup/wazigate-system
     volumes:
-      - ./wazigate-system:/app #Only for development
+      - ./wazigate-system:/app          #Only for development
       - ./wazigate-system/conf.json:/app/conf.json
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
@@ -18,27 +17,33 @@ services:
     ports:
       - "5000:5000"
     privileged: true
-    network_mode:
-      "host"
+    network_mode: host
     environment:
-      - FLASK_DEBUG=1 # for debug has to be set to 1
-      - FLASK_PORT=5000
-    command: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
+      - DEBUG_MODE=1                   # for debug has to be set to 1
+      - WAZIGATE_SYSTEM_ADDR=:5000
+#      - ETH_DEVICE=eth0
+#      - WIFI_DEVICE=wlan0
+#      - WIFI_DONGLE=wlan1
+#    command: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
+    entrypoint: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
     restart: always
 
 #-------------------------#
 
   wazigate-ui:
     build: ./wazigate-ui
-#    image: php:7.2-apache
     image: waziup/wazigate-ui
     volumes:
       - ./wazigate-ui:/var/www/html
     ports:
       - "80:80"
-    network_mode: "host"
+    network_mode: host
     logging:
       driver: none
+    environment:
+      - UI_LANG=en
+      - WAZIGATE_SYSTEM_ADDR=:5000
+      - WAZIGATE_EDGE_ADDR=:880
     depends_on:
       - wazigate-system
     restart: always
@@ -51,20 +56,32 @@ services:
     ports:
       - "880:880"
       - "1883:1883"
+    volumes:
+      - ./wazigate-edge/clouds.json:/root/clouds.json
     environment:
-      - HTTP_PORT=880
-#    network_mode: host
+      - WAZIUP_HTTP_ADDR=:880
+#      - WAZIUP_HTTPS_ADDR=:4443
+#      - WAZIUP_MQTT_ADDR=:1883
+#      - WAZIUP_MQTTS_ADDR=:8883
+#      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
+#      - WAZIUP_TLS_KEY =             TLS Key File (.key)
+      - WAZIUP_MONGO=localhost:27017
+#      - WAZIUP_CLOUDS_FILE
+    network_mode: host
+    depends_on:
+      - mongo
     restart: always
 
 #-------------------------#
 
   mongo:
-    image: mongo:3.2.8
+    build: ./wazigate-mongo
+    image: waziup/rpi-mongo
     hostname: mongo
     ports:
       - "27017:27017"
     volumes:
-      - ./data/mongo:/data/db
+      - ./wazigate-mongo/data:/data/db
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
       interval: 5s
@@ -72,6 +89,10 @@ services:
       retries: 12
     extra_hosts:
       - "localhost:127.0.0.1"
-
-#-------------------------#
+    network_mode: host                 # has to be fixed later to be accessed only locally
+    entrypoint: "mongod"
+#    command: sh -c "/etc/init.d/mongodb stop; rm /var/lib/mongodb/mongod.lock; /etc/init.d/mongodb start; mongod --repair"
+    restart: always
+    logging:
+      driver: none
 
