@@ -50,7 +50,7 @@ services:
 
 #-------------------------#
   
-  waziup-edge:
+  wazigate-edge:
     build: ./wazigate-edge
     image: waziup/wazigate-edge
     ports:
