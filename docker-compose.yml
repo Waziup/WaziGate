@@ -34,7 +34,7 @@ services:
     build: ./wazigate-ui
     image: waziup/wazigate-ui
     volumes:
-      - ./wazigate-ui:/var/www/html
+      - ./wazigate-ui:/var/www/html #Only for development
     ports:
       - "80:80"
     network_mode: host
