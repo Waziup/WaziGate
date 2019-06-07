@@ -4,3 +4,4 @@ wazigate-edge
 wazigate-ui/waziup.io
 wazigate-mongo/data
 RAW
+*__pycache__*

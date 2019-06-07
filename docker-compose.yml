@@ -21,11 +21,11 @@ services:
     environment:
       - DEBUG_MODE=1                   # for debug has to be set to 1
       - WAZIGATE_SYSTEM_ADDR=:5000
+      - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
 #      - ETH_DEVICE=eth0
 #      - WIFI_DEVICE=wlan0
 #      - WIFI_DONGLE=wlan1
-#    command: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
-    entrypoint: sh -c "python /app/setup.py; python /app/api.py | python /app/start.py"
+#    entrypoint: sh /app/start.sh
     restart: always
 
 #-------------------------#
@@ -81,7 +81,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./wazigate-mongo/data:/data/db
+      - ./wazigate-mongo/data:/data
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
       interval: 5s
@@ -91,7 +91,6 @@ services:
       - "localhost:127.0.0.1"
     network_mode: host                 # has to be fixed later to be accessed only locally
     entrypoint: "mongod"
-#    command: sh -c "/etc/init.d/mongodb stop; rm /var/lib/mongodb/mongod.lock; /etc/init.d/mongodb start; mongod --repair"
     restart: always
     logging:
       driver: none

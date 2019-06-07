@@ -15,5 +15,4 @@ CMD ["rm", "/var/lib/mongodb/mongod.lock"]
 CMD ["/etc/init.d/mongodb", "start"]
 #CMD ["mongod", "--repair"]
 
-#ENTRYPOINT ["/"]
-
+#ENTRYPOINT ["mongod"]
