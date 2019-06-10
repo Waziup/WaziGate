@@ -3,7 +3,7 @@
 # This file uses empty tool (http://empty.sourceforge.net/) to interact with weavedinstaller in order to register the Raspi in the platform
 #
 
-email="email@example.com"			# Remote.it email (Change it!)
+email="email@example.com"		# Remote.it email (Change it!)
 password="Remote.itPassword"		# password (Change it!)
 
 #---------------------------------------#
