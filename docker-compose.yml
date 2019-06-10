@@ -14,6 +14,7 @@ services:
       - /sbin/shutdown:/sbin/shutdown
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
+      - ./remote.it:/app/remote.it
     ports:
       - "5000:5000"
     privileged: true
