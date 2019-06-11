@@ -24,7 +24,8 @@ fi
 
 if [ ! -f done.txt ]; then
 
-echo "Registring to Remote.it with ID: WAZIGATE_$gwId"
+	echo "Registring to Remote.it with ID: WAZIGATE_$gwId"
+	echo "WAZIGATE_$gwId" > ongoing.txt
 
 	sudo weavedinstaller <<EOF
 1
@@ -35,9 +36,14 @@ WAZIGATE_$gwId
 1
 y
 SSH-WAZIGATE_$gwId
+1
+2
+y
+HTTP-WAZIGATE_$gwId
 4
 EOF
 
-	echo "WAZIGATE_$gwId" > done.txt
+	rm ongoing.txt
+	echo "WAZIGATE_$gwId\nSSH-WAZIGATE_$gwId\nHTTP-WAZIGATE_$gwId" > done.txt
 
 fi
