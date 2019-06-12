@@ -44,6 +44,6 @@ HTTP-WAZIGATE_$gwId
 EOF
 
 	rm ongoing.txt
-	echo "WAZIGATE_$gwId\nSSH-WAZIGATE_$gwId\nHTTP-WAZIGATE_$gwId" > done.txt
+	echo -e "WAZIGATE_$gwId\nSSH-WAZIGATE_$gwId\nHTTP-WAZIGATE_$gwId" > done.txt
 
 fi
