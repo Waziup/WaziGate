@@ -55,6 +55,20 @@ def sys_status():
 
 	#----------#
 	
+	dres = os.popen( 'df /').read().strip();
+	device, size, used, available, percent, mountpoint = dres.split("\n")[1].split();
+	disk = {
+		'device'	:	device, 
+		'size'		:	size, 
+		'used'		:	used, 
+		'available'	:	available, 
+		'percent'	:	percent, 
+		'mountpoint':	mountpoint
+	};
+
+	
+	#----------#
+	
 	cpu_usage = psutil.cpu_percent();
 	mem_usage = dict( psutil.virtual_memory()._asdict());
 	
@@ -68,36 +82,44 @@ def sys_status():
 		
 		'mem_alloc'	:	mem_alloc,
 		'cpu_usage'	:	cpu_usage,
-		'mem_usage'	:	mem_usage
+		'mem_usage'	:	mem_usage,
+		
+		'disk'	:	disk
 	};
 
-	return json.dumps( res), 201;	
+	return json.dumps( res), 201;
+
+#------------------------#
+
+@app.route('/docker/status', methods=['GET'])
+def docker_status():
+	cmd = 'curl --unix-socket /var/run/docker.sock http://localhost/containers/json?all=true';
+	res = os.popen( cmd).read().strip();
+	return res, 201;
+
+	#Ref: https://docs.docker.com/engine/api/v1.26/	
+
+#------------------------#
+
+@app.route('/docker/<cId>/<action>', methods=['POST', 'PUT'])
+def docker_action( cId, action):
+	cmd = 'curl --no-buffer -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/'+ action;
+	res = os.popen( cmd).read().strip();
+	return res, 201;
 
 #------------------------#
 
 
-@app.route('/docker/status', methods=['GET'])
-def docker_status():
+@app.route('/docker/<cId>/logs', methods=['GET'])
+@app.route('/docker/<cId>/logs/<tail>', methods=['GET'])
+def docker_logs( cId, tail = 0):
+	tailStrQ = '';
+	if( tail != 0):
+		tailStrQ = 'tail='+ str( tail);
+	cmd = 'curl --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/logs?stderr=true&stdout=true&timestamps=true&'+ tailStrQ;
+	res = os.popen( cmd).read().strip();
 	
-	cmd = 'ip route show default | head -n 1 | awk \'/default/ {print $5}\'';
-	dev = os.popen( cmd).read().strip();
-	
-	if( len( dev) == 0):
-		return "", 201;
-	
-	cmd = 'cat /sys/class/net/'+ dev +'/address';
-	mac = os.popen( cmd).read().strip();
-	
-	cmd = 'ip -4 addr show '+ dev +' | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\'';
-	ip = os.popen( cmd).read().strip();
-	
-	res = {
-		'ip'	:	ip,
-		'dev'	:	dev,
-		'mac'	:	mac
-	};
-
-	return json.dumps( res), 201;	
+	return json.dumps( res), 201;
 
 #------------------------#
 

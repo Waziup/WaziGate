@@ -5,6 +5,7 @@ services:
 
   wazigate-system:
     build: ./wazigate-system
+    container_name: wazigate-system
     image: waziup/wazigate-system
     volumes:
       - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
@@ -33,14 +34,15 @@ services:
 
   wazigate-ui:
     build: ./wazigate-ui
+    container_name: wazigate-ui
     image: waziup/wazigate-ui
     volumes:
       - ./wazigate-ui:/var/www/html # Only for development, for deployment we need to copy it
     ports:
       - "80:80"
     network_mode: host
-    logging:
-      driver: none
+#    logging:
+#      driver: none
     environment:
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
@@ -54,6 +56,7 @@ services:
   
   wazigate-edge:
     build: ./wazigate-edge
+    container_name: wazigate-edge
     image: waziup/wazigate-edge
     ports:
       - "880:880"
@@ -78,6 +81,7 @@ services:
 
   mongo:
     build: ./wazigate-mongo
+    container_name: wazigate-mongo
     image: waziup/rpi-mongo
     hostname: mongo
     ports:
@@ -94,6 +98,6 @@ services:
     network_mode: host                 # has to be fixed later to be accessed only locally
     entrypoint: "mongod"
     restart: always
-    logging:
-      driver: none
+#    logging:
+#      driver: none
 
