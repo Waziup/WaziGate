@@ -4,7 +4,7 @@ services:
 #-------------------------#
 
   wazigate-system:
-#    build: ./wazigate-system
+    build: ./wazigate-system
     container_name: wazigate-system
     image: waziup/wazigate-system
     volumes:
@@ -33,7 +33,7 @@ services:
 #-------------------------#
 
   wazigate-ui:
-#    build: ./wazigate-ui
+    build: ./wazigate-ui
     container_name: wazigate-ui
     image: waziup/wazigate-ui
     volumes:
@@ -56,7 +56,7 @@ services:
 #-------------------------#
   
   wazigate-edge:
-#    build: ./wazigate-edge
+    build: ./wazigate-edge
     container_name: wazigate-edge
     image: waziup/wazigate-edge
     ports:
@@ -81,7 +81,7 @@ services:
 #-------------------------#
 
   mongo:
-#    build: ./wazigate-mongo
+    build: ./wazigate-mongo
     container_name: wazigate-mongo
     image: waziup/rpi-mongo
     hostname: mongo
@@ -101,4 +101,3 @@ services:
     restart: always
 #    logging:
 #      driver: none
-
