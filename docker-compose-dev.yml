@@ -4,9 +4,11 @@ services:
 #-------------------------#
 
   wazigate-system:
+    build: ./wazigate-system
     container_name: wazigate-system
     image: waziup/wazigate-system
     volumes:
+      - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
       - ./wazigate-system/conf:/app/conf
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
@@ -25,18 +27,23 @@ services:
 #      - ETH_DEVICE=eth0
 #      - WIFI_DEVICE=wlan0
 #      - WIFI_DONGLE=wlan1
+#    entrypoint: sh /app/start.sh
     restart: always
 
 #-------------------------#
 
   wazigate-ui:
+    build: ./wazigate-ui
     container_name: wazigate-ui
     image: waziup/wazigate-ui
     volumes:
+      - ./wazigate-ui:/var/www/html # Only for development, for deployment we need to copy it
       - ./wazigate-ui/conf:/var/www/html/conf
     ports:
       - "80:80"
     network_mode: host
+#    logging:
+#      driver: none
     environment:
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
@@ -49,13 +56,14 @@ services:
 #-------------------------#
   
   wazigate-edge:
+    build: ./wazigate-edge
     container_name: wazigate-edge
     image: waziup/wazigate-edge
     ports:
       - "880:880"
       - "1883:1883"
-#    volumes:
-#      - ./wazigate-edge/clouds.json:/root/clouds.json
+    volumes:
+      - ./wazigate-edge/clouds.json:/root/clouds.json # we need to map only directories
     environment:
       - WAZIUP_HTTP_ADDR=:880
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -73,6 +81,7 @@ services:
 #-------------------------#
 
   mongo:
+    build: ./wazigate-mongo
     container_name: wazigate-mongo
     image: waziup/rpi-mongo
     hostname: mongo
@@ -90,3 +99,5 @@ services:
     network_mode: host                 # has to be fixed later to be accessed only locally
     entrypoint: "mongod"
     restart: always
+#    logging:
+#      driver: none
