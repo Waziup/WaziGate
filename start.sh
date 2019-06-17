@@ -26,6 +26,14 @@ sudo systemctl start hostapd
 
 sleep 2
 
+if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
+	mkdir $SCRIPT_PATH/wazigate-system/conf/
+	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
+fi
+
+
+exit 0;
+
 #Starting the docker containers
 sudo docker-compose up &
 
