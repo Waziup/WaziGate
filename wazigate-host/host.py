@@ -55,7 +55,7 @@ def sys_status():
 
 	#----------#
 	
-	dres = os.popen( 'df /').read().strip();
+	dres = os.popen( 'df -B 1 /').read().strip();
 	device, size, used, available, percent, mountpoint = dres.split("\n")[1].split();
 	disk = {
 		'device'	:	device, 
@@ -91,7 +91,7 @@ def sys_status():
 
 #------------------------#
 
-@app.route('/docker/status', methods=['GET'])
+@app.route( '/docker/status', methods=['GET'])
 def docker_status():
 	cmd = 'curl --unix-socket /var/run/docker.sock http://localhost/containers/json?all=true';
 	res = os.popen( cmd).read().strip();
@@ -101,7 +101,7 @@ def docker_status():
 
 #------------------------#
 
-@app.route('/docker/<cId>/<action>', methods=['POST', 'PUT'])
+@app.route( '/docker/<cId>/<action>', methods=['POST', 'PUT'])
 def docker_action( cId, action):
 	cmd = 'curl --no-buffer -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/'+ action;
 	res = os.popen( cmd).read().strip();
@@ -110,29 +110,22 @@ def docker_action( cId, action):
 #------------------------#
 
 
-@app.route('/docker/<cId>/logs', methods=['GET'])
-@app.route('/docker/<cId>/logs/<tail>', methods=['GET'])
+@app.route( '/docker/<cId>/logs', methods=['GET'])
+@app.route( '/docker/<cId>/logs/<tail>', methods=['GET'])
 def docker_logs( cId, tail = 0):
 	tailStrQ = '';
 	if( tail != 0):
-		tailStrQ = 'tail='+ str( tail);
-	cmd = 'curl --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/logs?stderr=true&stdout=true&timestamps=true&'+ tailStrQ;
-	res = os.popen( cmd).read().strip();
-	
-	return json.dumps( res), 201;
+		tailStrQ = '--tail='+ str( tail);
 
-#------------------------#
+#	cmd = 'curl --no-buffer --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/logs?stderr=true&timestamps=true&'+ tailStrQ;
+	cmd = ['sudo', 'docker', 'logs', tailStrQ, cId];
+	proc = subprocess.Popen( cmd, stdout = subprocess.PIPE,	stderr = subprocess.PIPE);
+	stdout, stderr = proc.communicate();
 
-@app.route( '/docker/<cName>logs', methods=['GET'])
-def get_logs( cName):
-	n = 0;
-	if( n > 0):
-		cmd = 'tail -n '+ str( n ) +' '+ LOGS_PATH +'/post-processing.log';
-	else:
-		cmd = 'cat '+ LOGS_PATH +'/post-processing.log';
+	res = stdout + stderr;
+	return res, 201;
+	#return json.dumps( res, ensure_ascii=False), 201;
 
-	return os.popen( cmd).read();
-	
 #------------------------#
 
 if __name__ == "__main__":

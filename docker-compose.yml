@@ -8,8 +8,8 @@ services:
     container_name: wazigate-system
     image: waziup/wazigate-system
     volumes:
-      - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
-      - ./wazigate-system/conf.json:/app/conf.json
+#      - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
+      - ./wazigate-system/conf:/app/conf
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
       - /sbin/shutdown:/sbin/shutdown
@@ -37,7 +37,8 @@ services:
     container_name: wazigate-ui
     image: waziup/wazigate-ui
     volumes:
-      - ./wazigate-ui:/var/www/html # Only for development, for deployment we need to copy it
+#      - ./wazigate-ui:/var/www/html # Only for development, for deployment we need to copy it
+      - ./wazigate-ui/conf:/var/www/html/conf
     ports:
       - "80:80"
     network_mode: host

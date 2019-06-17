@@ -11,6 +11,7 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
+SCRIPT_PATH=$(dirname $(realpath $0))
 
 #check if the server is accessible
 acc=$(curl -Is https://waziup.io | head -n 1 | awk '{print $2}')
@@ -26,7 +27,7 @@ sudo systemctl start hostapd
 sleep 2
 
 #Starting the docker containers
-cd /home/pi/wazigate/;  sudo docker-compose up &
+sudo docker-compose up &
 
 sleep 10
 
@@ -35,9 +36,9 @@ sudo /etc/init.d/network-manager restart
 sleep 2
 
 #Check if the gateway is registered in remote.it and register it if needed
-cd /home/pi/wazigate/remote.it/; sudo bash ./setup.sh
+sudo bash ./remote.it/setup.sh
 
 #Lunch the wazigate-host service
-cd /home/pi/wazigate/wazigate-host/; sudo bash ./start.sh &
+sudo bash ./wazigate-host/start.sh &
 
 exit 0;

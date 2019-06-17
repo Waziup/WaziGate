@@ -5,14 +5,16 @@ MAINTAINER Moji eskandari@fbk.eu
 RUN apt-get update -y && \
     apt-get install -y mongodb
    
-
 VOLUME ["/data/db"]
 WORKDIR /data
 EXPOSE 27017
 
-CMD ["/etc/init.d/mongodb", "stop"]
-CMD ["rm", "/var/lib/mongodb/mongod.lock"]
-CMD ["/etc/init.d/mongodb", "start"]
+#CMD ["/etc/init.d/mongodb", "stop"]
+#CMD ["rm", "/var/lib/mongodb/mongod.lock"]
+#CMD ["/etc/init.d/mongodb", "start"]
 #CMD ["mongod", "--repair"]
+
+#All in one
+CMD ["/etc/init.d/mongodb", "stop", "&&", "rm", "/var/lib/mongodb/mongod.lock", "&&", "/etc/init.d/mongodb", "start"]
 
 #ENTRYPOINT ["mongod"]
