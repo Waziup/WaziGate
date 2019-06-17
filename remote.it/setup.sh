@@ -8,12 +8,14 @@ password="Remote.itPassword"		# password (Change it!)
 
 #---------------------------------------#
 
+SCRIPT_PATH=$(dirname $(realpath $0))
+
 #Using Rapi MAC address as device ID
 MAC=$(cat /sys/class/net/eth0/address)
 MAC=${MAC//:}
 gwId="${MAC^^}"
 
-#echo "WAZIGATE_$gwId" > done.txt
+#echo "WAZIGATE_$gwId" > $SCRIPT_PATH/done.txt
 
 #check if the server is accessible
 acc=$(curl -Is https://remote.it | head -n 1 | awk '{print $2}')
@@ -22,10 +24,10 @@ if [ "$acc" != "200" ]; then
 	exit
 fi
 
-if [ ! -f done.txt ]; then
+if [ ! -f $SCRIPT_PATH/done.txt ]; then
 
 	echo "Registring to Remote.it with ID: WAZIGATE_$gwId"
-	echo "WAZIGATE_$gwId" > ongoing.txt
+	echo "WAZIGATE_$gwId" > $SCRIPT_PATH/ongoing.txt
 
 	sudo weavedinstaller <<EOF
 1
@@ -43,7 +45,7 @@ HTTP-WAZIGATE_$gwId
 4
 EOF
 
-	rm ongoing.txt
-	echo -e "WAZIGATE_$gwId\nSSH-WAZIGATE_$gwId\nHTTP-WAZIGATE_$gwId" > done.txt
+	rm $SCRIPT_PATH/ongoing.txt
+	echo -e "WAZIGATE_$gwId\nSSH-WAZIGATE_$gwId\nHTTP-WAZIGATE_$gwId" > $SCRIPT_PATH/done.txt
 
 fi

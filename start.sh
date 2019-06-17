@@ -31,8 +31,6 @@ if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
 fi
 
-exit 0;
-
 #Starting the docker containers
 sudo docker-compose up &
 
