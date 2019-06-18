@@ -9,12 +9,8 @@ VOLUME ["/data/db"]
 WORKDIR /data
 EXPOSE 27017
 
-#CMD ["/etc/init.d/mongodb", "stop"]
-#CMD ["rm", "/var/lib/mongodb/mongod.lock"]
-#CMD ["/etc/init.d/mongodb", "start"]
-#CMD ["mongod", "--repair"]
-
-#All in one
-CMD ["/etc/init.d/mongodb", "stop", "&&", "rm", "/var/lib/mongodb/mongod.lock", "&&", "/etc/init.d/mongodb", "start"]
-
-#ENTRYPOINT ["mongod"]
+ENTRYPOINT /etc/init.d/mongodb stop; \
+			rm /data/mongod.lock; \
+			/etc/init.d/mongodb start; \
+			mongod --repair && \
+			mongod

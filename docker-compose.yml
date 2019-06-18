@@ -88,5 +88,4 @@ services:
     extra_hosts:
       - "localhost:127.0.0.1"
     network_mode: host                 # has to be fixed later to be accessed only locally
-    entrypoint: "mongod"
     restart: always
