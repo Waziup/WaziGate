@@ -63,7 +63,7 @@ services:
       - "880:880"
       - "1883:1883"
     volumes:
-      - ./wazigate-edge/clouds.json:/root/clouds.json # we need to map only directories
+      - ./wazigate-edge/conf:/root/conf
     environment:
       - WAZIUP_HTTP_ADDR=:880
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -72,7 +72,7 @@ services:
 #      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
 #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
       - WAZIUP_MONGO=localhost:27017
-#      - WAZIUP_CLOUDS_FILE
+      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
     network_mode: host
     depends_on:
       - mongo
