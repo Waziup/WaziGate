@@ -1,23 +1,26 @@
 #!/bin/bash
 # Installing the WaziGate framework on your device
-
-SCRIPT_PATH=$(dirname $(realpath $0))
+# @author: Mojiz 20 Jun 2019
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd
+sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd weavedconnectd
 
+#installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 sudo gpasswd -a pi docker
 sudo rm get-docker.sh
 
 sudo pip install flask psutil
 
+#installing wazigate
 git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
-sudo mkdir -p wazigate-ui/conf; sudo chown $USER -R wazigate-ui/conf
+sudo mkdir -p wazigate-ui/conf
+sudo chown $USER -R wazigate-ui/conf
 sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
 
+#Setting up the Access Point
 sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
 
 sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
@@ -38,10 +41,14 @@ sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
 
-sudo mkdir -p wazigate-edge/conf;
+#Configuring the Edge
+sudo mkdir -p wazigate-edge/conf
 sudo cp setup/clouds.json wazigate-edge/conf/
-sudo chown $USER -R wazigate-ui/conf
+sudo chown $USER -R wazigate-edge/conf
 
+#Remote.it Credentials
+arrIN=($REMOTE)
+echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
