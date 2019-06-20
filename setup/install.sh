@@ -47,8 +47,10 @@ sudo cp setup/clouds.json wazigate-edge/conf/
 sudo chown $USER -R wazigate-edge/conf
 
 #Remote.it Credentials
-arrIN=($REMOTE)
-echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
+if [ "$REMOTE" != "" ]; then
+	arrIN=($REMOTE)
+	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
+fi
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
