@@ -1,5 +1,5 @@
-WAZIUP Edge gateway
-===================
+WaziGate LoRa gateway
+=====================
 
 This repo contains the source code for the Waziup Edge gateway.
 
