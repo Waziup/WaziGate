@@ -41,8 +41,8 @@ sudo /etc/init.d/network-manager restart
 
 sleep 2
 
-#Check if the gateway is registered in remote.it and register it if needed
-sudo bash ./remote.it/setup.sh
+#Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
+sudo timeout 300 bash ./remote.it/setup.sh &
 
 #Lunch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
