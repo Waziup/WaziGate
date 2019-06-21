@@ -1,5 +1,5 @@
-WAZIUP Edge gateway
-===================
+WaziGate LoRa gateway
+=====================
 
 This repo contains the source code for the Waziup Edge gateway.
 
@@ -54,5 +54,3 @@ Then you can access your Wazigate UI on http://YourPiIPAddress/
 Develop
 -------
 Wait for it :)
-
-
