@@ -33,10 +33,10 @@ fi
 
 #Starting the docker containers
 #Deploy
-sudo docker-compose up -d
+#sudo docker-compose up -d
 
 #Development
-#sudo docker-compose -f docker-compose-dev.yml up -d
+sudo docker-compose -f docker-compose-dev.yml up -d
 
 sleep 10
 
