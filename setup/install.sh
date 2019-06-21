@@ -52,6 +52,8 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
+sudo docker-compose pull
+
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
 	sleep 1
