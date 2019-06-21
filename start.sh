@@ -32,8 +32,11 @@ if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 fi
 
 #Starting the docker containers
-#sudo docker-compose -f docker-compose-dev.yml up -d
+#Deploy
 sudo docker-compose up -d
+
+#Development
+#sudo docker-compose -f docker-compose-dev.yml up -d
 
 sleep 10
 

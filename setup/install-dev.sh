@@ -13,7 +13,7 @@ sudo rm get-docker.sh
 sudo pip install flask psutil
 
 #installing wazigate
-#ssh-keyscan github.com >> ~/.ssh/known_hosts
+#Using HTTP makes us to clone without needing persmission via ssh-keys
 git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
@@ -53,7 +53,7 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
-sudo docker-compose pull
+sudo docker-compose -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
