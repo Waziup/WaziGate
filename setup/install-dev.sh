@@ -3,7 +3,7 @@
 # @author: Mojiz 21 Jun 2019
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd weavedconnectd
+sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd weavedconnectd pure-ftpd
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
@@ -11,6 +11,17 @@ sudo gpasswd -a pi docker
 sudo rm get-docker.sh
 
 sudo pip install flask psutil
+
+
+#echo -e "loragateway\nloragateway" | sudo passwd $USER
+#FTP installation
+sudo groupadd ftpgroup
+sudo usermod -a -G ftpgroup $USER
+sudo chown -R $USER:ftpgroup $PWD
+echo -e "loragateway\nloragateway" | sudo pure-pw useradd upload -u $USER -g ftpgroup -d $PWD -m
+sudo pure-pw mkdb
+sudo service pure-ftpd restart
+
 
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
@@ -20,6 +31,12 @@ sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 sudo mkdir -p wazigate-ui/conf
 sudo chown $USER -R wazigate-ui/conf
 sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
+
+#Configuring the Edge
+sudo mkdir -p wazigate-edge/conf
+sudo cp setup/clouds.json wazigate-edge/conf/
+sudo chown $USER -R wazigate-edge/conf
+sudo chmod u+w -R wazigate-edge/conf
 
 #Setting up the Access Point
 sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
@@ -40,12 +57,6 @@ sudo sed -i -e '$i \net.ipv4.ip_forward=1\n' /etc/sysctl.conf
 sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
-#echo -e "loragateway\nloragateway" | sudo passwd $USER
-
-#Configuring the Edge
-sudo mkdir -p wazigate-edge/conf
-sudo cp setup/clouds.json wazigate-edge/conf/
-sudo chown $USER -R wazigate-edge/conf
 
 #Remote.it Credentials
 if [ "$REMOTE" != "" ]; then
@@ -53,7 +64,9 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
+#build the stuff
 sudo docker-compose -f docker-compose-dev.yml build --force-rm
+
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
