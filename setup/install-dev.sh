@@ -7,7 +7,7 @@ sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd we
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
-sudo gpasswd -a pi docker
+sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 
 sudo pip install flask psutil
