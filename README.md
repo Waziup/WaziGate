@@ -53,4 +53,17 @@ Then you can access your Wazigate UI on http://YourPiIPAddress/
 
 Develop
 -------
-Wait for it :)
+For developer version you need to run the follwoing line if you want remote control over the gateway:
+
+```
+{ echo REMOTE='"email@example.com password"'; curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install-dev.sh ;} | bash
+```
+Where `email@example.com` is your user name on remote.it and `password` is your password. This script downloads and installs everything that your pi needs to turn it into a Wazigate.
+
+and if you don't want a remote management on your wazigate just run this code instead:
+
+```
+curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install-dev.sh | bash
+```
+
+Please note that, since the developer version downloads the code and builds it on the pi, it usually takes longer.
