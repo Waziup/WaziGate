@@ -3,7 +3,7 @@
 # @author: Mojiz 21 Jun 2019
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd weavedconnectd connectd
+sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
