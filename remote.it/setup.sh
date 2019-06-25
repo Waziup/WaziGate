@@ -150,6 +150,30 @@ fi
 
 #--------------------#
 
+#echo "Registring Another protocol..." >> $SCRIPT_PATH/ongoing.txt
+
+#if [[ $rtServices == *"Another-WAZIGATE_$gwId"* ]]; then
+	
+#	echo "HTTP is already registered [ Another-WAZIGATE_$gwId ]"
+#	echo "HTTP already registered [ Another-WAZIGATE_$gwId ]" >> $SCRIPT_PATH/ongoing.txt
+	
+#else
+
+#	#Register the device for HTTP
+#	PROTOCOL=Another
+#	PORT=AnotherPort
+#	SNAME="Another-WAZIGATE_$gwId"
+#	registerRemoteIT
+
+#	echo "$error"
+
+#	echo "$error" >> $SCRIPT_PATH/ongoing.txt
+#	echo "Done" >> $SCRIPT_PATH/ongoing.txt
+
+#fi
+
+#--------------------#
+
 #Double check if everything is done correctly
 
 rtServices=`checkForServices<<EOF
