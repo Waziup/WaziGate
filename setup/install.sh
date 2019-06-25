@@ -52,6 +52,8 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
+sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
+
 sudo docker-compose pull
 
 for i in {10..01}; do

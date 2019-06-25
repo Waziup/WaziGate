@@ -53,6 +53,8 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
+sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
+
 sudo docker-compose -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
