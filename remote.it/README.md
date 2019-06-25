@@ -1,8 +1,8 @@
-Remote.it automatic self registering
-=====================
+Remote.it Self Registering
+==========================
 
 This script registers a device on remote.it platform using `username` and `password` automaically. 
-It is useful for mass production and put this script to be executed on boot.
+It is useful for a mass production and put this script to be executed on boot.
 
 **Tested on Raspbian only** and needs more love.
 
@@ -10,7 +10,7 @@ It is useful for mass production and put this script to be executed on boot.
 Install
 -------
 
-This script uses connectd tool developed by remote.it ( https://github.com/remoteit/installer).
+This script uses connectd tool developed by [remote.it](https://remote.it/) ( https://github.com/remoteit/installer).
 you need to install that one first.
 
 ```
