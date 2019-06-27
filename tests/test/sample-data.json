@@ -1,0 +1,31 @@
+{
+    "valid": {
+        "cloud": {
+            "id": "5d1483c974fece0001424ee8",
+            "paused": false,
+            "rest": "//api.waziup.io/api/v2",
+            "credentials": {
+                "username": "guest",
+                "token": "guest"
+            }
+        },
+        "device": {
+            "id": "5d1483c974fece0001524ee8",
+            "name": "Test Device 5d1483c974fece0001524ee8", 
+            "sensors": [{           
+                "id": "6f840f0b1", 
+                "name": "My Sensor 6f840f0b1"
+            }, {
+                "id": "df34b9f612",
+                "name": "My Sensor df34b9f612"
+            }],
+            "actuators": [{
+                "id": "40f034",
+                "name": "My Actuator 40f034"
+            }]
+        },
+        "value": {
+            "value": 9452
+        }
+    }
+}
