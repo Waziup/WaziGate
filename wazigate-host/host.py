@@ -1,4 +1,6 @@
 #!/usr/bin/python
+# @author: Moji eskandari@fbk.eu Jun 21th 2019
+#
 from flask import Flask
 from flask import request
 import subprocess
@@ -11,7 +13,7 @@ import os
 #------------------------#
 
 #Path to the root
-PATH	=	os.path.dirname(os.path.abspath(__file__));
+PATH	=	os.path.dirname( os.path.abspath( __file__));
 
 #------------------------#
 
@@ -108,7 +110,6 @@ def docker_action( cId, action):
 	return res, 201;
 
 #------------------------#
-
 
 @app.route( '/docker/<cId>/logs', methods=['GET'])
 @app.route( '/docker/<cId>/logs/<tail>', methods=['GET'])

@@ -11,9 +11,7 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
-DEVMODE=0
-
-#--------------#
+DEVMODE=1
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
@@ -23,14 +21,10 @@ if [ "$acc" != "200" ]; then
 	echo "Waziup.io is not accessible!"
 fi
 
-#--------------#
-
 sudo iptables-restore < /etc/iptables.ipv4.nat
 
 sudo systemctl stop hostapd
 sudo systemctl start hostapd
-
-#--------------#
 
 sleep 2
 
@@ -38,8 +32,6 @@ if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 	mkdir -p $SCRIPT_PATH/wazigate-system/conf/
 	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
 fi
-
-#--------------#
 
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
@@ -51,21 +43,14 @@ fi
 
 sleep 10
 
-#--------------#
-
 sudo /etc/init.d/network-manager restart
 
 sleep 2
 
-#--------------#
-
 #Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
 sudo timeout 300 bash ./remote.it/setup.sh &
-
-#--------------#
 
 #Lunch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
 
-#--------------#
 exit 0;
