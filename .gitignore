@@ -1,6 +1,7 @@
 .DS_Store
 push.sh
 docker-push.sh
+node_modules/
 wazigate-edge
 wazigate-ui/waziup.io
 wazigate-mongo/data
