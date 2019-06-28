@@ -74,7 +74,7 @@ services:
 
   mongo:
     container_name: wazigate-mongo
-    image: waziup/rpi-mongo
+    image: waziup/mongo
     hostname: mongo
     ports:
       - "27017:27017"

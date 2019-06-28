@@ -11,6 +11,8 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
+DEVMODE=1
+
 SCRIPT_PATH=$(dirname $(realpath $0))
 
 #check if the server is accessible
@@ -32,8 +34,12 @@ if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 fi
 
 #Starting the docker containers
-sudo docker-compose -f docker-compose-dev.yml up &
-#sudo docker-compose up &
+if [ $DEVMODE == 1 ]; then
+	echo "Running in developer mode"
+	sudo docker-compose -f docker-compose-dev.yml up -d
+else
+	sudo docker-compose up -d
+fi
 
 sleep 10
 
@@ -41,8 +47,8 @@ sudo /etc/init.d/network-manager restart
 
 sleep 2
 
-#Check if the gateway is registered in remote.it and register it if needed
-sudo bash ./remote.it/setup.sh
+#Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
+sudo timeout 300 bash ./remote.it/setup.sh &
 
 #Lunch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
