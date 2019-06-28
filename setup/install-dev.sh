@@ -54,6 +54,8 @@ if [ "$REMOTE" != "" ]; then
 fi
 
 sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
+sudo chmod +x start.sh
+sudo chmod +x stop.sh
 
 sudo docker-compose -f docker-compose-dev.yml build --force-rm
 
