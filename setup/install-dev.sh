@@ -2,6 +2,35 @@
 # Installing the WaziGate framework on your device for development
 # @author: Mojiz 21 Jun 2019
 
+#Uninstall wazigate if already installed before:
+if [ -d "waziup-gateway" ]; then
+	echo "Uninstalling..."
+	
+	
+	echo "Removing the containers..."
+	cd waziup-gateway
+	docker-compose stop
+	docker system prune -fa
+	docker rm $(docker ps -a -q)
+	docker rmi -f $(docker images -a -q)
+	cd ..
+	echo "Done"
+
+	echo "Renaming the old directory..."
+	newName="waziup-gateway_OLD_$((RANDOM % 100000))"
+	mv waziup-gateway "$newName"
+	echo "Done"
+	
+	
+	echo "Unsetting the configs..."
+	sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
+	sudo sed -i 's/^.*DAEMON_CONF=.*//g' /etc/default/hostapd
+	sudo sed -i 's/^net.ipv4.ip_forward=.*//g' /etc/sysctl.conf
+	echo "Done"
+	
+	echo -e "\n\tUninstalling finished.\n"
+fi
+
 sudo apt-get update
 sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd
 
