@@ -45,6 +45,7 @@ services:
 #    logging:
 #      driver: none
     environment:
+      - DEBUG_MODE=1
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
