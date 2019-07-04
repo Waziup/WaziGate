@@ -9,10 +9,10 @@ if [ -d "waziup-gateway" ]; then
 	
 	echo "Removing the containers..."
 	cd waziup-gateway
-	docker-compose stop
-	docker system prune -fa
-	docker rm $(docker ps -a -q)
-	docker rmi -f $(docker images -a -q)
+	sudo docker-compose stop
+	sudo docker system prune -fa
+	sudo docker rm $(docker ps -a -q)
+	sudo docker rmi -f $(docker images -a -q)
 	cd ..
 	echo "Done"
 
@@ -23,7 +23,7 @@ if [ -d "waziup-gateway" ]; then
 	
 	
 	echo "Unsetting the configs..."
-	sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
+	sudo sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
 	sudo sed -i 's/^.*DAEMON_CONF=.*//g' /etc/default/hostapd
 	sudo sed -i 's/^net.ipv4.ip_forward=.*//g' /etc/sysctl.conf
 	echo "Done"
