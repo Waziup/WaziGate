@@ -144,7 +144,7 @@ def docker_full_update():
 			
 			#If there is an update, delete the container and reboot it
 			if( res.find( "Downloaded") != -1):
-				cmd = 'docker stop '+ cName +'; docker kill '+ cName +'; docker rm '+ cName;
+				cmd = 'docker stop '+ cName +'; docker kill '+ cName +'; docker rm '+ cName +'; docker rmi -f "'+ cImage +'"';
 				res = os.popen( cmd).read().strip();
 				log.write( res);
 				updated = True;

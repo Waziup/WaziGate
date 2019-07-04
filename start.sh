@@ -44,6 +44,9 @@ else
 	sudo docker-compose up -d
 fi
 
+#removing dangling images
+sudo docker image prune -f
+
 sleep 10
 
 sudo /etc/init.d/network-manager restart
