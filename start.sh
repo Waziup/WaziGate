@@ -45,7 +45,7 @@ else
 fi
 
 #removing dangling images
-sudo docker image prune -f
+#sudo docker image prune -f
 
 sleep 10
 
