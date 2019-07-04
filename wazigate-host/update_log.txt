@@ -1,0 +1,4 @@
+Using default tag: latest
+latest: Pulling from waziup/wazigate-ui
+Digest: sha256:1439e5a39466407bd5b2458ffd2e2fe45e65f083e2f159b91be6acf0f66575fd
+Status: Image is up to date for waziup/wazigate-ui:latest

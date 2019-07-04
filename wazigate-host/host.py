@@ -103,6 +103,70 @@ def docker_status():
 
 #------------------------#
 
+@app.route( '/docker/update/status', methods=['GET'])
+def docker_update_status():
+	logF = PATH + '/update_log.txt';
+	if( os.path.isfile( logF) == False):
+		return json.dumps( False), 201;
+
+	try:
+		with open( logF) as f:
+			log_txt = f.read();
+		res = {
+			'time'	: time.ctime( os.path.getmtime( logF)),
+			'logs'	: log_txt
+		};
+
+	except OSError:
+		res = 0
+
+	return json.dumps( res), 201;
+
+#------------------------#
+
+@app.route( '/docker/update', methods=['GET', 'PUT', 'POST'])
+def docker_full_update():
+	cOut = docker_status();
+	cList = json.loads( cOut[0]);
+	
+	updated = False;
+	uiAlive = True;
+	
+	with open( PATH +'/update_log.txt', 'w+') as log:
+		log.seek( 0);
+
+		for cItem in cList:
+			cName	=	cItem['Names'][0].strip('/');
+			cImage	=	cItem['Image'];
+			cmd = 'docker pull '+ cImage;
+			res = os.popen( cmd).read().strip();
+			log.write( res);
+			
+			#If there is an update, delete the container and reboot it
+			if( res.find( "Downloaded") != -1):
+				cmd = 'docker stop '+ cName +'; docker kill '+ cName +'; docker rm '+ cName;
+				res = os.popen( cmd).read().strip();
+				log.write( res);
+				updated = True;
+				if( cName == "wazigate-ui"):
+					uiAlive = False;
+		log.truncate();
+
+	#Then Reboot it
+	if( updated):
+		if( uiAlive):
+			#Rebooting by the UI
+			res = "REBOOT";
+			return json.dumps( res), 201;
+		else:
+			cmd = 'sudo reboot';
+			res = os.popen( cmd).read().strip();
+
+	res = "Your gateway is up to date.";
+	return json.dumps( res), 201;
+
+#------------------------#
+
 @app.route( '/docker/<cId>/<action>', methods=['POST', 'PUT'])
 def docker_action( cId, action):
 	cmd = 'curl --no-buffer -XPOST --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/'+ action;
