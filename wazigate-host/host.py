@@ -1,8 +1,9 @@
 #!/usr/bin/python
-# @author: Moji eskandari@fbk.eu Jun 21th 2019
+# @author: Moji eskandari@fbk.eu Jul 05th 2019
 #
 from flask import Flask
 from flask import request
+import threading
 import subprocess
 import json
 #import ast
@@ -125,45 +126,55 @@ def docker_update_status():
 #------------------------#
 
 @app.route( '/docker/update', methods=['GET', 'PUT', 'POST'])
+def docker_full_update_web():
+	docker_full_update();
+	#p = Process(target=docker_full_update);
+	t = threading.Thread(name='update child procs', target=docker_full_update)
+	t.start()
+
+	return json.dumps( " "), 201;
+
+#------#
+
 def docker_full_update():
+
 	cOut = docker_status();
 	cList = json.loads( cOut[0]);
 	
 	updated = False;
-	uiAlive = True;
 	
-	with open( PATH +'/update_log.txt', 'w+') as log:
+	logFile = PATH +'/update_log.txt';
+	
+	with open( logFile, 'w+') as log:
 		log.seek( 0);
-
-		for cItem in cList:
-			cName	=	cItem['Names'][0].strip('/');
-			cImage	=	cItem['Image'];
-			cmd = 'docker pull '+ cImage;
-			res = os.popen( cmd).read().strip();
+		log.write( "Updating Started...\n\n");
+	
+	for cItem in cList:
+		cName	=	cItem['Names'][0].strip('/');
+		cImage	=	cItem['Image'];
+		cImageID=	cItem['ImageID'];
+		cmd = 'docker pull "'+ cImage + '"';
+		res = os.popen( cmd).read().strip();
+		with open( logFile, 'a') as log:
 			log.write( res);
-			
-			#If there is an update, delete the container and reboot it
-			if( res.find( "Downloaded") != -1):
-				cmd = 'docker stop '+ cName +'; docker kill '+ cName +'; docker rm '+ cName +'; docker rmi -f "'+ cImage +'"';
-				res = os.popen( cmd).read().strip();
+		
+		#If there is an update, delete the container and reboot it
+		if( res.find( "Downloaded newer image") != -1):
+			cmd = 'docker stop '+ cName +'; docker kill '+ cName +'; docker rm '+ cName +'; docker rmi -f "'+ cImageID +'"';
+			res = os.popen( cmd).read().strip();
+			with open( logFile, 'a') as log:
 				log.write( res);
-				updated = True;
-				if( cName == "wazigate-ui"):
-					uiAlive = False;
-		log.truncate();
+			updated = True;
 
 	#Then Reboot it
 	if( updated):
-		if( uiAlive):
-			#Rebooting by the UI
-			res = "REBOOT";
-			return json.dumps( res), 201;
-		else:
-			cmd = 'sudo reboot';
-			res = os.popen( cmd).read().strip();
-
-	res = "Your gateway is up to date.";
-	return json.dumps( res), 201;
+		with open( logFile, 'a') as log:
+			log.write( "\n\nNew updates downloaded.\nRebooting...");
+		cmd = 'sudo reboot';
+		res = os.popen( cmd).read().strip();
+	else:
+		with open( logFile, 'a') as log:
+			log.write( "\n\nYour gateway is updated.");
 
 #------------------------#
 
@@ -195,3 +206,12 @@ def docker_logs( cId, tail = 0):
 
 if __name__ == "__main__":
 	app.run( host = '0.0.0.0', debug = True, port = 5544);
+
+#	from tornado.wsgi import WSGIContainer
+#	from tornado.httpserver import HTTPServer
+#	from tornado.ioloop import IOLoop
+#
+#	http_server = HTTPServer( WSGIContainer(app))
+#	http_server.listen(5544)
+#	http_server.start(0)  # Forks multiple sub-processes
+#	IOLoop.instance().start();

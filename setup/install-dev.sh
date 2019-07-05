@@ -32,7 +32,7 @@ if [ -d "waziup-gateway" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
