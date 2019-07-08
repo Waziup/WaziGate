@@ -1,5 +1,5 @@
 #!/bin/bash
-# @author: Moji eskandari@fbk.eu Jul 05th 2019
+# @author: Moji eskandari@fbk.eu Jun 25th 2019
 #
 
 # It is recommended to store the email and password in a file named "creds" next to this file with the same flowwing format
@@ -8,7 +8,15 @@ password="Remote.itPassword"	# password (Change it!)
 
 #---------------------------------------#
 
+#Wait for the automatic reboot
+sleep 25
+
 SCRIPT_PATH=$(dirname $(realpath $0))
+
+#Logs (needs care)
+#exec 1>$SCRIPT_PATH/remote.it.log 2>&1
+#set -x
+
 
 #Using Rapi MAC address as device ID
 MAC=$(cat /sys/class/net/eth0/address)
@@ -17,17 +25,11 @@ gwId="${MAC^^}"
 
 #----------------------------------#
 
-if [ ! -f /usr/bin/connectd_library ]; then
-	echo "Error: [ connectd ] is not installed!"
-	echo "Run: sudo apt-get update && sudo apt-get install connectd"
-	exit 1
-fi
-
 #check if the server is accessible
 acc=$(curl -Is https://remote.it | head -n 1 | awk '{print $2}')
 if [ "$acc" != "200" ]; then
 	echo "Remote.it is not accessible"
-	exit 1
+	exit
 fi
 
 if [ -f $SCRIPT_PATH/done.txt ]; then
@@ -37,13 +39,48 @@ fi
 
 #----------------------------------#
 
-echo "Remote.it Automatic registration started"
-
 . $SCRIPT_PATH/creds
 
-rtServices=$(sudo bash $SCRIPT_PATH/services.sh)
+USERNAME="$email"
+PASSWORD="$password"
+AUTHHASH="REPLACE_AUTHHASH"
+DEVELOPERKEY=""
+MAXSEL=6
 
-#echo "$rtServices"
+. /usr/bin/connectd_library
+
+checkForRoot
+checkForUtilities
+platformDetection
+connectdCompatibility
+userLogin
+testLogin
+
+#----------------------------------#
+
+registerRemoteIT()
+{
+	setConnectdPort "$PROTOCOL"
+	#configureConnection
+
+	getHardwareID
+	echo "Registring the device with HardwareID: $HardwareID and Name: $SNAME"
+	installProvisioning
+	installStartStop
+	fetchUID
+	checkUID
+	preregisterUID
+	registerDevice <<EOF
+$SNAME
+EOF
+
+}
+
+#----------------------------------#
+
+rtServices=`checkForServices<<EOF
+n
+EOF`
 
 #----------------------------------#
 
@@ -56,15 +93,12 @@ if [[ $rtServices == *"WAZIGATE_$gwId"* ]]; then
 
 else
 
-	sudo connectd_installer<<EOF
-1
-$email
-$password
-WAZIGATE_$gwId
-5
-y
-EOF
+	PROTOCOL=rmt3
+	PORT=65535
+	SNAME="WAZIGATE_$gwId"
+	registerRemoteIT
 
+	echo "$error" >> $SCRIPT_PATH/ongoing.txt
 	echo "Done" >> $SCRIPT_PATH/ongoing.txt
 
 fi
@@ -80,18 +114,15 @@ if [[ $rtServices == *"SSH-WAZIGATE_$gwId"* ]]; then
 	
 else
 
-	sudo connectd_installer<<EOF
-1
-$email
-$password
-1
-1
-y
-SSH-WAZIGATE_$gwId
-5
-y
-EOF
+	#Register the device for SSH
+	PROTOCOL=ssh
+	PORT=22
+	SNAME="SSH-WAZIGATE_$gwId"
+	registerRemoteIT
 
+	echo "$error"
+
+	echo "$error" >> $SCRIPT_PATH/ongoing.txt
 	echo "Done" >> $SCRIPT_PATH/ongoing.txt
 
 fi
@@ -107,17 +138,13 @@ if [[ $rtServices == *"HTTP-WAZIGATE_$gwId"* ]]; then
 	
 else
 
-	sudo connectd_installer<<EOF
-1
-$email
-$password
-1
-2
-y
-HTTP-WAZIGATE_$gwId
-5
-y
-EOF
+	#Register the device for HTTP
+	PROTOCOL=web
+	PORT=80
+	SNAME="HTTP-WAZIGATE_$gwId"
+	registerRemoteIT
+
+	echo "$error"
 
 	echo "$error" >> $SCRIPT_PATH/ongoing.txt
 	echo "Done" >> $SCRIPT_PATH/ongoing.txt
@@ -126,8 +153,35 @@ fi
 
 #--------------------#
 
+#echo "Registring Another protocol..." >> $SCRIPT_PATH/ongoing.txt
+
+#if [[ $rtServices == *"Another-WAZIGATE_$gwId"* ]]; then
+	
+#	echo "HTTP is already registered [ Another-WAZIGATE_$gwId ]"
+#	echo "HTTP already registered [ Another-WAZIGATE_$gwId ]" >> $SCRIPT_PATH/ongoing.txt
+	
+#else
+
+#	#Register the device for HTTP
+#	PROTOCOL=Another
+#	PORT=AnotherPort
+#	SNAME="Another-WAZIGATE_$gwId"
+#	registerRemoteIT
+
+#	echo "$error"
+
+#	echo "$error" >> $SCRIPT_PATH/ongoing.txt
+#	echo "Done" >> $SCRIPT_PATH/ongoing.txt
+
+#fi
+
+#--------------------#
+
 #Double check if everything is done correctly
-rtServices=$(sudo bash $SCRIPT_PATH/services.sh)
+
+rtServices=`checkForServices<<EOF
+n
+EOF`
 
 if [[ $rtServices == *"WAZIGATE_$gwId"* ]] && [[ $rtServices == *"SSH-WAZIGATE_$gwId"* ]] && [[ $rtServices == *"HTTP-WAZIGATE_$gwId"* ]]; then
 
