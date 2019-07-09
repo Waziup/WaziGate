@@ -32,7 +32,23 @@ if [ -d "waziup-gateway" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd
+
+#-----------------------#
+
+sudo groupadd ftpgroup
+sudo usermod -a -G ftpgroup $USER
+sudo chown -R $USER:ftpgroup "$PWD"
+
+sudo pure-pw useradd upload -u $USER -g ftpgroup -d "$PWD" -m <<EOF
+loragateway
+loragateway
+EOF
+sudo pure-pw mkdb
+
+sudo service pure-ftpd restart
+
+#------------------------#
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
