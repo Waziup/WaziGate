@@ -1,103 +1,11 @@
 version: '3'
 services:
 
-#-------------------------#
-
   wazigate-system:
-    build: ./wazigate-system
-    container_name: wazigate-system
-    image: waziup/wazigate-system
     volumes:
-      - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
-      - ./wazigate-system/conf:/app/conf
-      - /var/run/dbus:/var/run/dbus
-      - /etc/hostapd:/etc/hostapd
-      - /sbin/shutdown:/sbin/shutdown
-      - /sys/class/gpio:/sys/class/gpio
-      - /dev/mem:/dev/mem
-      - ./remote.it:/app/remote.it
-    ports:
-      - "5000:5000"
-    privileged: true
-    network_mode: host
-    environment:
-      - DEBUG_MODE=1                   # for debug has to be set to 1
-      - WAZIGATE_SYSTEM_ADDR=:5000
-      - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
-#      - ETH_DEVICE=eth0
-#      - WIFI_DEVICE=wlan0
-#      - WIFI_DONGLE=wlan1
-#    entrypoint: sh /app/start.sh
-    restart: always
-
-#-------------------------#
+      - ./wazigate-system:/app      #Only for development, for deployment we need to copy it
 
   wazigate-ui:
-    build: ./wazigate-ui
-    container_name: wazigate-ui
-    image: waziup/wazigate-ui
     volumes:
       - ./wazigate-ui:/var/www/html # Only for development, for deployment we need to copy it
-      - ./wazigate-ui/conf:/var/www/html/conf
-    ports:
-      - "80:80"
-    network_mode: host
-#    logging:
-#      driver: none
-    environment:
-      - UI_LANG=en
-      - WAZIGATE_SYSTEM_ADDR=:5000
-      - WAZIGATE_EDGE_ADDR=:880
-      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service runnig on the host and serves the containers
-    depends_on:
-      - wazigate-system
-    restart: always
 
-#-------------------------#
-  
-  wazigate-edge:
-    build: ./wazigate-edge
-    container_name: wazigate-edge
-    image: waziup/wazigate-edge
-    ports:
-      - "880:880"
-      - "1883:1883"
-    volumes:
-      - ./wazigate-edge/conf:/root/conf
-    environment:
-      - WAZIUP_HTTP_ADDR=:880
-#      - WAZIUP_HTTPS_ADDR=:4443
-#      - WAZIUP_MQTT_ADDR=:1883
-#      - WAZIUP_MQTTS_ADDR=:8883
-#      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
-#      - WAZIUP_TLS_KEY =             TLS Key File (.key)
-      - WAZIUP_MONGO=localhost:27017
-      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
-    network_mode: host
-    depends_on:
-      - mongo
-    restart: always
-
-#-------------------------#
-
-  mongo:
-    build: ./wazigate-mongo
-    container_name: wazigate-mongo
-    image: waziup/mongo
-    hostname: mongo
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./wazigate-mongo/data:/data
-    healthcheck:
-      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
-      interval: 5s
-      timeout: 5s
-      retries: 12
-    extra_hosts:
-      - "localhost:127.0.0.1"
-    network_mode: host                 # has to be fixed later to be accessed only locally
-#    entrypoint: "mongod"
-    restart: always
-#    logging:
-#      driver: none

@@ -4,8 +4,9 @@ services:
 #-------------------------#
 
   wazigate-system:
-    container_name: wazigate-system
     image: waziup/wazigate-system
+    build: ./wazigate-system
+    container_name: wazigate-system
     volumes:
       - ./wazigate-system/conf:/app/conf
       - /var/run/dbus:/var/run/dbus
@@ -30,8 +31,9 @@ services:
 #-------------------------#
 
   wazigate-ui:
-    container_name: wazigate-ui
     image: waziup/wazigate-ui
+    build: ./wazigate-ui
+    container_name: wazigate-ui
     volumes:
       - ./wazigate-ui/conf:/var/www/html/conf
     ports:

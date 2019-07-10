@@ -57,7 +57,7 @@ sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
 sudo chmod +x start.sh
 sudo chmod +x stop.sh
 
-sudo docker-compose -f docker-compose-dev.yml build --force-rm
+sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
