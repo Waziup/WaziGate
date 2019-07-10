@@ -18,7 +18,7 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 #check if the server is accessible
 acc=$(curl -Is https://waziup.io | head -n 1 | awk '{print $2}')
 if [ "$acc" != "200" ]; then
-	echo "Waziup.io is not accessible!"
+	echo "[ Warning ]: Waziup.io is not accessible!"
 fi
 
 sudo iptables-restore < /etc/iptables.ipv4.nat
@@ -28,18 +28,24 @@ sudo systemctl start hostapd
 
 sleep 2
 
+#We might remove this from here and keep it in the setup script
 if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 	mkdir -p $SCRIPT_PATH/wazigate-system/conf/
 	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
 fi
 
+cd $SCRIPT_PATH
+
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
-	echo "Running in developer mode"
+	echo "[ Notice ]: Running in developer mode"
 	sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
 else
 	sudo docker-compose up -d
 fi
+
+#removing dangling images
+#sudo docker image prune -f
 
 sleep 10
 

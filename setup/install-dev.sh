@@ -2,8 +2,53 @@
 # Installing the WaziGate framework on your device for development
 # @author: Mojiz 21 Jun 2019
 
+#Uninstall wazigate if already installed before:
+if [ -d "waziup-gateway" ]; then
+	echo "Uninstalling..."
+	
+	
+	echo "Removing the containers..."
+	cd waziup-gateway
+	sudo docker-compose stop
+	sudo docker system prune -fa
+	sudo docker rm $(docker ps -a -q)
+	sudo docker rmi -f $(docker images -a -q)
+	cd ..
+	echo "Done"
+
+	echo "Renaming the old directory..."
+	newName="waziup-gateway_OLD_$((RANDOM % 100000))"
+	mv waziup-gateway "$newName"
+	echo "Done"
+	
+	
+	echo "Unsetting the configs..."
+	sudo sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
+	sudo sed -i 's/^.*DAEMON_CONF=.*//g' /etc/default/hostapd
+	sudo sed -i 's/^net.ipv4.ip_forward=.*//g' /etc/sysctl.conf
+	echo "Done"
+	
+	echo -e "\n\tUninstalling finished.\n"
+fi
+
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd
+
+#-----------------------#
+
+sudo groupadd ftpgroup
+sudo usermod -a -G ftpgroup $USER
+sudo chown -R $USER:ftpgroup "$PWD"
+
+sudo pure-pw useradd upload -u $USER -g ftpgroup -d "$PWD" -m <<EOF
+loragateway
+loragateway
+EOF
+sudo pure-pw mkdb
+
+sudo service pure-ftpd restart
+
+#------------------------#
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
