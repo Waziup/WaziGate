@@ -39,7 +39,7 @@ cd $SCRIPT_PATH
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
 	echo "[ Notice ]: Running in developer mode"
-	sudo docker-compose -f docker-compose-dev.yml up -d
+	sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
 else
 	sudo docker-compose up -d
 fi

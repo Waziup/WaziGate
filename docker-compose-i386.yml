@@ -1,0 +1,14 @@
+version: '3'
+services:
+
+  wazigate-system:
+    image: waziup/wazigate-system:latest-i386
+
+  wazigate-ui:
+    image: waziup/wazigate-ui:latest-i386
+
+  wazigate-edge:
+    image: waziup/wazigate-edge:latest-i386
+
+  mongo:
+    image: mongo
