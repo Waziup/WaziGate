@@ -32,7 +32,7 @@ if [ -d "waziup-gateway" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd i2c-tools
 
 #-----------------------#
 
@@ -55,7 +55,7 @@ sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 
-sudo pip install flask psutil
+sudo -H pip3 install flask psutil
 
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys

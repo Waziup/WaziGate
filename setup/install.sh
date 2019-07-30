@@ -32,14 +32,14 @@ if [ -d "waziup-gateway" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd
+sudo apt-get install -y git network-manager python python-pip dnsmasq hostapd connectd i2c-tools
 
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 
-sudo pip install flask psutil
+sudo -H pip3 install flask psutil
 
 #installing wazigate
 git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
