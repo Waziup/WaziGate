@@ -80,12 +80,12 @@ sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
 #------------------------#
 
 #Setting up the Access Point
-#sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
+sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
 
-#sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-#sudo bash -c "echo -e 'interface=wlan1\n  dhcp-range=192.168.200.2,192.168.200.200,255.255.255.0,24h\n' > /etc/dnsmasq.conf"
-#sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
-#sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
+sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+sudo bash -c "echo -e '\ninterface=wlan0\n  dhcp-range=192.168.200.2,192.168.200.200,255.255.255.0,24h\n' >> /etc/dnsmasq.conf"
+sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
+sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 
 sudo cp setup/interfaces_ap /etc/network/interfaces
 
@@ -97,6 +97,11 @@ sudo cp setup/interfaces_ap /etc/network/interfaces
 #sudo sed -i -e '$i \net.ipv4.ip_forward=1\n' /etc/sysctl.conf
 #sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
 #sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+
+#Wlan: make a copy of the config file
+sudo cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
+
+#--------------------------#
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
 

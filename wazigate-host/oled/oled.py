@@ -111,14 +111,12 @@ def getIPs():
 	#cmd = 'ip -4 addr show wlan0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\'';
 	cmd = 'status=$(ip addr show wlan0 | grep "state UP"); if [ "$status" == "" ]; then echo ""; else echo $(ip -4 addr show wlan0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
 	res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
-	wip = str( res.stdout.strip(), 'utf-8')
-
-	if( len( wip) == 0):
-		cmd = 'status=$(ip addr show ap0 | grep "state UP"); if [ "$status" == "" ]; then echo ""; else echo $(ip -4 addr show ap0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
-		res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
-		aip = str( res.stdout.strip(), 'utf-8');
+	aip = wip = str( res.stdout.strip(), 'utf-8');
+	
+	if( os.path.isfile( '/etc/network/interfaces')):
+		wip = ''; # AP MODE
 	else:
-		aip = '';
+		aip = ''; # WLAN MODE
 
 	#cmd = "top -bn1 | grep load | awk '{printf \"CPU:  %.2f\", $(NF-2)}'";
 	#CPU = os.popen( cmd).read().strip();

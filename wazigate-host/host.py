@@ -206,18 +206,32 @@ def docker_logs( cId, tail = 0):
 
 @app.route( '/wifi/mode/wlan', methods=['PUT', 'POST'])
 def wifi_mode_wlan():
-	cmd = 'sudo systemctl start wpa_supplicant@wlan0.service';
 	
-	#Run it couple of times to make sure it is ok, sometimes it gives some warnings
-	for i in range(3):
-		res = os.popen( cmd).read().strip();
-		time.sleep( 0.5);
+	oledWrite( [ "", "Connecting to", "    WiFi..."]);
+	
+	cmd = 'sudo systemctl disable hostapd.service;'
+	print( os.popen( cmd).read());
+	
+	cmd = 'sudo mv /etc/network/interfaces /etc/network/interfaces_old;'
+	print( os.popen( cmd).read());
+	
+	time.sleep(1);
+	cmd = 'sudo reboot;'
+	print( os.popen( cmd).read());
 
-	if( len( res) == 0):
-		res = 'ok'
-	return json.dumps( res), 201;
+	return json.dumps( "OK"), 201;
 
 #------------------------#
+
+def oledWrite( msg):
+	try:
+		with open( PATH + '/oled/msg.txt', 'w') as f:
+			f.write( os.linesep.join( msg));
+	except:
+		print( "Error: Cannot write into the OLED buffer!");
+
+
+#---------------------------------#
 
 if __name__ == "__main__":
 	app.run( host = '0.0.0.0', debug = True, port = 5544);
