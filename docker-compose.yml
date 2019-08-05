@@ -5,12 +5,12 @@ services:
 
   wazigate-system:
     image: waziup/wazigate-system
-    build: ./wazigate-system
     container_name: wazigate-system
     volumes:
       - ./wazigate-system/conf:/app/conf
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
+      - /etc/wpa_supplicant/:/etc/wpa_supplicant
       - /sbin/shutdown:/sbin/shutdown
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
@@ -23,6 +23,7 @@ services:
       - DEBUG_MODE=1                   # for debug has to be set to 1
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
+      - WAZIGATE_HOST_ADDR=:5544
 #      - ETH_DEVICE=eth0
 #      - WIFI_DEVICE=wlan0
 #      - WIFI_DONGLE=wlan1
@@ -32,7 +33,6 @@ services:
 
   wazigate-ui:
     image: waziup/wazigate-ui
-    build: ./wazigate-ui
     container_name: wazigate-ui
     volumes:
       - ./wazigate-ui/conf:/var/www/html/conf
@@ -51,9 +51,8 @@ services:
 #-------------------------#
   
   wazigate-edge:
-    image: waziup/wazigate-edge
-    build: ./wazigate-edge
     container_name: wazigate-edge
+    image: waziup/wazigate-edge
     ports:
       - "880:880"
       - "1883:1883"
@@ -76,9 +75,8 @@ services:
 #-------------------------#
 
   mongo:
-    image: waziup/mongo
-    build: ./wazigate-mongo
     container_name: wazigate-mongo
+    image: waziup/mongo
     hostname: mongo
     ports:
       - "27017:27017"
@@ -89,7 +87,7 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
-    #extra_hosts:
-    #  - "localhost:127.0.0.1"
-    #network_mode: host                 # has to be fixed later to be accessed only locally
+    extra_hosts:
+      - "localhost:127.0.0.1"
+    network_mode: host                 # has to be fixed later to be accessed only locally
     restart: always

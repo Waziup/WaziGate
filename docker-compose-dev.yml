@@ -4,12 +4,14 @@ services:
 #-------------------------#
 
   wazigate-system:
+    build: ./wazigate-system
     volumes:
       - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
 
 #-------------------------#
 
   wazigate-ui:
+    build: ./wazigate-ui
     volumes:
       - ./wazigate-ui:/var/www/html # Only for development, for deployment we copy it
 #    logging:
@@ -17,3 +19,14 @@ services:
     environment:
       - DEBUG_MODE=1
 
+#-------------------------#
+  
+  wazigate-edge:
+    build: ./wazigate-edge
+
+#-------------------------#
+
+  mongo:
+    build: ./wazigate-mongo
+#    logging:
+#      driver: none

@@ -21,12 +21,28 @@ if [ "$acc" != "200" ]; then
 	echo "[ Warning ]: Waziup.io is not accessible!"
 fi
 
+#------------#
+
+cd $SCRIPT_PATH
+
+#Lunch the wazigate-host service
+sudo bash ./wazigate-host/start.sh &
+sleep 2
+
+#------------#
+
+echo -e "STARTING\nWaziGate..." > wazigate-host/oled/msg.txt
+
+#------------#
+
 sudo iptables-restore < /etc/iptables.ipv4.nat
 
-sudo systemctl stop hostapd
-sudo systemctl start hostapd
+#sudo systemctl stop hostapd
+#sudo systemctl start hostapd
 
 sleep 2
+
+#------------#
 
 #We might remove this from here and keep it in the setup script
 if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
@@ -34,7 +50,11 @@ if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
 	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
 fi
 
-cd $SCRIPT_PATH
+#------------#
+
+echo -e "Loading\n Modules..." > wazigate-host/oled/msg.txt
+
+#------------#
 
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
@@ -47,16 +67,20 @@ fi
 #removing dangling images
 #sudo docker image prune -f
 
+rm -f wazigate-host/oled/msg.txt #Clear the OLED screen
+
 sleep 10
 
-sudo /etc/init.d/network-manager restart
+#------------#
 
-sleep 2
+#sudo /etc/init.d/network-manager restart
+#sleep 2
+
+#------------#
 
 #Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
 sudo timeout 300 bash ./remote.it/setup.sh &
 
-#Lunch the wazigate-host service
-sudo bash ./wazigate-host/start.sh &
+#------------#
 
 exit 0;

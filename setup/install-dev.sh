@@ -32,7 +32,9 @@ if [ -d "waziup-gateway" ]; then
 fi
 
 sudo apt-get update
-sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd pure-ftpd i2c-tools libopenjp2-7 libtiff5
+
+sudo -H pip3 install flask psutil luma.oled
 
 #-----------------------#
 
@@ -50,12 +52,21 @@ sudo service pure-ftpd restart
 
 #------------------------#
 
+#Setup I2C
+echo -e '\n\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
+sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
+echo -e '\ni2c-bcm2708\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+
+#REF: http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html
+
+#------------------------#
+
 #installing docker
 sudo curl -fsSL get.docker.com -o get-docker.sh && sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 
-sudo pip install flask psutil
+#------------------------#
 
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
@@ -66,24 +77,26 @@ sudo mkdir -p wazigate-ui/conf
 sudo chown $USER -R wazigate-ui/conf
 sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
 
+#------------------------#
+
 #Setting up the Access Point
-sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
+#sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
 
-sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
-sudo bash -c "echo -e 'interface=wlan1\n  dhcp-range=192.168.200.2,192.168.200.200,255.255.255.0,24h\n' > /etc/dnsmasq.conf"
-sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
-sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
+#sudo mv /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
+#sudo bash -c "echo -e 'interface=wlan1\n  dhcp-range=192.168.200.2,192.168.200.200,255.255.255.0,24h\n' > /etc/dnsmasq.conf"
+#sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
+#sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 
-sudo cp setup/interfaces /etc/network/interfaces
+sudo cp setup/interfaces_ap /etc/network/interfaces
 
-sudo systemctl unmask hostapd
-sudo systemctl enable hostapd
-sudo systemctl start hostapd
-sudo systemctl start dnsmasq
+#sudo systemctl unmask hostapd
+#sudo systemctl enable hostapd
+#sudo systemctl start hostapd
+#sudo systemctl start dnsmasq
 
-sudo sed -i -e '$i \net.ipv4.ip_forward=1\n' /etc/sysctl.conf
-sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
-sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
+#sudo sed -i -e '$i \net.ipv4.ip_forward=1\n' /etc/sysctl.conf
+#sudo iptables -t nat -A  POSTROUTING -o eth0 -j MASQUERADE
+#sudo sh -c "iptables-save > /etc/iptables.ipv4.nat"
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
 

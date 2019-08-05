@@ -1,11 +1,7 @@
 #!/bin/bash
 SCRIPT_PATH=$(dirname $(realpath $0))
 
-#Restart always...
-while :
-do
-	sudo python $SCRIPT_PATH/host.py
-	sleep 5
-done
-
-
+bash $SCRIPT_PATH/oled/oled.sh &
+bash $SCRIPT_PATH/buttons/buttons.sh &
+bash $SCRIPT_PATH/host.sh &
+bash $SCRIPT_PATH/fan/fan.sh &
