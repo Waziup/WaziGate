@@ -2,8 +2,6 @@
 SCRIPT_PATH=$(dirname $(realpath $0))
 
 
-exit;
-
 #Restart always...
 while :
 do

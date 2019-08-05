@@ -31,7 +31,7 @@ def main():
 	clearExtMsg();
 	allOK = False;
 
-	heartbeat = False;
+	heartbeat = False; # Just a toggle varianle to show heartbeat on the screen
 	while True:
 		msg = [];
 
@@ -46,8 +46,8 @@ def main():
 		
 		#------------#
 		
-		heartTxt = '  ';
-		heartbeat = not heartbeat;
+		heartTxt	=	'  ';
+		heartbeat	=	not heartbeat;
 		if( heartbeat):
 			heartTxt = '* ';
 
@@ -55,18 +55,22 @@ def main():
 		if( internetAccessible()):
 			netTxt = "[Internet OK]";
 		msg.append( heartTxt + netTxt);
-		msg.append( " ");
+		#msg.append( " ");
 
 		#------------#
 
-		eip, wip = getIPs();
+		eip, wip, aip = getIPs();
 		if( len( eip) > 0):
 			#msg.append( "Ethernet: "+ eip);
 			msg.append( eip);
 
 		if( len( wip) > 0):
-			#msg.append( "Wi IP: ");
+			msg.append( "WiFi IP: ");
 			msg.append( wip);
+
+		if( len( aip) > 0):
+			msg.append( "AP IP: ");
+			msg.append( aip);
 
 		#------------#
 
@@ -105,14 +109,21 @@ def getIPs():
 	eip = str( res.stdout.strip(), 'utf-8')
 	
 	#cmd = 'ip -4 addr show wlan0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\'';
-	cmd = 'status=$(ip addr show wlan0 | grep "state UP"); if [ "$status" == "" ]; then echo "NO WiFi IP"; else echo $(ip -4 addr show wlan0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
+	cmd = 'status=$(ip addr show wlan0 | grep "state UP"); if [ "$status" == "" ]; then echo ""; else echo $(ip -4 addr show wlan0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
 	res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
 	wip = str( res.stdout.strip(), 'utf-8')
+
+	if( len( wip) == 0):
+		cmd = 'status=$(ip addr show ap0 | grep "state UP"); if [ "$status" == "" ]; then echo ""; else echo $(ip -4 addr show ap0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
+		res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
+		aip = str( res.stdout.strip(), 'utf-8');
+	else:
+		aip = '';
 
 	#cmd = "top -bn1 | grep load | awk '{printf \"CPU:  %.2f\", $(NF-2)}'";
 	#CPU = os.popen( cmd).read().strip();
 	
-	return eip, wip
+	return eip, wip, aip
 
 #---------------------------------#
 
@@ -139,8 +150,11 @@ def getGWstatus():
 
 def internetAccessible():
 	try:
-		res = urllib.request.urlopen( "https://waziup.io").getcode();
-		return res == 200;
+		#res = urllib.request.urlopen( "https://waziup.io").getcode();
+		cmd = 'sudo timeout 3 curl -Is https://remote.it | head -n 1 | awk \'{print $2}\'';
+		res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
+		rCode = str( res.stdout.strip(), 'utf-8')
+		return rCode == "200";
 	except:
 		return False;
 

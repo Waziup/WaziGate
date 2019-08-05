@@ -49,11 +49,13 @@ def main():
 		
 		#-----------------------#
 		
-		WiFi_BTN_Counter = 0;
+		WiFi_BTN_Counter	=	0;
+		WiFi_BTN_Pushed		=	False;	# To call the thing only once while user keeps the button pushed
 		while( GPIO.input( WiFi_BTN) == 1):
 			time.sleep( 1);
 			WiFi_BTN_Counter += 1;
-			if( WiFi_BTN_Counter >= WiFi_BTN_COUNTDOWN):
+			if( WiFi_BTN_Counter >= WiFi_BTN_COUNTDOWN and not WiFi_BTN_Pushed):
+				WiFi_BTN_Pushed = True;
 				print( "Reverting the settings...");
 				oledWrite( [ "Reverting", " Gateway", " Settings..."]);
 				system_revert_settings();
@@ -82,8 +84,21 @@ def system_shutdown():
 #---------------------------------#
 
 def system_revert_settings():
-	cmd = 'Revert.com';
+	cmd = 'sudo systemctl start wpa_supplicant@ap0.service';
+	for i in range(3):
+		res = os.popen( cmd).read().strip();
+	if( len( res) == 0):
+		res = 'ok'
+	
+	#We need to reset ui password as well
+	
 	print( cmd);
+	print( res);
+	
+	time.sleep( 1);
+	oledWrite( []); # Clear the OLED Screen
+	
+	return res;
 
 
 #---------------------------------#

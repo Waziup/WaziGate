@@ -204,6 +204,21 @@ def docker_logs( cId, tail = 0):
 
 #------------------------#
 
+@app.route( '/wifi/mode/wlan', methods=['PUT', 'POST'])
+def wifi_mode_wlan():
+	cmd = 'sudo systemctl start wpa_supplicant@wlan0.service';
+	
+	#Run it couple of times to make sure it is ok, sometimes it gives some warnings
+	for i in range(3):
+		res = os.popen( cmd).read().strip();
+		time.sleep( 0.5);
+
+	if( len( res) == 0):
+		res = 'ok'
+	return json.dumps( res), 201;
+
+#------------------------#
+
 if __name__ == "__main__":
 	app.run( host = '0.0.0.0', debug = True, port = 5544);
 

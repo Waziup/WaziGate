@@ -37,8 +37,8 @@ echo -e "STARTING\nWaziGate..." > wazigate-host/oled/msg.txt
 
 sudo iptables-restore < /etc/iptables.ipv4.nat
 
-sudo systemctl stop hostapd
-sudo systemctl start hostapd
+#sudo systemctl stop hostapd
+#sudo systemctl start hostapd
 
 sleep 2
 
@@ -73,8 +73,8 @@ sleep 10
 
 #------------#
 
-sudo /etc/init.d/network-manager restart
-sleep 2
+#sudo /etc/init.d/network-manager restart
+#sleep 2
 
 #------------#
 
