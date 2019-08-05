@@ -55,6 +55,10 @@ Then you can access your Wazigate UI on http://YourPiIPAddress/
 
 Develop
 -------
+
+Install
+=======
+
 For developer version you need to run the follwoing line if you want remote control over the gateway:
 
 ```
@@ -69,3 +73,13 @@ curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/
 ```
 
 Please note that, since the developer version downloads the code and builds it on the pi, it usually takes longer.
+
+
+Running on a laptop
+===================
+
+You can run the software on a simple laptop for debugging, however some features won't work (e.g. LoRa).
+```
+docker-compose -f docker-compose.yml -f docker-compose-i386.yml up
+```
+The UI is available on [localhost](http://localhost).
