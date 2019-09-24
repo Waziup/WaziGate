@@ -45,7 +45,7 @@ services:
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
-      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service runnig on the host and serves the containers
+      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
     restart: always
