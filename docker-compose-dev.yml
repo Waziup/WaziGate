@@ -11,7 +11,7 @@ services:
 
   wazigate-ui:
     volumes:
-      - ./wazigate-ui:/app # Only for development, for deployment we copy it
+      - ./wazigate-ui:/app/public # Only for development, for deployment we copy it
 #    logging:
 #      driver: none
     environment:
