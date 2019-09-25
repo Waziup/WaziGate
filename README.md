@@ -75,11 +75,29 @@ curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/
 Please note that, since the developer version downloads the code and builds it on the pi, it usually takes longer.
 
 
+Bulding the images
+------------------
+
+You can build the *production* images simply by doing:
+```
+docker-compose build
+```
+
+You can build the *development* images by doing:
+```
+docker-compose build -f docker-compose-dev.yml
+```
+
+The development version will mount volumes for wazigate-system and wazigate-ui, so that modifying the files will be reflected immediatly (without recompiling the docker images).
+For instance, if you modify the file `wazigate-ui/index.php`, you just need to refresh your browser to see the result.
+
+
 Running on a laptop
-===================
+-------------------
 
 You can run the software on a simple laptop for debugging, however some features won't work (e.g. LoRa).
 ```
 docker-compose -f docker-compose.yml -f docker-compose-i386.yml up
 ```
 The UI is available on [localhost](http://localhost).
+It is also possible to add `-f docker-compose-dev.yml` to develop locally.
