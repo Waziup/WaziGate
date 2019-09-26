@@ -45,7 +45,7 @@ services:
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
-      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service runnig on the host and serves the containers
+      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
     restart: always
@@ -53,8 +53,8 @@ services:
 #-------------------------#
   
   wazigate-edge:
-    container_name: wazigate-edge:V1.0-beta2
-    image: waziup/wazigate-edge
+    container_name: wazigate-edge
+    image: waziup/wazigate-edge:V1.0-beta2
     build: ./wazigate-edge
     ports:
       - "880:880"
@@ -78,8 +78,8 @@ services:
 #-------------------------#
 
   mongo:
-    container_name: wazigate-mongo:V1.0-beta2
-    image: waziup/mongo
+    container_name: wazigate-mongo
+    image: waziup/mongo:V1.0-beta2
     build: ./wazigate-mongo
     hostname: mongo
     ports:

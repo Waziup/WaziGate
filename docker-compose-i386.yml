@@ -3,6 +3,8 @@ services:
 
   wazigate-system:
     image: waziup/wazigate-system:latest-i386
+    environment:
+      - NO_LORA=true
 
   wazigate-ui:
     image: waziup/wazigate-ui:latest-i386

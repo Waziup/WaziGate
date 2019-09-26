@@ -25,7 +25,7 @@ fi
 
 cd $SCRIPT_PATH
 
-#Lunch the wazigate-host service
+#Launch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
 sleep 2
 
