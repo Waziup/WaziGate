@@ -4,14 +4,12 @@ services:
 #-------------------------#
 
   wazigate-system:
-    image: waziup/wazigate-system:dev
     volumes:
       - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
 
 #-------------------------#
 
   wazigate-ui:
-    image: waziup/wazigate-system:dev
     volumes:
       - ./wazigate-ui:/app/public # Only for development, for deployment we copy it
 #    logging:
