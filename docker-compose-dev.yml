@@ -5,14 +5,14 @@ services:
 
   wazigate-system:
     volumes:
-      - ./wazigate-system:/app          #Only for development, for deployment we need to copy it
+      - ./wazigate-system:/app
+    environment:
+      - PYTHONUNBUFFERED=TRUE
 
 #-------------------------#
 
   wazigate-ui:
     volumes:
-      - ./wazigate-ui:/app/public # Only for development, for deployment we copy it
-#    logging:
-#      driver: none
+      - ./wazigate-ui:/app/public
     environment:
       - DEBUG_MODE=1
