@@ -37,6 +37,10 @@ sudo cp setup/clouds.json wazigate-edge/conf/
 sudo chown $USER -R wazigate-edge/conf
 echo "Done"
 
+echo "Downloading the docker images..."
+docker-compose pull
+echo "Done"
+
 #-----------------------#
 
 #Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
