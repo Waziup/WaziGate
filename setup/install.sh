@@ -2,7 +2,7 @@
 # Installing the WaziGate framework on your device
 # @author: Mojiz 20 Jun 2019
 
-WAZIUP_ROOT=$HOME/dev/waziup-gateway
+WAZIUP_ROOT=$HOME/waziup-gateway
 
 read -p "This script will configure Wazigate on your system. Continue (y/n)? "
 echo
@@ -12,17 +12,17 @@ then
     [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 fi
 
-#echo "Installing system-wide packages..."
-#sudo apt-get update
-#sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5
-#sudo -H pip3 install flask psutil luma.oled
-#
-##Docker
-#sudo curl -fsSL get.docker.com -o get-docker.sh 
-#sudo sh get-docker.sh
-#sudo usermod -aG docker $USER
-#sudo rm get-docker.sh
-#echo "Done"
+echo "Installing system-wide packages..."
+sudo apt-get update
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5
+sudo -H pip3 install flask psutil luma.oled
+
+#Docker
+sudo curl -fsSL get.docker.com -o get-docker.sh 
+sudo sh get-docker.sh
+sudo usermod -aG docker $USER
+sudo rm get-docker.sh
+echo "Done"
 
 #-----------------------#
 
