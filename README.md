@@ -14,7 +14,7 @@ We are testing and working on an SD card image to be flashed on an SD card and y
 Install
 -------
 
-To install the gateway framework on a Raspberry pi, you need to do the following instructions:
+To install the Wazigate on a Raspberry pi, you need to do the following instructions:
 
 1. First get the latest raspbian and install it on the pi: https://www.raspberrypi.org/downloads/raspbian/
 
@@ -39,7 +39,7 @@ Usually the default credential for raspbian is:
 Then run the follwoing code on your raspberry pi terminal:
 
 ```
-{ echo REMOTE='"email@example.com password"'; curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install.sh ;} | bash
+{ echo REMOTE='"email@example.com password"'; curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh ;} | bash
 ```
 Where `email@example.com` is your user name on remote.it and `password` is your password. This script downloads and installs everything that your pi needs to turn it into a Wazigate.
 
