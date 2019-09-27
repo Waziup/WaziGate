@@ -46,7 +46,7 @@ Where `email@example.com` is your user name on remote.it and `password` is your 
 7. If you don't want a remote management on your wazigate just run this code instead:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh | bash
 ```
 
 This will take a while. Time to grab a cup of tea.
