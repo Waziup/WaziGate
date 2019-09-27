@@ -16,5 +16,6 @@ sudo curl -fsSLO https://github.com/Waziup/waziup-gateway/archive/$WAZIUP_VERSIO
 tar -xzvf $WAZIUP_VERSION.tar.gz
 mv waziup-gateway-1.0-beta1 waziup-gateway
 cd waziup-gateway
-chmod a+x waziup-gateway/install.sh
+chmod a+x setup/install.sh
+chmod a+x setup/uninstall.sh
 ./setup/install.sh
