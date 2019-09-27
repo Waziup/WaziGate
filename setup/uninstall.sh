@@ -10,8 +10,9 @@ echo "$SCRIPT_PATH/../../waziup-gateway";
 cd "$SCRIPT_PATH/../../"
 
 if [ -d "waziup-gateway" ]; then
-	echo "RUN Uninstall script"
+	echo "Uninstalling..."
 	
+	echo "Removing the containers..."
 	cd waziup-gateway
 	sudo docker-compose stop
 	sudo docker system prune -fa
@@ -20,11 +21,11 @@ if [ -d "waziup-gateway" ]; then
 	cd ..
 
 	newName="waziup-gateway_OLD_$((RANDOM % 100000))"
+	echo "Moving waziup-gateway directory to $newName ..."
 	mv waziup-gateway "$newName"
 	
-	#Removing the autostart script
+	echo "Unsetting the configs..."
 	sudo sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
-	
 	sudo sed -i 's/^.*DAEMON_CONF=.*//g' /etc/default/hostapd
 	sudo sed -i 's/^net.ipv4.ip_forward=.*//g' /etc/sysctl.conf
 	

@@ -2,38 +2,11 @@
 # Installing the WaziGate framework on your device
 # @author: Mojiz 20 Jun 2019
 
+WAZIUP_VERSION="V1.0-beta1"
 
-#Uninstall wazigate if already installed before:
-if [ -d "waziup-gateway" ]; then
-	echo "Uninstalling..."
-	
-	echo "Removing the containers..."
-	cd waziup-gateway
-	sudo docker-compose stop
-	sudo docker system prune -fa
-	sudo docker rm $(docker ps -a -q)
-	sudo docker rmi -f $(docker images -a -q)
-	cd ..
-	echo "Done"
-
-	echo "Renaming the old directory..."
-	newName="waziup-gateway_OLD_$((RANDOM % 100000))"
-	mv waziup-gateway "$newName"
-	echo "Done"
-	
-	
-	echo "Unsetting the configs..."
-	sudo sed -i 's/^.*waziup-gateway.*//g' /etc/rc.local
-	sudo sed -i 's/^.*DAEMON_CONF=.*//g' /etc/default/hostapd
-	sudo sed -i 's/^net.ipv4.ip_forward=.*//g' /etc/sysctl.conf
-	echo "Done"
-	
-	echo -e "\n\tUninstalling finished.\n"
-fi
-
+#Installing system-wide packages
 sudo apt-get update
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5
-
 sudo -H pip3 install flask psutil luma.oled
 
 #-----------------------#
@@ -46,22 +19,26 @@ sudo rm get-docker.sh
 #-----------------------#
 
 #installing wazigate
-git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
-cd waziup-gateway
+sudo curl -fsSL https://github.com/Waziup/waziup-gateway/archive/$WAZIUP_VERSION.tar.gz
+tar -xzvf $WAZIUP_VERSION.tar.gz
+mv waziup-gateway$WAZIUP_VERSION waziup-gateway
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 sudo mkdir -p wazigate-ui/conf
 sudo chown $USER -R wazigate-ui/conf
-sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
+
 
 #-----------------------#
 
-#Setup I2C
-echo -e '\n\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
-sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
-echo -e '\ni2c-bcm2708\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
-
-#REF: http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html
-
+#Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
+if ! grep -qF "ndtparam=i2c_arm=on" /boot/config.txt; then
+  echo -e '\n\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
+fi
+if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
+  sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
+fi
+if ! grep -qF "i2c-bcm2708" /etc/modules-load.d/raspberrypi.conf; then
+  echo -e '\ni2c-bcm2708\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+fi
 #------------------------#
 
 #Setting up the Access Point
@@ -73,8 +50,6 @@ sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
 sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 
 sudo cp setup/interfaces_ap /etc/network/interfaces
-
-#echo -e "loragateway\nloragateway" | sudo passwd $USER
 
 #Wlan: make a copy of the config file
 sudo cp /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
@@ -92,11 +67,13 @@ if [ "$REMOTE" != "" ]; then
 	echo -e "email=\"${arrIN[0]}\"\npassword=\"${arrIN[1]}\"" > remote.it/creds
 fi
 
-sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
-
 #------------------------#
 
-sudo docker-compose pull
+#Setup autostart
+sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
+if ! grep -qF "start.sh" /etc/rc.local; then
+  sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
+fi
 
 #------------------------#
 
