@@ -86,7 +86,6 @@ fi
 
 #------------------------#
 
-read -n 1 -s -r -p "Installation finished. Press any key to reboot."
-sudo reboot
+echo "Installation finished. For the changes to take effect, please reboot."
 
 exit 0;
