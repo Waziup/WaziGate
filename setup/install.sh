@@ -4,14 +4,6 @@
 
 WAZIUP_ROOT=$HOME/waziup-gateway
 
-read -p "This script will configure Wazigate on your system. Continue (y/n)? "
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]
-then
-    echo "Existing."
-    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-fi
-
 echo "Installing system-wide packages..."
 sudo apt-get update
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5
