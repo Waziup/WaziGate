@@ -19,8 +19,7 @@ Install
 To install the Wazigate on a Raspberry pi, you need to do the following instructions:
 
 1. First get the latest raspbian and install it on the pi: https://www.raspberrypi.org/downloads/raspbian/
-
-**Note:** The recently released _raspbian buster_ does not support docker yet, download the [Raspbian Stretch](https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip) instead.
+*Note:* The recently released _raspbian buster_ does not support docker yet, download the [Raspbian Stretch](https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip) instead.
 
 2. Flash it on an SD card. You can find the instructions here: https://www.raspberrypi.org/documentation/installation/installing-images/
 
