@@ -14,22 +14,11 @@ sudo curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
-echo "Done"
-
-#-----------------------#
-
-echo "Configuring Wazigate software..."
-cd $WAZIUP_ROOT/
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
-sudo mkdir -p wazigate-ui/conf
-sudo chown $USER -R wazigate-ui/conf
-
-sudo mkdir -p wazigate-edge/conf
-sudo cp setup/clouds.json wazigate-edge/conf/
-sudo chown $USER -R wazigate-edge/conf
 echo "Done"
 
 echo "Downloading the docker images..."
+cd $WAZIUP_ROOT/
 docker-compose pull
 echo "Done"
 
