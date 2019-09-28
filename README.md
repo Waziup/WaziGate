@@ -14,6 +14,8 @@ We are testing and working on an SD card image to be flashed on an SD card and y
 Install
 -------
 
+***Install Raspbian***
+
 To install the Wazigate on a Raspberry pi, you need to do the following instructions:
 
 1. First get the latest raspbian and install it on the pi: https://www.raspberrypi.org/downloads/raspbian/
