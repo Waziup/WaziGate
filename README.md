@@ -69,7 +69,7 @@ Where `email@example.com` is your user name on remote.it and `password` is your 
 and if you don't want a remote management on your wazigate just run this code instead:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install-dev.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup_dev.sh | bash
 ```
 
 Please note that, since the developer version downloads the code and builds it on the pi, it usually takes longer.
