@@ -9,6 +9,7 @@ services:
     container_name: wazigate-system
     volumes:
       - ./conf:/app/conf
+      - ./logs:/app/logs
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
       - /etc/wpa_supplicant/:/etc/wpa_supplicant
