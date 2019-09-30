@@ -2,8 +2,6 @@
 # Installing the WaziGate framework on your device for development
 # @author: Mojiz 21 Jun 2019
 
-WAZIUP_DIR=$HOME/dev/waziup-gateway
-
 read -p "This script will download and install the development version of the Wazigate. Continue (y/n)? "
 echo
 if [[ ! $REPLY =~ ^[Yy]$ ]]

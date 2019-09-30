@@ -2,7 +2,8 @@
 # Installing the WaziGate framework on your device
 # @author: Mojiz 20 Jun 2019
 
-WAZIUP_ROOT=$HOME/waziup-gateway
+#Setup WAZIUP_ROOT as first argument, with a default value
+WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 echo "Installing system-wide packages..."
 sudo apt-get update
@@ -57,7 +58,7 @@ sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_suppl
 #Setup autostart
 sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 if ! grep -qF "start.sh" /etc/rc.local; then
-  sudo sed -i -e '$i \cd '"$PWD"'; sudo bash ./start.sh &\n' /etc/rc.local
+  sudo sed -i -e '$i \cd '"$WAZIUP_ROOT"'; sudo bash ./start.sh &\n' /etc/rc.local
 fi
 echo "Done"
 
