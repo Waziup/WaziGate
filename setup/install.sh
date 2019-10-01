@@ -6,6 +6,7 @@
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 echo "Installing system-wide packages..."
+#Packages
 sudo apt-get update
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5
 sudo -H pip3 install flask psutil luma.oled
@@ -22,8 +23,6 @@ echo "Downloading the docker images..."
 cd $WAZIUP_ROOT/
 docker-compose pull
 echo "Done"
-
-#-----------------------#
 
 #Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
 echo "Configuring the system..."
@@ -45,15 +44,20 @@ sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
 
 sudo mv --backup=numbered /etc/dnsmasq.conf /etc/dnsmasq.conf.orig
 sudo bash -c "echo -e 'interface=wlan1\n  dhcp-range=192.168.200.2,192.168.200.200,255.255.255.0,24h\n' > /etc/dnsmasq.conf"
+
 sudo cp setup/hostapd.conf /etc/hostapd/hostapd.conf
 if ! grep -qFx 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd; then
   sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 fi
 
+#setup access point by default
 sudo cp --backup=numbered setup/interfaces_ap /etc/network/interfaces
 
 #Wlan: make a copy of the config file
 sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
+
+#Name the gateway
+sudo  echo -e 'wazigate' | sudo tee /etc/hostname
 
 #Setup autostart
 sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
