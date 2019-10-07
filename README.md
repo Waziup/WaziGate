@@ -9,7 +9,7 @@ Complete instructions for Windows, Linux and MacOS users can be found on the web
 The instructions below are for developpers and experts.
 
 Install
--------
+=======
 
 To install the Wazigate on a Raspberry PI, [download](https://www.raspberrypi.org/downloads/raspbian/) the latest raspbian and unzip it:
 ```
@@ -52,10 +52,8 @@ Once finished, the pi will be rebooted and then pulls the containers and set up 
 Then you can access your Wazigate UI on http://wazigate.local/ !
 
 Develop
--------
-
-Install
 =======
+
 
 For developer version, you need to run the following line:
 
