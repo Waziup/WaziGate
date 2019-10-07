@@ -5,36 +5,47 @@ This repo contains the source code for the Waziup gateway.
 
 ** WARNING: this repo is work in progress. Do not use yet **
 
+Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation
+The instructions below are for developpers and experts.
 
 Install
 -------
 
-***Install Raspbian***
+To install the Wazigate on a Raspberry PI, you need to do the following instructions:
 
-To install the Wazigate on a Raspberry pi, you need to do the following instructions:
-
-1. First get the latest raspbian and install it on the pi: https://www.raspberrypi.org/downloads/raspbian/
+[Download](https://www.raspberrypi.org/downloads/raspbian/) the latest raspbian and unzip:
 ```
-wget https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip
+wget https://downloads.raspberrypi.org/raspbian_lite_latest
+unzip raspbian_lite_latest
 ```
 
-2. Flash it on an SD card. You can find the instructions here: https://www.raspberrypi.org/documentation/installation/installing-images/
+Flash it on an SD card. You need to find its device first:
+```
+# Find the SD card device:
+sudo fdisk -l
 
-3. After flashing the SD card, open it on you PC and create a file named **ssh** without extention on the SD card. If it has multiple partitions, just create it on anyone you are allowed to.
-
-4. Connect the PI with an Ethernet cable to your PC and find it's IP address. You can use either **nmap** or [Angry IP Scanner](http://angryip.org/) which is available for Windows/Mac/Linux/Android to determine the assigned IP addresses.
-
-5. SSH into the pi. Windows users can use https://putty.org/
-Usually the default credential for raspbian is:
+# Flash it:
+sudo dd if=./<image name>.img of=/dev/<dev name> status=progress bs=4M
+```
+In the above command, replace with your image name, and with your SD card device (for example: /dev/mmcblk0).
+Be extra careful, as if you enter the wrong dev ID, you could overwrite your own hard disk.
+After that, you need to mount the SD card on you PC (if it's not already mounted somewhere), and create a file named **ssh** without extention on the SD card.
+If it has multiple partitions, just create it on anyone you are allowed to.
 
 ```
-- user: pi
-- password: raspberry
+mount
+cd <mount path>
+touch ssh
 ```
-**Note:** if you think this is hard to do for you, just connect a screen, keyboard and mouse to your raspberry pi and work with it just like a regular computer. The important thing is to have internet connectivity on your pi.
 
-6. Then run the follwoing code on your raspberry pi terminal:
+You can now extract the SD card from your PC and insert it into the Raspberry PI.
+You should also connect the RPI to your PC by Ethernet cable.
 
+SSH into the PI. Password is `raspberry`
+```
+ssh pi@raspberrypi.local
+```
+Then run the follwoing code on your raspberry pi terminal:
 ```
 curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh | bash
 ```
