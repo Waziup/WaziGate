@@ -19,7 +19,6 @@ Install
 To install the Wazigate on a Raspberry pi, you need to do the following instructions:
 
 1. First get the latest raspbian and install it on the pi: https://www.raspberrypi.org/downloads/raspbian/
-*Note:* The recently released _raspbian buster_ does not support docker yet, download the [Raspbian Stretch](https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip) instead.
 ```
 wget https://downloads.raspberrypi.org/raspbian_lite/images/raspbian_lite-2019-04-09/2019-04-08-raspbian-stretch-lite.zip
 ```
@@ -39,15 +38,7 @@ Usually the default credential for raspbian is:
 ```
 **Note:** if you think this is hard to do for you, just connect a screen, keyboard and mouse to your raspberry pi and work with it just like a regular computer. The important thing is to have internet connectivity on your pi.
 
-6. If you need to remotely manage your Wazigate, first create an account on https://remote.it/ it's free ;)
-Then run the follwoing code on your raspberry pi terminal:
-
-```
-{ echo REMOTE='"email@example.com password"'; curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh ;} | bash
-```
-Where `email@example.com` is your user name on remote.it and `password` is your password. This script downloads and installs everything that your pi needs to turn it into a Wazigate.
-
-7. If you don't want a remote management on your wazigate just run this code instead:
+6. Then run the follwoing code on your raspberry pi terminal:
 
 ```
 curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh | bash
@@ -55,7 +46,7 @@ curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/
 
 This will take a while. Time to grab a cup of tea.
 Once finished, the pi will be rebooted and then pulls the containers and set up everything, then reboots again.
-Then you can access your Wazigate UI on http://YourPiIPAddress/
+Then you can access your Wazigate UI on http://wazigate.local/
 
 Develop
 -------
@@ -63,20 +54,12 @@ Develop
 Install
 =======
 
-For developer version you need to run the follwoing line if you want remote control over the gateway:
-
-```
-{ echo REMOTE='"email@example.com password"'; curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/install-dev.sh ;} | bash
-```
-Where `email@example.com` is your user name on remote.it and `password` is your password. This script downloads and installs everything that your pi needs to turn it into a Wazigate.
-
-and if you don't want a remote management on your wazigate just run this code instead:
+For developer version, you need to run the following line:
 
 ```
 curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup_dev.sh | bash
 ```
-
-Please note that, since the developer version downloads the code and builds it on the pi, it usually takes longer.
+This will download the code from github HEAD.
 
 
 Bulding the images
