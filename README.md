@@ -5,21 +5,19 @@ This repo contains the source code for the Waziup gateway.
 
 ** WARNING: this repo is work in progress. Do not use yet **
 
-Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation
+Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation .
 The instructions below are for developpers and experts.
 
 Install
 -------
 
-To install the Wazigate on a Raspberry PI, you need to do the following instructions:
-
-[Download](https://www.raspberrypi.org/downloads/raspbian/) the latest raspbian and unzip:
+To install the Wazigate on a Raspberry PI, [download](https://www.raspberrypi.org/downloads/raspbian/) the latest raspbian and unzip it:
 ```
 wget https://downloads.raspberrypi.org/raspbian_lite_latest
 unzip raspbian_lite_latest
 ```
 
-Flash it on an SD card. You need to find its device first:
+Flash it on an SD card. You need to find the SD card device ID first:
 ```
 # Find the SD card device:
 sudo fdisk -l
@@ -40,19 +38,18 @@ touch ssh
 
 You can now extract the SD card from your PC and insert it into the Raspberry PI.
 You should also connect the RPI to your PC by Ethernet cable.
-
-SSH into the PI. Password is `raspberry`
+SSH into the PI. Password is `raspberry`:
 ```
 ssh pi@raspberrypi.local
 ```
-Then run the follwoing code on your raspberry pi terminal:
+Then download and install WaziGate with the following command on the RPI terminal:
 ```
 curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh | bash
 ```
 
 This will take a while. Time to grab a cup of tea.
 Once finished, the pi will be rebooted and then pulls the containers and set up everything, then reboots again.
-Then you can access your Wazigate UI on http://wazigate.local/
+Then you can access your Wazigate UI on http://wazigate.local/ !
 
 Develop
 -------
