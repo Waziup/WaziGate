@@ -1,14 +1,9 @@
 WaziGate LoRa gateway
 =====================
 
-This repo contains the source code for the Waziup Edge gateway.
+This repo contains the source code for the Waziup gateway.
 
 ** WARNING: this repo is work in progress. Do not use yet **
-
-Quick Start
------------
-
-We are testing and working on an SD card image to be flashed on an SD card and your wazigate will be ready.
 
 
 Install
