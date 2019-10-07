@@ -10,6 +10,9 @@ then
     [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 fi
 
+sudo apt-get update
+sudo apt-get install -y git
+
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
 git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
