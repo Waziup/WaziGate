@@ -66,24 +66,28 @@ This will download the code from github HEAD.
 Bulding the images
 ------------------
 
-You can build the *production* images simply by doing:
+You can build the images simply by doing:
 ```
 docker-compose build
 ```
 
-You can build the *development* images by doing:
+Running
+-------
+
+You can run WaziGate like this:
 ```
-docker-compose build -f docker-compose-dev.yml
+docker-compose up
+```
+
+You can also run the *development* images by doing:
+```
+docker-compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
 
 The development version will mount volumes for wazigate-system and wazigate-ui, so that modifying the files will be reflected immediatly (without recompiling the docker images).
 For instance, if you modify the file `wazigate-ui/index.php`, you just need to refresh your browser to see the result.
 
-
-Running on a laptop
--------------------
-
-You can run the software on a simple laptop for debugging, however some features won't work (e.g. LoRa).
+You can also run the software on a simple laptop for debugging, however some features won't work (e.g. LoRa).
 ```
 docker-compose -f docker-compose.yml -f docker-compose-i386.yml up
 ```
