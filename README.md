@@ -79,7 +79,7 @@ You can run WaziGate like this:
 docker-compose up
 ```
 
-You can also run the *development* images by doing:
+You can also run the *development* version by doing:
 ```
 docker-compose -f docker-compose.yml -f docker-compose-dev.yml up
 ```
