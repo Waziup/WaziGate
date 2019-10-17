@@ -74,6 +74,24 @@ services:
     depends_on:
       - mongo
     restart: always
+    
+#-------------------------#
+  
+  wazigate-health:
+    container_name: wazigate-health
+    image: waziup/wazigate-health:v1
+    build: ./wazigate-health
+    volumes:
+      - /proc:/proc
+      - /etc/os-release:/etc/os-release
+      - /sys/class/thermal/thermal_zone0/temp:/sys/class/thermal/thermal_zone0/temp
+    environment: []
+#      - WAZIGATE_ADDR=127.0.0.1:880     # Wazigate Edge API Addr
+#      - WAZIAPP_ADDR=                   # Addr for this App
+    network_mode: host
+    depends_on:
+      - wazigate-edge
+    restart: always
 
 #-------------------------#
 

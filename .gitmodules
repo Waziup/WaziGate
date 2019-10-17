@@ -10,3 +10,6 @@
 	path = wazigate-ui
 	url = https://github.com/Waziup/wazigate-ui.git
 	branch = master
+[submodule "wazigate-health"]
+	path = wazigate-health
+	url = https://github.com/waziup/wazigate-health
