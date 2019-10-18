@@ -95,7 +95,7 @@ sleep 10
 #------------#
 
 #Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
-sudo timeout 300 bash ./remote.it/setup.sh &
+#sudo timeout 300 bash ./remote.it/setup.sh &
 
 #------------#
 

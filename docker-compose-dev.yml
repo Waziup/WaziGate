@@ -13,6 +13,6 @@ services:
 
   wazigate-ui:
     volumes:
-      - ./wazigate-ui:/app/public
+      - ./wazigate-ui:/var/www/html
     environment:
       - DEBUG_MODE=1

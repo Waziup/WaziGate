@@ -9,13 +9,13 @@ services:
     container_name: wazigate-system
     volumes:
       - ./conf:/app/conf
+      - ./logs:/app/logs
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
       - /etc/wpa_supplicant/:/etc/wpa_supplicant
       - /sbin/shutdown:/sbin/shutdown
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
-      - ./remote.it:/app/remote.it
     ports:
       - "5000:5000"
     privileged: true
@@ -25,9 +25,8 @@ services:
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
       - WAZIGATE_HOST_ADDR=:5544
-#      - ETH_DEVICE=eth0
-#      - WIFI_DEVICE=wlan0
-#      - WIFI_DONGLE=wlan1
+      - ETH_DEVICE=eth0
+      - WIFI_DEVICE=wlan0
     restart: always
 
 #-------------------------#

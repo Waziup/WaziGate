@@ -4,7 +4,7 @@
 #---------------------------------#
 
 WiFi_BTN 			=	6	# PIN #31
-WiFi_BTN_COUNTDOWN	=	3	# for n seconds the button needs to be held down to revert the wifi/web ui settings
+WiFi_BTN_COUNTDOWN	=	2	# for n seconds the button needs to be held down to revert the wifi/web ui settings
 
 PWR_BTN 			=	26	# PIN #37
 SHUTDOWN_COUNTDOWN	=	2	# for n seconds the button needs to be held down to activate shutdown procedure
@@ -17,7 +17,7 @@ import RPi.GPIO as GPIO
 
 #---------------------------------#
 
-PATH = os.path.dirname(os.path.abspath(__file__));
+PATH = os.path.dirname( os.path.abspath( __file__));
 
 #---------------------------------#
 
@@ -104,7 +104,7 @@ def system_revert_settings():
 	
 	res = os.popen( cmd).read().strip();
 	
-	#We need to reset ui password as well in future
+	#We need to reset ui password and other configs as well in future if needed
 	
 	print( cmd);
 	print( res);
@@ -124,6 +124,8 @@ def handleButtons( ch):
 
 #Check if the GW is in WLAN mode and if it is connected to the given SSID
 def checkWlanConn():
+	
+	#Check if in AP mode
 	if( os.path.isfile( '/etc/network/interfaces')):
 		return True;
 	

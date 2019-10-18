@@ -145,6 +145,7 @@ def docker_full_update():
 	
 	logFile = PATH +'/update_log.txt';
 	
+	oledWrite( [ "", "Updating..." ]);
 	with open( logFile, 'w+') as log:
 		log.seek( 0);
 		log.write( "Updating Started...\n\n");
@@ -171,10 +172,33 @@ def docker_full_update():
 		with open( logFile, 'a') as log:
 			log.write( "\n\nNew updates downloaded.\nRebooting...");
 		cmd = 'sudo reboot';
+		oledWrite( [ "", "Update Done.", "Rebooting..."]);
 		res = os.popen( cmd).read().strip();
 	else:
+		oledWrite( [ "", "Updated."]);
 		with open( logFile, 'a') as log:
 			log.write( "\n\nYour gateway is updated.");
+
+#------------------------#
+
+@app.route( '/system/shutdown/<status>', methods=['PUT', 'POST'])
+def system_shutdown( status):
+	if( status == 'reboot'):
+		oledWrite( [ " ", " ", "Rebooting..."]);
+		cmd = 'sudo shutdown -r now';
+		#cmd = 'reboot';
+
+	else:
+		if( status == 'shutdown'):
+			oledWrite( [ " ", " ", "Shutting down..."]);
+			cmd = 'sudo shutdown -h now';
+		else:
+			return 1, 201	
+	time.sleep( 2);
+	oledWrite( [ " ", " "]);
+	time.sleep( 2);
+	print( cmd);
+	return os.popen( cmd).read();
 
 #------------------------#
 
@@ -212,7 +236,8 @@ def wifi_mode_wlan():
 	cmd = 'sudo systemctl disable hostapd.service;'
 	print( os.popen( cmd).read());
 	
-	cmd = 'sudo mv /etc/network/interfaces /etc/network/interfaces_old;'
+	#cmd = 'sudo mv /etc/network/interfaces /etc/network/interfaces_old;'
+	cmd = 'sudo rm /etc/network/interfaces;'
 	print( os.popen( cmd).read());
 	
 	time.sleep(1);

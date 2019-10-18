@@ -104,7 +104,7 @@ def oledWrite( msg):
 
 def getIPs():
 	#cmd = 'ip -4 addr show eth0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\'';
-	cmd = 'status=$(ip addr show eth0 | grep "state UP"); if [ "$status" == "" ]; then echo "NO Ethernet IP"; else echo $(ip -4 addr show eth0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\');  fi;';
+	cmd = 'status=$(ip addr show eth0 | grep "state UP"); if [ "$status" == "" ]; then echo "NO Ethernet"; else echo $(ip -4 addr show eth0 | grep -oP \'(?<=inet\s)\d+(\.\d+){3}\' | head -n 1);  fi;';
 	res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
 	eip = str( res.stdout.strip(), 'utf-8')
 	

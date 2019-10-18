@@ -2,15 +2,13 @@
 # Installing the WaziGate framework on your device for development
 # @author: Mojiz 21 Jun 2019
 
-#read -p "This script will download and install the development version of the Wazigate. Continue (y/n)? "
-#echo
-#if [[ ! $REPLY =~ ^[Yy]$ ]]
-#then
-#    echo "Existing."
-#    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
-#fi
-
-#--------------------------------#
+read -p "This script will download and install the development version of the Wazigate. Continue (y/n)? "
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+then
+    echo "Existing."
+    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
+fi
 
 sudo apt-get update
 sudo apt-get install -y git
@@ -20,17 +18,11 @@ sudo apt-get install -y git
 git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
 
-#--------------------------------#
-
-./setup/install.sh
-
-#--------------------------------#
-
 sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
 sudo chmod +x start.sh
 sudo chmod +x stop.sh
 
-#--------------------------------#
+#-----------------------#
 # Adding FTP
 sudo apt-get install -y git pure-ftpd
 sudo groupadd ftpgroup
@@ -44,7 +36,7 @@ sudo pure-pw mkdb
 sudo service pure-ftpd restart
 
 
-#--------------------------------#
+#-----------------------#
 
 echo "Building the docker images..."
 sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
@@ -54,5 +46,7 @@ for i in {10..01}; do
 	sleep 1
 done
 sudo reboot
+
+#echo "Installation finished. Use 'setup/install.sh' to install and configure your Wazigate. Use 'docker-compose build' to build the containers."
 
 exit 0;
