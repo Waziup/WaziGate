@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Wazigate UI panel</title>
+
+<!--
+Content:
+	Nodogsplash (NDS), by default, serves this splash page (splash.html)
+	when a client device Captive Portal Detection (CPD) process
+	attempts to send a port 80 request to the Internet.
+
+	You may either embed css in this file or use a separate .css file
+	in the same directory as this file, as demonstrated here.
+
+	It should be noted when designing a custom splash page
+	that for security reasons many CPD implementations:
+		Immediately close the browser when the client has authenticated.
+		Prohibit the use of href links.
+		Prohibit downloading of external files
+			(including .css and .js).
+		Prohibit the execution of javascript.
+
+Authentication:
+	A client is authenticated on submitting an HTTP form, method=get,
+	passing $authaction, $tok and $redir.
+
+	It is also possible to authenticate using an href link to
+	$authtarget but be aware that many device Captive Portal Detection
+	processes prohibit href links, so this method may not work with
+	all client devices.
+
+Available variables:
+	error_msg: $error_msg
+	gatewayname: $gatewayname
+	tok: $tok
+	redir: $redir
+	authaction: $authaction
+	denyaction: $denyaction
+	authtarget: $authtarget
+	clientip: $clientip
+	clientmac: $clientmac
+	clientupload: $clientupload
+	clientdownload: $clientdownload
+	gatewaymac: $gatewaymac
+	nclients: $nclients
+	maxclients: $maxclients
+	uptime: $uptime
+
+Additional Variables that can be passed back via the HTTP get,
+or appended to the query string of the authtarget link:
+	username
+	password
+-->
+
+</head>
+
+<body>
+
+<script>
+	window.location.replace( "http://192.168.200.1/admin/");
+</script>
+
+</body>
+</html>

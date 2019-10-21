@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script downloads and installs the Wazigate 
 
-WAZIUP_VERSION="V1.0-beta2"
+WAZIUP_VERSION="V1.0-beta3"
 
 #--------------------------------#
 
@@ -12,6 +12,10 @@ mv waziup-gateway-1.0-beta2 waziup-gateway
 cd waziup-gateway
 chmod a+x setup/install.sh
 chmod a+x setup/uninstall.sh
+
+#--------------------------------#
+
+sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
 
 #--------------------------------#
 
