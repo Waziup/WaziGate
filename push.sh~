@@ -1,0 +1,29 @@
+#!/bin/bash
+# This file initiates the wazigate preparation
+# it just makes my life easier to push stuff to github, Mojiz ;)
+
+#SCRIPT_PATH=$(dirname $(realpath $0))
+SCRIPT_PATH=$(dirname $(readlink -f -- $0))
+
+echo "Root directory: " $SCRIPT_PATH
+
+msg="$1";
+
+if [ "$msg" == "" ];then
+	msg="updated";
+fi
+echo $msg;
+
+
+for m in "" "wazigate-system" "wazigate-ui"
+do
+	echo -e "\n\t-----------------\nPushing [ $m ]\n"
+	cd $SCRIPT_PATH/$m; 
+	git checkout master
+	git add . ; 
+	git commit -m "$msg"; 
+	git push origin master
+done
+
+#cd $SCRIPT_PATH/wazigate-system; git add . ; git commit -m "$msg"; git push origin master
+#cd $SCRIPT_PATH/wazigate-ui; git add . ; git commit -m "$msg"; git push origin master
