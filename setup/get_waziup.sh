@@ -12,6 +12,9 @@ mv waziup-gateway-1.0-beta2 waziup-gateway
 cd waziup-gateway
 chmod a+x setup/install.sh
 chmod a+x setup/uninstall.sh
+
+#--------------------------------#
+
 ./setup/install.sh
 
 #--------------------------------#

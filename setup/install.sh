@@ -10,7 +10,7 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
-sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon
+sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon libmicrohttpd-dev
 sudo -H pip3 install luma.oled 
 sudo -H pip3 install flask 
 sudo -H pip3 install psutil
@@ -72,13 +72,27 @@ sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_suppl
 
 #Name the gateway
 sudo sed -i 's/^127\.0\.1\.1.*/127\.0\.1\.1\twazigate/g' /etc/hosts
+sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
 sudo echo -e 'wazigate' | sudo tee /etc/hostname
+
+#--------------------------------#
 
 #Setup autostart
 if ! grep -qF "start.sh" /etc/rc.local; then
   sudo sed -i -e '$i \cd '"$WAZIUP_ROOT"'; sudo bash ./start.sh &\n' /etc/rc.local
 fi
-echo "Done"
+
+#--------------------------------#
+#Install and config WiFi Captive Portal
+cd ~
+git clone https://github.com/nodogsplash/nodogsplash.git
+cd nodogsplash
+make
+sudo make install
+
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
 
 #--------------------------------#
 
+echo "Done"

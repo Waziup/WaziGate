@@ -39,6 +39,8 @@ echo -e "STARTING\nWaziGate..." > wazigate-host/oled/msg.txt
 #IF Access Point Mode Activated
 if [ -f /etc/network/interfaces ]; then
 
+	sudo nodogsplash
+
 	sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 	sudo sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
 
