@@ -1,7 +1,7 @@
 #!/bin/bash
 # This script downloads and installs the Wazigate 
 
-WAZIUP_VERSION="V1.0-beta2"
+WAZIUP_VERSION="V1.0-beta3"
 
 #--------------------------------#
 
