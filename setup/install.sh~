@@ -11,8 +11,18 @@ echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon libmicrohttpd-dev
-sudo -H pip3 install luma.oled 
-sudo -H pip3 install flask 
+
+sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
+sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+
+sleep 1
+
+sudo usermod -a -G i2c,spi,gpio pi
+
+sudo -H pip3 install --upgrade pip setuptools
+
+sudo -H pip3 install luma.oled
+sudo -H pip3 install flask
 sudo -H pip3 install psutil
 
 #--------------------------------#
@@ -24,6 +34,16 @@ sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
+
+#--------------------------------#
+#Install and config WiFi Captive Portal
+git clone https://github.com/nodogsplash/nodogsplash.git
+cd nodogsplash
+make
+sudo make install
+
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
 
 #--------------------------------#
 
@@ -87,15 +107,6 @@ if ! grep -qF "start.sh" /etc/rc.local; then
 fi
 
 #--------------------------------#
-#Install and config WiFi Captive Portal
-git clone https://github.com/nodogsplash/nodogsplash.git
-cd nodogsplash
-make
-sudo make install
 
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
-
-#--------------------------------#
 
 echo "Done"
