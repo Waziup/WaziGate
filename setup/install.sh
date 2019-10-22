@@ -26,6 +26,16 @@ sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
 
 #--------------------------------#
+#Install and config WiFi Captive Portal
+git clone https://github.com/nodogsplash/nodogsplash.git
+cd nodogsplash
+make
+sudo make install
+
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
+
+#--------------------------------#
 
 #Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
 echo "Configuring the system..."
@@ -87,15 +97,6 @@ if ! grep -qF "start.sh" /etc/rc.local; then
 fi
 
 #--------------------------------#
-#Install and config WiFi Captive Portal
-git clone https://github.com/nodogsplash/nodogsplash.git
-cd nodogsplash
-make
-sudo make install
 
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
-
-#--------------------------------#
 
 echo "Done"

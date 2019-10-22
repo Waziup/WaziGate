@@ -27,10 +27,6 @@ echo "Done"
 
 #--------------------------------#
 
-
-
-#--------------------------------#
-
 #Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
 echo "Configuring the system..."
 if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
