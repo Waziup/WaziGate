@@ -10,10 +10,14 @@
 #    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 #fi
 
+#Setup WAZIUP_ROOT as first argument, with a default value
+WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
+
 #--------------------------------#
 
-sudo apt-get update
-sudo apt-get install -y git 
+./setup/install.sh
+
+#--------------------------------#
 
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
@@ -22,9 +26,6 @@ cd waziup-gateway
 
 #--------------------------------#
 
-./setup/install.sh
-
-#--------------------------------#
 
 sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
 sudo chmod +x start.sh

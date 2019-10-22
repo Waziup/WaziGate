@@ -3,6 +3,8 @@
 
 WAZIUP_VERSION="V1.0-beta3"
 
+#Setup WAZIUP_ROOT as first argument, with a default value
+WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 #--------------------------------#
 
 echo "Downloading Wazigate..."

@@ -30,7 +30,7 @@ sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 #--------------------------------#
 
 echo "Downloading the docker images..."
-cd $WAZIUP_ROOT/
+cd $WAZIUP_ROOT
 docker-compose pull
 echo "Done"
 

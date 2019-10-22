@@ -10,6 +10,9 @@
 #    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 #fi
 
+#Setup WAZIUP_ROOT as first argument, with a default value
+WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
+
 #--------------------------------#
 
 ./setup/install.sh
@@ -45,6 +48,7 @@ sudo service pure-ftpd restart
 #--------------------------------#
 
 echo "Building the docker images..."
+cd $WAZIUP_ROOT
 sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
