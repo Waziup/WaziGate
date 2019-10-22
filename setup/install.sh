@@ -88,7 +88,6 @@ fi
 
 #--------------------------------#
 #Install and config WiFi Captive Portal
-cd ~
 git clone https://github.com/nodogsplash/nodogsplash.git
 cd nodogsplash
 make
