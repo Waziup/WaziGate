@@ -1,6 +1,0 @@
-{
-    "edge": "http://127.0.0.1:880",
-    "cloud": "http://api.waziup.io/api/v2",
-    "mqtt": "tcp://127.0.0.1:1883",
-    "mqttCloud": "tcp://api.waziup.io:1883"
-}

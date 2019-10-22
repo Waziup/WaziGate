@@ -4,7 +4,6 @@ services:
 #-------------------------#
 
   wazigate-system:
-    build: ./wazigate-system
     volumes:
       - ./wazigate-system:/app
     environment:
@@ -13,21 +12,7 @@ services:
 #-------------------------#
 
   wazigate-ui:
-    build: ./wazigate-ui
     volumes:
       - ./wazigate-ui:/var/www/html
     environment:
       - DEBUG_MODE=1
-
-
-#-------------------------#
-
-  wazigate-edge:
-    build: ./wazigate-edge
-
-#-------------------------#
-
-  mongo:
-    build: ./wazigate-mongo
-
-#-------------------------#

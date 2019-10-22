@@ -25,25 +25,6 @@ sudo rm get-docker.sh
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
 
-
-#--------------------------------#
-
-#Setup autostart
-if ! grep -qF "start.sh" /etc/rc.local; then
-  sudo sed -i -e '$i \cd '"$WAZIUP_ROOT"'; sudo bash ./start.sh &\n' /etc/rc.local
-fi
-
-#--------------------------------#
-#Install and config WiFi Captive Portal
-
-git clone https://github.com/nodogsplash/nodogsplash.git
-cd nodogsplash
-make
-sudo make install
-
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
-
 #--------------------------------#
 
 #Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
@@ -93,6 +74,28 @@ sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_suppl
 sudo sed -i 's/^127\.0\.1\.1.*/127\.0\.1\.1\twazigate/g' /etc/hosts
 sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
 sudo echo -e 'wazigate' | sudo tee /etc/hostname
+
+#--------------------------------#
+#Edge default cloud settings. (Used only in the production version)
+cp setup/clouds.json wazigate-edge
+
+#--------------------------------#
+
+#Setup autostart
+if ! grep -qF "start.sh" /etc/rc.local; then
+  sudo sed -i -e '$i \cd '"$WAZIUP_ROOT"'; sudo bash ./start.sh &\n' /etc/rc.local
+fi
+
+#--------------------------------#
+#Install and config WiFi Captive Portal
+cd ~
+git clone https://github.com/nodogsplash/nodogsplash.git
+cd nodogsplash
+make
+sudo make install
+
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
+sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
 
 #--------------------------------#
 

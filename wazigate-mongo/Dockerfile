@@ -1,6 +1,6 @@
 FROM balenalib/rpi-raspbian
 
-MAINTAINER Moji eskandari@fbk.eu
+MAINTAINER Moji mojtaba.eskandari@waziup.org
 
 RUN apt-get update -y && \
     apt-get install -y mongodb

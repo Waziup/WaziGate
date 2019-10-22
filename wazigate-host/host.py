@@ -213,12 +213,12 @@ def docker_action( cId, action):
 @app.route( '/docker/<cId>/logs', methods=['GET'])
 @app.route( '/docker/<cId>/logs/<tail>', methods=['GET'])
 def docker_logs( cId, tail = 0):
-	tailStrQ = '';
+	cmd = ['sudo', 'docker', 'logs', cId];
 	if( tail != 0):
-		tailStrQ = '--tail='+ str( tail);
+		cmd = ['sudo', 'docker', 'logs', '--tail='+ str( tail), cId];
 
 #	cmd = 'curl --no-buffer --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/logs?stderr=true&timestamps=true&'+ tailStrQ;
-	cmd = ['sudo', 'docker', 'logs', tailStrQ, cId];
+	
 	proc = subprocess.Popen( cmd, stdout = subprocess.PIPE,	stderr = subprocess.PIPE);
 	stdout, stderr = proc.communicate();
 

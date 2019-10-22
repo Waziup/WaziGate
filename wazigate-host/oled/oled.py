@@ -30,6 +30,7 @@ font	= ImageFont.truetype( PATH +'/fonts/FreePixel.ttf', 15); # (font, size)
 def main():
 	clearExtMsg();
 	allOK = False;
+	GWStatusCheck = 0; # Check the containers status in every let's say 7 seconds.
 
 	heartbeat = False; # Just a toggle varianle to show heartbeat on the screen
 	while True:
@@ -77,6 +78,11 @@ def main():
 		oledWrite( msg);
 		time.sleep( 1);
 		
+		GWStatusCheck += 1;
+		if( GWStatusCheck > 7):
+			GWStatusCheck = 0;
+			allOK, res = getGWstatus();
+
 		if( not allOK):
 			allOK, res = getGWstatus();
 			oledWrite( res);

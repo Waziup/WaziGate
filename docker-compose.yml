@@ -5,9 +5,10 @@ services:
 
   wazigate-system:
     image: waziup/wazigate-system:${WAZIUP_VERSION}
+    build: ./wazigate-system
     container_name: wazigate-system
     volumes:
-      - ./conf:/app/conf
+      - ./wazigate-system/conf:/app/conf
       - ./logs:/app/logs
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
@@ -32,9 +33,10 @@ services:
 
   wazigate-ui:
     image: waziup/wazigate-ui:${WAZIUP_VERSION}
+    build: ./wazigate-ui
     container_name: wazigate-ui
     volumes:
-      - ./conf:/var/www/html/conf
+      - ./wazigate-ui/conf/:/var/www/html/conf
     ports:
       - "80:80"
     network_mode: host
@@ -52,11 +54,12 @@ services:
   wazigate-edge:
     container_name: wazigate-edge
     image: waziup/wazigate-edge:${WAZIUP_VERSION}
+    build: ./wazigate-edge
     ports:
       - "880:880"
       - "1883:1883"
     volumes:
-      - ./conf:/root/conf
+      - ./wazigate-edge:/root/conf
     environment:
       - WAZIUP_HTTP_ADDR=:880
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -76,11 +79,12 @@ services:
   mongo:
     container_name: wazigate-mongo
     image: waziup/mongo:${WAZIUP_VERSION}
+    build: ./wazigate-mongo
     hostname: mongo
     ports:
       - "27017:27017"
     volumes:
-      - ./data:/data
+      - ./wazigate-mongo/data:/data
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
       interval: 5s
