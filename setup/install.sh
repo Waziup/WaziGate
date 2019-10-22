@@ -47,23 +47,6 @@ sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdoc
 
 #--------------------------------#
 
-#Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
-echo "Configuring the system..."
-if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
-  echo -e '\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
-fi
-if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
-  sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
-fi
-if ! grep -qFx "i2c-bcm2708" /etc/modules-load.d/raspberrypi.conf; then
-  echo -e '\ni2c-bcm2708' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
-fi
-if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
-  echo -e '\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
-fi
-
-#--------------------------------#
-
 #Setting up the Access Point
 sudo systemctl stop dnsmasq; sudo systemctl stop hostapd
 
@@ -108,5 +91,21 @@ fi
 
 #--------------------------------#
 
+#Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
+echo "Configuring the system..."
+if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
+  echo -e '\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
+fi
+if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
+  sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
+fi
+if ! grep -qFx "i2c-bcm2708" /etc/modules-load.d/raspberrypi.conf; then
+  echo -e '\ni2c-bcm2708' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+fi
+if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
+  echo -e '\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+fi
+
+#--------------------------------#
 
 echo "Done"
