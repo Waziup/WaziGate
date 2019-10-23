@@ -1,0 +1,27 @@
+version: '3'
+services:
+
+#-------------------------#
+
+  wazigate-system:
+    build: ./wazigate-system
+
+#-------------------------#
+
+  wazigate-ui:
+    build: ./wazigate-ui
+    environment:
+      - DEBUG_MODE=0
+
+
+#-------------------------#
+
+  wazigate-edge:
+    build: ./wazigate-edge
+
+#-------------------------#
+
+  mongo:
+    build: ./wazigate-mongo
+
+#-------------------------#
