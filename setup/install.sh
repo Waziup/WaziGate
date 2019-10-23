@@ -11,6 +11,16 @@ echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon libmicrohttpd-dev
+
+sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
+sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+
+sleep 1
+
+sudo usermod -a -G i2c,spi,gpio pi
+
+sudo -H pip3 install --upgrade pip setuptools
+
 sudo -H pip3 install luma.oled 
 sudo -H pip3 install flask 
 sudo -H pip3 install psutil
@@ -24,23 +34,6 @@ sudo usermod -aG docker $USER
 sudo rm get-docker.sh
 sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
-
-#--------------------------------#
-
-#Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
-echo "Configuring the system..."
-if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
-  echo -e '\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
-fi
-if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
-  sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
-fi
-if ! grep -qFx "i2c-bcm2708" /etc/modules-load.d/raspberrypi.conf; then
-  echo -e '\ni2c-bcm2708' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
-fi
-if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
-  echo -e '\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
-fi
 
 #--------------------------------#
 
@@ -88,14 +81,31 @@ fi
 
 #--------------------------------#
 #Install and config WiFi Captive Portal
-cd ~
-git clone https://github.com/nodogsplash/nodogsplash.git
-cd nodogsplash
-make
-sudo make install
+#cd ~
+#git clone https://github.com/nodogsplash/nodogsplash.git
+#cd nodogsplash
+#make
+#sudo make install
 
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
-sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
+#sudo cp $WAZIUP_ROOT/setup/nodogsplash/nodogsplash.conf /etc/nodogsplash/nodogsplash.conf
+#sudo cp $WAZIUP_ROOT/setup/nodogsplash/htdocs/splash.html /etc/nodogsplash/htdocs/splash.html
+
+#--------------------------------#
+
+#Setup I2C (http://www.runeaudio.com/forum/how-to-enable-i2c-t1287.html)
+echo "Configuring the system..."
+if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
+  echo -e '\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
+fi
+if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
+  sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
+fi
+if ! grep -qFx "i2c-bcm2708" /etc/modules-load.d/raspberrypi.conf; then
+  echo -e '\ni2c-bcm2708' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+fi
+if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
+  echo -e '\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
+fi
 
 #--------------------------------#
 
