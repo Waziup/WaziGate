@@ -10,12 +10,10 @@
 #    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 #fi
 
-#Setup WAZIUP_ROOT as first argument, with a default value
-WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
-#--------------------------------#
-
-./setup/install.sh
+#Packages
+sudo apt-get update
+sudo apt-get install -y git
 
 #--------------------------------#
 
@@ -23,6 +21,10 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 #Using HTTP makes us to clone without needing persmission via ssh-keys
 git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
+
+#--------------------------------#
+
+./setup/install.sh
 
 #--------------------------------#
 
@@ -44,11 +46,9 @@ EOF
 sudo pure-pw mkdb
 sudo service pure-ftpd restart
 
-
 #--------------------------------#
 
 echo "Building the docker images..."
-cd $WAZIUP_ROOT
 sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do

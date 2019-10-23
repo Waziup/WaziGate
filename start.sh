@@ -39,7 +39,27 @@ echo -e "STARTING\nWaziGate..." > wazigate-host/oled/msg.txt
 #IF Access Point Mode Activated
 if [ -f /etc/network/interfaces ]; then
 
-	sudo nodogsplash
+	#sudo nodogsplash #Not working when there is no internet connection, so we leave it :/
+	
+	#Setting the default SSID for AP using Rapi MAC address
+	if [ ! -f .default_ap_done ] ; then
+	
+		MAC="XXXXX"
+
+		if [ -f  /sys/class/net/eth0/address ] ; then
+			MAC=$(cat /sys/class/net/eth0/address)
+		fi;
+
+		if [ -f  /sys/class/net/wlan0/address ] ; then
+			MAC=$(cat /sys/class/net/wlan0/address)
+		fi;
+		
+		MAC=${MAC//:}
+		gwId="${MAC^^}"
+		sudo sed -i "s/^ssid.*/ssid=WAZIGATE_$gwId/g" /etc/hostapd/hostapd.conf
+
+		touch .default_ap_done
+	fi;
 
 	sudo sh -c "echo 1 > /proc/sys/net/ipv4/ip_forward"
 	sudo sed -i 's/^#net.ipv4.ip_forward=1/net.ipv4.ip_forward=1/g' /etc/sysctl.conf
@@ -70,6 +90,7 @@ fi
 
 #------------#
 
+# Showing a msg on the OLED display
 echo -e "Loading\n Modules..." > wazigate-host/oled/msg.txt
 
 #------------#
@@ -87,7 +108,7 @@ fi
 
 rm -f wazigate-host/oled/msg.txt #Clear the OLED screen
 
-sleep 10
+sleep 5
 
 #------------#
 

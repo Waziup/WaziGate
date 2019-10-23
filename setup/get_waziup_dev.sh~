@@ -15,14 +15,15 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 #--------------------------------#
 
-./setup/install.sh
-
-#--------------------------------#
-
-#installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
 git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
+
+chmod a+x setup/install.sh
+chmod a+x setup/uninstall.sh
+
+
+./setup/install.sh
 
 #--------------------------------#
 
@@ -48,6 +49,7 @@ sudo service pure-ftpd restart
 #--------------------------------#
 
 echo "Building the docker images..."
+cd $WAZIUP_ROOT
 sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
