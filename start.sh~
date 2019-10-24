@@ -11,7 +11,7 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
-DEVMODE=0
+DEVMODE=1
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
