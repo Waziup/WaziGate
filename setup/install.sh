@@ -113,4 +113,6 @@ fi
 
 #--------------------------------#
 
+#echo -e "loragateway\nloragateway" | sudo passwd $USER
+
 echo "Done"
