@@ -70,7 +70,7 @@ def main():
 			msg.append( wip);
 
 		if( len( aip) > 0):
-			msg.append( "AP IP: ");
+			msg.append( "HotSpot IP: ");
 			msg.append( aip);
 
 		#------------#
@@ -119,7 +119,9 @@ def getIPs():
 	res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
 	aip = wip = str( res.stdout.strip(), 'utf-8');
 	
-	if( os.path.isfile( '/etc/network/interfaces')):
+	#Check if in AP mode
+	cmd = 'systemctl is-active --quiet dnsmasq && echo 1';
+	if( os.popen( cmd).read().strip() == '1'):
 		wip = ''; # AP MODE
 	else:
 		aip = ''; # WLAN MODE

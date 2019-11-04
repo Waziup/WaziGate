@@ -56,7 +56,7 @@ if ! grep -qFx 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd; t
 fi
 
 #setup access point by default
-sudo cp --backup=numbered setup/interfaces_ap /etc/network/interfaces
+#sudo cp --backup=numbered setup/interfaces_ap /etc/network/interfaces
 
 #Wlan: make a copy of the config file
 sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
@@ -112,7 +112,5 @@ if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
 fi
 
 #--------------------------------#
-
-#echo -e "loragateway\nloragateway" | sudo passwd $USER
 
 echo "Done"

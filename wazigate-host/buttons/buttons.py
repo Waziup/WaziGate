@@ -23,10 +23,6 @@ PATH = os.path.dirname( os.path.abspath( __file__));
 
 def main():
 	
-	#Check if the WLan is OK
-	if( checkWlanConn()):
-		print( "Wlan OK");
-	
 	GPIO.setmode( GPIO.BCM)
 	GPIO.setup( WiFi_BTN, GPIO.IN, pull_up_down = GPIO.PUD_DOWN);
 	GPIO.setup( PWR_BTN, GPIO.IN, pull_up_down = GPIO.PUD_DOWN);
@@ -61,8 +57,7 @@ def main():
 			if( WiFi_BTN_Counter >= WiFi_BTN_COUNTDOWN and not WiFi_BTN_Pushed):
 				WiFi_BTN_Pushed = True;
 				print( "Reverting the settings...");
-				oledWrite( [ "Reverting", " Gateway", " Settings..."]);
-				time.sleep( 1);
+				#time.sleep( 1);
 				system_revert_settings();
 		
 		#-----------------------#
@@ -90,27 +85,18 @@ def system_shutdown():
 
 def system_revert_settings():
 
-	cmd  = 'sudo systemctl unmask hostapd.service; ';
-	cmd += 'sudo systemctl enable hostapd.service; ';
-	cmd += 'sudo service networking stop; ';
-	cmd += 'sudo cp '+ PATH +'/../../setup/interfaces_ap /etc/network/interfaces; ';
+	oledWrite( [ "Reverting", " Gateway", " Settings..."]);
 	
-	cmd += 'sudo service dnsmasq start; ';
-	cmd += 'sudo service hostapd start; ';
-	cmd += 'sudo service networking start; ';
-	cmd += 'sudo reboot; ';
+	cmd = 'sudo bash '+ PATH +'/../start_hotspot.sh';
+	print( os.popen( cmd).read());
+	
+	time.sleep(1);
+	
+	oledWrite( [ ""]);
 
-#	sudo systemctl restart networking
-	
-	res = os.popen( cmd).read().strip();
-	
-	#We need to reset ui password and other configs as well in future if needed
-	
-	print( cmd);
-	print( res);
+	#sudo systemctl stop hostapd
 
 	return res;
-
 
 #---------------------------------#
 
@@ -121,33 +107,6 @@ def handleButtons( ch):
 	print( "Button: "+ str( ch));
 
 #---------------------------------#
-
-#Check if the GW is in WLAN mode and if it is connected to the given SSID
-def checkWlanConn():
-	
-	#Check if in AP mode
-	if( os.path.isfile( '/etc/network/interfaces')):
-		return True;
-	
-	#In WLAN Mode:
-	time.sleep( 3);
-	for i in range( 4):
-		oledWrite( [ "", "Checking WiFi..."]);
-		res = os.popen( 'iwgetid').read().strip();
-		if( len( res) > 0):
-			return True;
-		time.sleep( 3);
-		oledWrite( [ ""]);
-		time.sleep( 2);
-	
-	#Could no conenct, need to revert to AP setting
-	
-	print( "Could not connect!\nReverting the settings...");
-	oledWrite( [ "Couldn't Connect", "", "Reverting to AP", "   ..."]);
-	time.sleep( 2);
-	system_revert_settings();
-	
-	return False;
 
 
 #---------------------------------#

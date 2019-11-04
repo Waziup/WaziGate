@@ -233,16 +233,13 @@ def wifi_mode_wlan():
 	
 	oledWrite( [ "", "Connecting to", "    WiFi..."]);
 	
-	cmd = 'sudo systemctl disable hostapd.service;'
-	print( os.popen( cmd).read());
-	
-	#cmd = 'sudo mv /etc/network/interfaces /etc/network/interfaces_old;'
-	cmd = 'sudo rm /etc/network/interfaces;'
+	cmd = 'sudo bash '+ PATH +'/start_wifi.sh';
 	print( os.popen( cmd).read());
 	
 	time.sleep(1);
-	cmd = 'sudo reboot;'
-	print( os.popen( cmd).read());
+	
+	oledWrite( [ ""]);
+	checkWlanConn();
 
 	return json.dumps( "OK"), 201;
 
@@ -258,7 +255,60 @@ def oledWrite( msg):
 
 #---------------------------------#
 
+#Check if the GW is in WLAN mode and if it is connected to the given SSID
+def checkWlanConn():
+	
+	#Check if in AP mode
+	cmd = 'systemctl is-active --quiet dnsmasq && echo 1';
+	if( os.popen( cmd).read().strip() == '1'):
+		return True;
+	
+	#In WLAN Mode:
+	time.sleep( 3);
+	for i in range( 4):
+		oledWrite( [ "", "Checking WiFi..."]);
+		res = os.popen( 'iwgetid').read().strip();
+		if( len( res) > 0):
+			oledWrite( [ ""]);
+			return True;
+		time.sleep( 3);
+		oledWrite( [ ""]);
+		time.sleep( 2);
+	
+	#Could no conenct, need to revert to AP setting
+	
+	print( "Could not connect!\nReverting the settings...");
+	oledWrite( [ "Couldn't Connect", "", "Reverting to AP", "   ..."]);
+	time.sleep( 2);
+	system_revert_settings();
+	
+	return False;
+
+#---------------------------------#
+
+@app.route( '/wifi/mode/ap', methods=['PUT', 'POST'])
+def system_revert_settings():
+
+	oledWrite( [ "Reverting", " Gateway", " Settings..."]);
+	
+	cmd = 'sudo bash '+ PATH +'/start_hotspot.sh';
+	print( os.popen( cmd).read());
+	
+	time.sleep(1);
+	
+	oledWrite( [ ""]);
+
+	#sudo systemctl stop hostapd
+
+	return json.dumps( "OK"), 201;
+
+#---------------------------------#
+
 if __name__ == "__main__":
+	#Check if the WLan is OK
+	if( checkWlanConn()):
+		print( "Wlan OK");
+
 	app.run( host = '0.0.0.0', debug = True, port = 5544);
 
 #	from tornado.wsgi import WSGIContainer
