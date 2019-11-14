@@ -15,6 +15,15 @@ DEVMODE=0
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
+#------------#
+
+#We need this because when you remove the cable it does not work
+sudo ip link set eth0 down
+sleep 1
+ip link set eth0 up
+
+#------------#
+
 #check if the server is accessible
 acc=$(curl -Is https://waziup.io | head -n 1 | awk '{print $2}')
 if [ "$acc" != "200" ]; then

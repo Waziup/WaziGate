@@ -51,5 +51,6 @@ sudo service dhcpcd restart
 sleep 1
 
 #sudo systemctl restart networking
+#sudo ip link set eth0 down
 
 exit 0;

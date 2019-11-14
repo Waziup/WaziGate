@@ -120,7 +120,7 @@ def getIPs():
 	aip = wip = str( res.stdout.strip(), 'utf-8');
 	
 	#Check if in AP mode
-	cmd = 'systemctl is-active --quiet dnsmasq && echo 1';
+	cmd = 'systemctl is-active --quiet hostapd && echo 1';
 	if( os.popen( cmd).read().strip() == '1'):
 		wip = ''; # AP MODE
 	else:
@@ -144,7 +144,10 @@ def getGWstatus():
 	allOk = True;
 	out = [];
 	for item in res:
-		cName = re.findall( "(/\w+)-(\w+)", item['Names'][0])[0][1];
+		try:
+			cName = re.findall( "(/\w+)-(\w+)", item['Names'][0])[0][1];
+		except:
+			continue;
 		item['State'] = item['State'].upper();
 		out.append( ( cName + ": ").ljust( dispWidth - len( item['State'])) + item['State']);
 		if( item['State'] != 'RUNNING'):
@@ -157,7 +160,7 @@ def getGWstatus():
 def internetAccessible():
 	try:
 		#res = urllib.request.urlopen( "https://waziup.io").getcode();
-		cmd = 'sudo timeout 3 curl -Is https://remote.it | head -n 1 | awk \'{print $2}\'';
+		cmd = 'sudo timeout 3 curl -Is https://waziup.io | head -n 1 | awk \'{print $2}\'';
 		res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
 		rCode = str( res.stdout.strip(), 'utf-8')
 		return rCode == "200";

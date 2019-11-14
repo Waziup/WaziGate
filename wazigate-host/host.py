@@ -259,7 +259,7 @@ def oledWrite( msg):
 def checkWlanConn():
 	
 	#Check if in AP mode
-	cmd = 'systemctl is-active --quiet dnsmasq && echo 1';
+	cmd = 'systemctl is-active --quiet hostapd && echo 1';
 	if( os.popen( cmd).read().strip() == '1'):
 		return True;
 	
