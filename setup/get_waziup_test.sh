@@ -28,7 +28,7 @@ sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
 
 #--------------------------------#
 
-./setup/install.sh
+sudo bash ./setup/install.sh
 
 #--------------------------------#
 

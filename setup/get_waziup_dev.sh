@@ -24,7 +24,7 @@ cd waziup-gateway
 
 #--------------------------------#
 
-./setup/install.sh
+sudo bash ./setup/install.sh
 
 #--------------------------------#
 
