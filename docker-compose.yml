@@ -7,12 +7,13 @@ services:
     image: waziup/wazigate-system:${WAZIUP_VERSION}
     container_name: wazigate-system
     volumes:
+      - ./wazigate-system/scripts:/app/scripts
+      - ./wazigate-host:/wazigate-host
       - ./wazigate-system/conf:/app/conf
       - ./logs:/app/logs
       - /var/run/dbus:/var/run/dbus
       - /etc/hostapd:/etc/hostapd
       - /etc/wpa_supplicant/:/etc/wpa_supplicant
-      - /sbin/shutdown:/sbin/shutdown
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
     ports:
@@ -23,7 +24,7 @@ services:
       - DEBUG_MODE=1                   # for debug has to be set to 1
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
-      - WAZIGATE_HOST_ADDR=:5544
+      - WAZIGATE_HOST_ADDR=:5200       # The deamon for executing commandas on the host
       - ETH_DEVICE=eth0
       - WIFI_DEVICE=wlan0
     restart: always
@@ -42,7 +43,7 @@ services:
       - UI_LANG=en
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
-      - WAZIGATE_HOST_ADDR=:5544   # WAZIGATE_HOST is a service running on the host and serves the containers
+      - WAZIGATE_HOST_ADDR=:5200   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
     restart: always

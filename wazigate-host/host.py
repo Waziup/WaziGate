@@ -104,6 +104,34 @@ def docker_status():
 
 #------------------------#
 
+@app.route( '/cmd', methods=['POST'])
+def execHostCmd():
+	try:
+		cmd = str( request.data, encoding='utf-8')
+		res = os.popen( cmd).read().strip()
+		return res, 200
+	except:
+		return "", 400
+	
+
+#------------------------#
+
+@app.route( '/internet', methods=['GET'])
+def internetAccessible():
+	try:
+		#res = urllib.request.urlopen( "https://waziup.io").getcode();
+		cmd = 'sudo timeout 3 curl -Is https://waziup.io | head -n 1 | awk \'{print $2}\'';
+		res = subprocess.run( cmd, shell=True, check=True, executable='/bin/bash', stdout=subprocess.PIPE);
+		rCode = str( res.stdout.strip(), 'utf-8')
+		if rCode == "200":
+			return "1", 200;
+		else:
+			return "0", 200;
+	except:
+		return "", 400;
+		
+#------------------------#
+
 @app.route( '/docker/update/status', methods=['GET'])
 def docker_update_status():
 	logF = PATH + '/update_log.txt';
@@ -200,7 +228,7 @@ def system_shutdown( status):
 	print( cmd);
 	return os.popen( cmd).read();
 
-#------------------------#
+#---------------------------------#
 
 @app.route( '/docker/<cId>/<action>', methods=['POST', 'PUT'])
 def docker_action( cId, action):
@@ -213,9 +241,9 @@ def docker_action( cId, action):
 @app.route( '/docker/<cId>/logs', methods=['GET'])
 @app.route( '/docker/<cId>/logs/<tail>', methods=['GET'])
 def docker_logs( cId, tail = 0):
-	cmd = ['sudo', 'docker', 'logs', cId];
+	cmd = ['sudo', 'docker', 'logs', '-t', cId];
 	if( tail != 0):
-		cmd = ['sudo', 'docker', 'logs', '--tail='+ str( tail), cId];
+		cmd = ['sudo', 'docker', 'logs', '-t', '--tail='+ str( tail), cId];
 
 #	cmd = 'curl --no-buffer --unix-socket /var/run/docker.sock http://localhost/containers/'+ cId +'/logs?stderr=true&timestamps=true&'+ tailStrQ;
 	
@@ -309,7 +337,7 @@ if __name__ == "__main__":
 	if( checkWlanConn()):
 		print( "Wlan OK");
 
-	app.run( host = '0.0.0.0', debug = True, port = 5544);
+	app.run( host = '0.0.0.0', debug = True, port = 5200);
 
 #	from tornado.wsgi import WSGIContainer
 #	from tornado.httpserver import HTTPServer

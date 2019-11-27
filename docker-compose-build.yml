@@ -5,6 +5,8 @@ services:
 
   wazigate-system:
     build: ./wazigate-system
+    volumes:
+      - ./wazigate-system:/go/src/wazigate-system
 
 #-------------------------#
 

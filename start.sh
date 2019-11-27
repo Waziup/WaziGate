@@ -20,7 +20,7 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 #We need this because when you remove the cable it does not work
 sudo ip link set eth0 down
 sleep 1
-ip link set eth0 up
+sudo ip link set eth0 up
 
 #------------#
 

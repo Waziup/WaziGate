@@ -21,10 +21,14 @@ dispWidth = 16; # Display width in terms of character w.r.t the selected font
 
 PATH	= os.path.dirname(os.path.abspath(__file__));
 
-serial	= i2c( port = 1, address = 0x3C);
-device	= ssd1306( serial, rotate = 0);
-font	= ImageFont.truetype( PATH +'/fonts/FreePixel.ttf', 15); # (font, size)
+try:
+	serial	= i2c( port = 1, address = 0x3C);
+	device	= ssd1306( serial, rotate = 0);
+	font	= ImageFont.truetype( PATH +'/fonts/FreePixel.ttf', 15); # (font, size)
 
+except Exception as e:
+	#print( e)
+	exit()
 #---------------------------------#
 
 def main():
