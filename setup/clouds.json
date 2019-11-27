@@ -1,1 +1,1 @@
-{"default":{"id":"default","paused":true,"rest":"//api.waziup.io/api/v2", "mqtt": "","credentials":{"username": "", "token": ""},"queue":0}}
+{"default":{"id":"default","paused":true,"pausing":false,"pausing_mqtt":false,"rest":"//api.waziup.io/api/v2","mqtt":"","registered":false,"username":"","token":""}}
