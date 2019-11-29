@@ -113,4 +113,18 @@ fi
 
 #--------------------------------#
 
+##do the AUTO_LOGIN 
+
+#sudo apt install midori
+#nano ~/.config/lxsession/LXDE-pi/autostart
+
+## Auto run the browser
+#@xset s off
+#@xset -dpms
+#@xset s noblank
+#@midori -e Fullscreen -a file:///home/pi/waziup-gateway/wazigate-host/init-hdmi-ui.html
+
+
+#--------------------------------#
+
 echo "Done"

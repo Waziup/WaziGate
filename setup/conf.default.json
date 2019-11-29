@@ -1,6 +1,6 @@
 {
   "setup_conf": {
-    "gwid_done": false,
+    "gwid_done": true,
     "wizard": false
   },
   "radio_conf": {
