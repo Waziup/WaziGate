@@ -11,7 +11,7 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
-DEVMODE=0
+DEVMODE=1
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
@@ -37,6 +37,14 @@ cd $SCRIPT_PATH
 #Launch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
 sleep 2
+
+#------------#
+
+#Cleaning the buffer
+#sudo rm -f ./wazigate-system/scripts/cmd.txt
+
+#Launching exec On Host deamon
+#sudo bash ./wazigate-system/scripts/execOnHost.sh &
 
 #------------#
 
@@ -110,5 +118,6 @@ sleep 5
 #sudo timeout 300 bash ./remote.it/setup.sh &
 
 #------------#
+
 
 exit 0;

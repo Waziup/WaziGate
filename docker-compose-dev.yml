@@ -28,7 +28,7 @@ services:
 
 #-------------------------#
 
-  mongo:
+  wazigate-mongo:
     build: ./wazigate-mongo
 
 #-------------------------#

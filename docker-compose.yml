@@ -28,11 +28,11 @@ services:
       - WAZIGATE_HOST_ADDR=:5200       # The deamon for executing commandas on the host
       - ETH_DEVICE=eth0
       - WIFI_DEVICE=wlan0
-    restart: always
     healthcheck: 
       test: curl --fail http://localhost:5000/api/v1/system/conf || exit 1 
       interval: 30s
-      retries: 10 # Will try for 5 minutes
+      retries: 10 # Will try for 5 minutes      
+    restart: always
 
 #-------------------------#
 
@@ -46,18 +46,18 @@ services:
     network_mode: host
     environment:
       - UI_LANG=en
-      - WAZIUP_VERSION=${WAZIUP_VERSION}i1
+      - WAZIUP_VERSION=${WAZIUP_VERSION}
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
       - WAZIGATE_HOST_ADDR=:5200   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
       - wazigate-edge
-    restart: always
     healthcheck:
       test: curl --fail http://localhost:80/ || exit 1 
       interval: 30s
       retries: 10 # Will try for 5 minutes
+    restart: always
 
 #-------------------------#
   
@@ -80,28 +80,29 @@ services:
       - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
     network_mode: host
     depends_on:
-      - mongo
-    restart: always
+      - wazigate-mongo
     healthcheck:
       test: curl --fail http://localhost:880/device || exit 1 
       interval: 30s
       retries: 10 # Will try for 5 minutes
+    restart: always
 
 #-------------------------#
 
-  mongo:
+  wazigate-mongo:
     container_name: wazigate-mongo
-    image: waziup/mongo:${WAZIUP_VERSION}
+    image: waziup/wazigate-mongo:${WAZIUP_VERSION}
     hostname: mongo
     ports:
       - "27017:27017"
     volumes:
       - ./wazigate-mongo/data:/data
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 12
     extra_hosts:
       - "localhost:127.0.0.1"
     network_mode: host                 # has to be fixed later to be accessed only locally
     restart: always
-    healthcheck:
-      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
-      interval: 30s
-      retries: 10 # Will try for 5 minutes

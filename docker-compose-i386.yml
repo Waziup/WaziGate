@@ -12,5 +12,5 @@ services:
   wazigate-edge:
     image: waziup/wazigate-edge:latest-i386
 
-  mongo:
+  wazigate-mongo:
     image: mongo
