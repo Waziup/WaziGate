@@ -6,6 +6,13 @@ WAZIUP_VERSION="V1.0-beta4"
 
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
+
+#--------------------------------#
+
+echo "Changing the password: "
+echo -e "loragateway\nloragateway" | sudo passwd $USER
+echo "Done."
+
 #--------------------------------#
 
 #Packages
@@ -19,26 +26,26 @@ sudo apt-get install -y git
 git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
 
-chmod a+x setup/install.sh
-chmod a+x setup/uninstall.sh
+sudo chmod a+x setup/install.sh
+sudo chmod a+x setup/uninstall.sh
 
 #--------------------------------#
 
-sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
+sudo sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
 
 #--------------------------------#
 
-sudo bash ./setup/install.sh
+bash ./setup/install.sh
 
 #--------------------------------#
 
-sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
+sudo sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 
 #--------------------------------#
 
 echo "Downloading the docker images..."
 cd $WAZIUP_ROOT
-docker-compose pull
+sudo docker-compose pull
 echo "Done"
 
 for i in {10..01}; do

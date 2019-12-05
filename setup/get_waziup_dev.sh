@@ -10,6 +10,13 @@
 #    [[ "$0" = "$BASH_SOURCE" ]] && exit 1 || return 1
 #fi
 
+#--------------------------------#
+
+echo "Changing the password: "
+echo -e "loragateway\nloragateway" | sudo passwd $USER
+echo "Done."
+
+#--------------------------------#
 
 #Packages
 sudo apt-get update
@@ -24,12 +31,12 @@ cd waziup-gateway
 
 #--------------------------------#
 
-sudo bash ./setup/install.sh
+bash ./setup/install.sh
 
 #--------------------------------#
 
 
-sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
+sudo sed -i 's/^DEVMODE.*/DEVMODE=1/g' start.sh
 sudo chmod +x start.sh
 sudo chmod +x stop.sh
 

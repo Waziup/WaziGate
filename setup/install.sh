@@ -68,6 +68,9 @@ sudo sed -i 's/^127\.0\.1\.1.*/127\.0\.1\.1\twazigate/g' /etc/hosts
 sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
 sudo echo -e 'wazigate' | sudo tee /etc/hostname
 
+# Resolving the issue of not having internet within the containers
+sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
+
 #--------------------------------#
 #Edge default cloud settings. (Used only in the production version)
 cp setup/clouds.json wazigate-edge
@@ -76,8 +79,8 @@ cp setup/clouds.json wazigate-edge
 
 #Setup autostart
 
-chmod a+x ./start.sh
-chmod a+x ./stop.sh
+sudo chmod a+x ./start.sh
+sudo chmod a+x ./stop.sh
 
 if ! grep -qF "start.sh" /etc/rc.local; then
   sudo sed -i -e '$i \cd '"$WAZIUP_ROOT"'; sudo bash ./start.sh &\n' /etc/rc.local
@@ -113,18 +116,29 @@ fi
 
 #--------------------------------#
 
+# ---- HDMI display web interface ----- #
+
 ##do the AUTO_LOGIN 
 
-#sudo apt install midori
+sudo apt install -y midori
+mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
 #nano ~/.config/lxsession/LXDE-pi/autostart
 
 ## Auto run the browser
-#@xset s off
-#@xset -dpms
-#@xset s noblank
-#@midori -e Fullscreen -a file:///home/pi/waziup-gateway/wazigate-host/init-hdmi-ui.html
+echo -e "@xset s off" > ~/.config/lxsession/LXDE-pi/autostart
+echo -e "@xset -dpms" >> ~/.config/lxsession/LXDE-pi/autostart
+echo -e "@xset s noblank" >> ~/.config/lxsession/LXDE-pi/autostart
+echo -e "@midori -e Fullscreen -a file:///home/pi/waziup-gateway/wazigate-host/init-hdmi-ui.html" >> ~/.config/lxsession/LXDE-pi/autostart
 
+
+# ---- Splash screen ---- #
+
+echo -e '\ndisable_splash=1' | sudo tee -a /boot/config.txt
+echo -e '\nsplash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0' | sudo tee -a /boot/cmdline.txt
+sudo cp $WAZIUP_ROOT/setup/waziup-logo.png /usr/share/plymouth/themes/pix/splash.png
 
 #--------------------------------#
 
 echo "Done"
+
+#echo -e "loragateway\nloragateway" | sudo passwd $USER

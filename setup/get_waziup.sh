@@ -10,26 +10,26 @@ sudo curl -fsSLO https://github.com/Waziup/waziup-gateway/archive/$WAZIUP_VERSIO
 tar -xzvf $WAZIUP_VERSION.tar.gz
 mv waziup-gateway-1.0-beta2 waziup-gateway
 cd waziup-gateway
-chmod a+x setup/install.sh
-chmod a+x setup/uninstall.sh
+sudo chmod a+x setup/install.sh
+sudo chmod a+x setup/uninstall.sh
 
 #--------------------------------#
 
-sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
+sudo sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
 
 #--------------------------------#
 
-sudo bash ./setup/install.sh
+bash ./setup/install.sh
 
 #--------------------------------#
 
-sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
+sudo sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 
 #--------------------------------#
 
 echo "Downloading the docker images..."
 cd $WAZIUP_ROOT/
-docker-compose pull
+sudo docker-compose pull
 echo "Done"
 
 for i in {10..01}; do
