@@ -25,12 +25,19 @@ echo -e "Mounting the remote directory...\nEnter the password: \t123\n"
 
 sudo mount -t cifs //192.168.0.116/share /media/remote -o username=moji
 
-echo -e "Done\n\n"
+if mount | grep /media/remote > /dev/null; then
+    echo -e "Mounted SUccessfully\n\n"
+else
+    echo -e "Error: mounting failed!\n\n"
+	exit 1;
+fi
 
 #-----------------------#
 
 echo -e "Reverting Wazigate to its default values..."
 
+cd /home/pi/waziup-gateway/
+sudo docker-compose stop
 sudo rm -f /home/pi/waziup-gateway/.default_ap_done
 cp /home/pi/waziup-gateway/setup/clouds.json /home/pi/waziup-gateway/wazigate-edge/
 sudo cp /home/pi/waziup-gateway/setup/conf.default.json /home/pi/waziup-gateway/wazigate-system/conf/conf.json
@@ -40,14 +47,16 @@ echo -e "Done.\n"
 
 #-----------------------#
 
+cd /home/pi/waziup-gateway/setup/
+
 if [ ! -f /media/remote/wazigate.img ] ; then
 
 	echo -e "Creating a new image...\nUse this path:\t/media/remote/wazigate.img"
-	sudo /home/pi/image-utils/image-backup
+	sudo ./image-utils/image-backup
 
 else
 	echo "Updating the image..."
-	sudo /home/pi/image-utils/image-backup /media/remote/wazigate.img
+	sudo ./image-utils/image-backup /media/remote/wazigate.img
 
 fi;
 

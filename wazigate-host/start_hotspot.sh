@@ -8,7 +8,13 @@ sudo systemctl stop dnsmasq
 sudo systemctl stop hostapd
 
 sudo service networking stop
+
 sleep 1
+
+#Removing prevoious WiFi settings
+sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.orig /etc/wpa_supplicant/wpa_supplicant.conf
+
+
 #sudo cp setup/interfaces_ap /etc/network/interfaces
 #sudo rm /var/lib/dhcp/*
 sudo sh -c 'echo "interface wlan0" >> /etc/dhcpcd.conf'
