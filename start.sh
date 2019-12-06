@@ -11,7 +11,7 @@
 # exec 1>./wazigate-start.log 2>&1		# send stdout and stderr to a log file
 # set -x                         		# tell sh to display commands before execution
 
-DEVMODE=1
+DEVMODE=0
 
 SCRIPT_PATH=$(dirname $(realpath $0))
 
@@ -21,6 +21,11 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 sudo ip link set eth0 down
 sleep 1
 sudo ip link set eth0 up
+
+#------------#
+
+# Resolving the issue of not having internet within the containers
+sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
 
 #------------#
 

@@ -121,14 +121,30 @@ fi
 ##do the AUTO_LOGIN 
 
 sudo apt install -y midori
+
+
 mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
 #nano ~/.config/lxsession/LXDE-pi/autostart
+
+# -- Installing Kweb ---------#
+KWEB_VER="kweb-1.6.9"
+wget -O $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz http://steinerdatenbank.de/software/$KWEB_VER.tar.gz
+tar -xzf $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz
+cd $KWEB_VER/
+sudo ./debinstall
+cd ..
+rm -rf $KWEB_VER
+
+#--------------#
 
 ## Auto run the browser
 echo -e "@xset s off" > ~/.config/lxsession/LXDE-pi/autostart
 echo -e "@xset -dpms" >> ~/.config/lxsession/LXDE-pi/autostart
 echo -e "@xset s noblank" >> ~/.config/lxsession/LXDE-pi/autostart
-echo -e "@midori -e Fullscreen -a file:///home/pi/waziup-gateway/wazigate-host/init-hdmi-ui.html" >> ~/.config/lxsession/LXDE-pi/autostart
+echo -e "@sh /home/pi/waziup-gateway/wazigate-host/kiosk.sh" >> ~/.config/lxsession/LXDE-pi/autostart
+
+#old stuff
+#echo -e "@kweb -KJJE, file:///home/pi/waziup-gateway/wazigate-host/init-hdmi-ui.html" >> ~/.config/lxsession/LXDE-pi/autostart
 
 
 # ---- Splash screen ---- #
