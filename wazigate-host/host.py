@@ -289,6 +289,7 @@ def checkWlanConn():
 	#Check if in AP mode
 	cmd = 'systemctl is-active --quiet hostapd && echo 1';
 	if( os.popen( cmd).read().strip() == '1'):
+		system_revert_settings();
 		return True;
 	
 	#In WLAN Mode:
