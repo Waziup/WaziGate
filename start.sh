@@ -100,6 +100,7 @@ echo -e "Loading\n Modules..." > wazigate-host/oled/msg.txt
 # Resolving the issue of not having internet within the containers
 sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
 
+
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
 	echo "[ Notice ]: Running in developer mode"
