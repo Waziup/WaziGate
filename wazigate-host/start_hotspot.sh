@@ -60,6 +60,6 @@ sleep 1
 #sudo ip link set eth0 down
 
 # Resolving the issue of not having internet within the containers
-sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
+# sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
 
 exit 0;

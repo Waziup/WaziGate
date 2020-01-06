@@ -1,8 +1,17 @@
 #!/bin/bash
 SCRIPT_PATH=$(dirname $(realpath $0))
+sudo chmod +x $SCRIPT_PATH/wazigate-host
 
-#$SCRIPT_PATH/wazigate-host &
-bash $SCRIPT_PATH/host.sh &
-bash $SCRIPT_PATH/oled/oled.sh &
-bash $SCRIPT_PATH/buttons/buttons.sh &
-bash $SCRIPT_PATH/fan/fan.sh &
+#Restart always...
+while :
+do
+	if [ "$1" == "1" ]; then
+		#Debug Mode (store logs into a file "host.logs")
+		sudo $SCRIPT_PATH/wazigate-host -d 1 &
+	
+	else
+		sudo $SCRIPT_PATH/wazigate-host &
+	fi
+
+	sleep 1
+done

@@ -6,7 +6,7 @@ package main
 
 import (
 	// "fmt"
-	// "os"
+	"os"
 	"log"
 	"flag"
 	// "time"
@@ -16,7 +16,7 @@ import (
 	// "strconv"
 
 	"os/exec"
-	// "path/filepath"
+	"path/filepath"
 	"io/ioutil"
 
 	routing "github.com/julienschmidt/httprouter"	
@@ -34,14 +34,36 @@ func init() {
 
 /*-------------------------*/
 
+var execPath = ""
+
 func main() {
 
 	log.Printf( "Initializing...")
 
+	dir, err := filepath.Abs( filepath.Dir( os.Args[0]))
+	if err != nil {
+		log.Fatal( err)
+	}
+	execPath = dir
+
+	// log.Printf( dir)
+
 	host := flag.String( "s", "", "Server address")
 	port := flag.String( "p", "5200", "Port number")
+	debugMode := flag.String( "d", "0", "Debug Mode")
 
 	flag.Parse()
+
+	if *debugMode != "0" {
+		// If debug mode
+		f, err := os.OpenFile( execPath +"/host.logs", os.O_RDWR | os.O_CREATE | os.O_APPEND, 0666)
+		if err != nil {
+			log.Fatalf("[Err   ]: Error opening file: %v", err)
+		}
+		defer f.Close()
+
+		log.SetOutput(f)
+	}
 
 	ListenAndServeHTTP( *host +":"+ *port)
 }
@@ -75,6 +97,7 @@ func execCommand( resp http.ResponseWriter, req *http.Request, params routing.Pa
 	log.Printf( "[Info  ] executing [ %s ] ", cmd)
 
 	exe := exec.Command( "sh", "-c", string( cmd))
+	exe.Dir = execPath
     stdout, err := exe.Output()
 
     if( err != nil) {
