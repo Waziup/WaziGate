@@ -2,7 +2,7 @@
 # This script is only used by developer to test the production version of the wazigate framework before every release
 # Please do not use it if you do not know what you are doing
 
-WAZIUP_VERSION="V1.0-beta4"
+WAZIUP_VERSION="V1.1-beta1"
 
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}

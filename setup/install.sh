@@ -9,11 +9,12 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 echo "Installing system-wide packages..."
 #Packages
-sudo apt-get update
+sudo apt update -y
+
 sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon libmicrohttpd-dev
 
-sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
-sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+sudo apt-get install -y python3-dev libfreetype6-dev libjpeg-dev build-essential
+sudo apt-get install -y libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
 
 sleep 1
 
@@ -28,6 +29,8 @@ sudo -H pip3 install psutil
 #--------------------------------#
 
 #Docker
+sudo systemctl stop docker.service
+sudo systemctl disable docker.service
 sudo curl -fsSL get.docker.com -o get-docker.sh 
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER
@@ -69,7 +72,8 @@ sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
 sudo echo -e 'wazigate' | sudo tee /etc/hostname
 
 # Resolving the issue of not having internet within the containers
-sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
+#sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
+sudo sh -c 'echo "static domain_name_servers=8.8.8.8" >> /etc/dhcpcd.conf'
 
 #--------------------------------#
 #Edge default cloud settings. (Used only in the production version)
@@ -116,11 +120,19 @@ fi
 
 #--------------------------------#
 
+#Enabling SPI which is used by LoRa Module
+
+if ! grep -qFx "dtparam=spi=on" /boot/config.txt; then
+  echo -e '\ndtparam=spi=on' | sudo tee -a /boot/config.txt
+fi
+
+#--------------------------------#
+
 # ---- HDMI display web interface ----- #
 
 ##do the AUTO_LOGIN 
 
-sudo apt install -y midori
+#sudo apt install -y midori
 
 
 mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
@@ -158,3 +170,5 @@ sudo cp $WAZIUP_ROOT/setup/waziup-logo.png /usr/share/plymouth/themes/pix/splash
 echo "Done"
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
+
+#ENABLE SPI INTERFACE
