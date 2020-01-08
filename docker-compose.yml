@@ -7,15 +7,11 @@ services:
     image: waziup/wazigate-system:${WAZIUP_VERSION}
     container_name: wazigate-system
     volumes:
-      - ./wazigate-system/scripts:/app/scripts
-      - ./wazigate-host:/wazigate-host
-      - ./wazigate-system/conf:/app/conf
-      - ./logs:/app/logs
+      - ./wazigate-system/conf.json:/app/conf.json
       - /var/run/dbus:/var/run/dbus
-      - /etc/hostapd:/etc/hostapd
-      - /etc/wpa_supplicant/:/etc/wpa_supplicant
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
+      - ./setup/resolv.conf:/etc/resolv.conf
     ports:
       - "5000:5000"
     privileged: true
@@ -24,12 +20,9 @@ services:
       - DEBUG_MODE=1                   # for debug has to be set to 1
       - WAZIUP_VERSION=${WAZIUP_VERSION}
       - WAZIGATE_SYSTEM_ADDR=:5000
-      - WAZIGATE_EDGE_ADDR=:880        # e.g. http://localhost:880
-      - WAZIGATE_HOST_ADDR=:5200       # The deamon for executing commandas on the host
-      - ETH_DEVICE=eth0
-      - WIFI_DEVICE=wlan0
-    healthcheck: 
-      test: curl --fail http://localhost:5000/conf || exit 1 
+      - WAZIGATE_EDGE_ADDR=:880
+    healthcheck:
+      test: curl --fail http://localhost:5000/conf || exit 1
       interval: 30s
       retries: 10 # Will try for 5 minutes      
     restart: always
@@ -39,8 +32,9 @@ services:
   wazigate-ui:
     image: waziup/wazigate-ui:${WAZIUP_VERSION}
     container_name: wazigate-ui
-#    volumes:
-#      - ./wazigate-ui/conf/:/var/www/html/conf
+    volumes:
+      - ./setup/resolv.conf:/etc/resolv.conf
+      - ./wazigate-ui/conf/:/var/www/html/conf
     ports:
       - "80:80"
     network_mode: host
@@ -52,7 +46,7 @@ services:
       - WAZIGATE_HOST_ADDR=:5200   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
-      - wazigate-edge
+    #   - wazigate-edge
     healthcheck:
       test: curl --fail http://localhost:80/ || exit 1 
       interval: 30s
@@ -69,6 +63,7 @@ services:
       - "1883:1883"
     volumes:
       - ./wazigate-edge:/root/conf
+      - ./setup/resolv.conf:/etc/resolv.conf
     environment:
       - WAZIUP_HTTP_ADDR=:880
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -107,3 +102,26 @@ services:
     network_mode: host                 # has to be fixed later to be accessed only locally
     restart: always
 #    entrypoint: "mongod --journal"
+
+#-------------------------#
+
+  wazigate-lora:
+    container_name: wazigate-lora
+    image: waziup/wazigate-lora:${WAZIUP_VERSION}
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev:/dev
+    environment:
+      - WAZIGATE_EDGE_ADDR=:880
+    network_mode: host
+    privileged: true
+    depends_on:
+      - wazigate-edge
+    # healthcheck:
+    #   test: curl --fail http://localhost:880/device || exit 1 
+    #   interval: 30s
+    #   retries: 10 # Will try for 5 minutes
+    restart: always
+
+#-------------------------#

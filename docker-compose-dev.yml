@@ -32,3 +32,8 @@ services:
     build: ./wazigate-mongo
 
 #-------------------------#
+
+  wazigate-lora:
+    build: ./wazigate-lora
+
+#-------------------------#

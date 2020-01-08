@@ -41,19 +41,7 @@ cd $SCRIPT_PATH
 
 #Launch the wazigate-host service
 sudo bash ./wazigate-host/start.sh &
-sleep 2
-
-#------------#
-
-#Cleaning the buffer
-#sudo rm -f ./wazigate-system/scripts/cmd.txt
-
-#Launching exec On Host deamon
-#sudo bash ./wazigate-system/scripts/execOnHost.sh &
-
-#------------#
-
-echo -e "STARTING\nWaziGate..." > wazigate-host/oled/msg.txt
+sleep 1
 
 #------------#
 
@@ -92,14 +80,8 @@ fi
 
 #------------#
 
-# Showing a msg on the OLED display
-echo -e "Loading\n Modules..." > wazigate-host/oled/msg.txt
-
-#------------#
-
 # Resolving the issue of not having internet within the containers
 sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
-
 
 #Starting the docker containers
 if [ $DEVMODE == 1 ]; then
@@ -111,20 +93,6 @@ fi
 
 #removing dangling images
 #sudo docker image prune -f
-
-rm -f wazigate-host/oled/msg.txt #Clear the OLED screen
-
-sleep 5
-
-#------------#
-
-#sudo /etc/init.d/network-manager restart
-#sleep 2
-
-#------------#
-
-#Check if the gateway is registered in remote.it and register it if needed (with 5 minutes timeout)
-#sudo timeout 300 bash ./remote.it/setup.sh &
 
 #------------#
 
