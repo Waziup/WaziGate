@@ -17,6 +17,12 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 
 #------------#
 
+sudo service ntp stop
+sudo ntpdate -u pool.ntp.org
+sudo service ntp start
+
+#------------#
+
 #We need this because when you remove the cable it does not work
 sudo ip link set eth0 down
 sleep 1

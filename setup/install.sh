@@ -10,20 +10,18 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
-sudo apt-get install -y git network-manager python3 python3-pip dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 ntp avahi-daemon libmicrohttpd-dev
+sudo apt-get install -y git network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
 
-sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
-sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+#sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
+#sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
 
 sleep 1
 
-sudo usermod -a -G i2c,spi,gpio pi
-
-sudo -H pip3 install --upgrade pip setuptools
-
-sudo -H pip3 install luma.oled 
-sudo -H pip3 install flask 
-sudo -H pip3 install psutil
+# sudo usermod -a -G i2c,spi,gpio pi
+#sudo -H pip3 install --upgrade pip setuptools
+# sudo -H pip3 install luma.oled 
+# sudo -H pip3 install flask 
+# sudo -H pip3 install psutil
 
 #--------------------------------#
 
