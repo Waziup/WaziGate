@@ -26,8 +26,12 @@ sudo apt-get install -y git golang
 
 #installing wazigate
 #Using HTTP makes us to clone without needing persmission via ssh-keys
-git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
+#git clone --recursive https://github.com/Waziup/waziup-gateway.git waziup-gateway
+git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
+#Fetch the latest version of submodules
+git submodule update --init --recursive --remote
+
 
 #--------------------------------#
 
