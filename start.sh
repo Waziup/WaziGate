@@ -46,7 +46,7 @@ fi
 cd $SCRIPT_PATH
 
 #Launch the wazigate-host service
-sudo bash ./wazigate-host/start.sh &
+sudo bash ./wazigate-host/start.sh $DEVMODE &
 sleep 1
 
 #------------#

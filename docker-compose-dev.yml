@@ -4,12 +4,15 @@ services:
 #-------------------------#
 
   wazigate-system:
-    build: ./wazigate-system
+    build:
+      context: ./wazigate-system
+      dockerfile: Dockerfile-dev
     volumes:
       - ./wazigate-system:/app
       - ./wazigate-system:/go/src/wazigate-system
     environment:
       - DEBUG_MODE=1      # for debug has to be set to 1
+    # entrypoint: ./wazigate-system
 
 #-------------------------#
 
