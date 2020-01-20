@@ -10,7 +10,7 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
-sudo apt-get install -y git network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
+sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
 
 #sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
 #sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
