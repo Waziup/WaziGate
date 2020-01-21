@@ -34,7 +34,7 @@ services:
     container_name: wazigate-ui
     volumes:
       - ./setup/resolv.conf:/etc/resolv.conf
-      - ./wazigate-ui/conf/:/var/www/html/conf
+      - ./wazigate-ui/conf/:/app/public/conf
     ports:
       - "80:80"
     network_mode: host
