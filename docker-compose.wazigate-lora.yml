@@ -1,0 +1,122 @@
+version: "3"
+
+services:
+  wazigate-lora:
+    container_name: wazigate-lora
+    image: waziup/wazigate-lora
+    build:
+      context: ./wazigate-lora
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    depends_on:
+      - wazigate-edge
+      - chirpstack-network-server
+      - chirpstack-application-server
+      - chirpstack-gateway-bridge
+    volumes:
+      - ./conf:/etc/wazigate-lora
+      - /var/run/dbus:/var/run/dbus
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev:/dev
+
+  chirpstack-network-server:
+    container_name: chirpstack-network-server
+    image: arribada/chirpstack-networkserver
+    depends_on:
+      - postgresql
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - ./conf/chirpstack-network-server:/etc/chirpstack-network-server
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  chirpstack-application-server:
+    container_name: chirpstack-application-server
+    image: arribada/chirpstack-app-server
+    depends_on:
+      - postgresql
+      - redis
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./conf/chirpstack-application-server:/etc/chirpstack-application-server
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  chirpstack-gateway-bridge:
+    container_name: chirpstack-gateway-bridge
+    image: arribada/chirpstack-gateway-bridge
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - 1700:1700/udp
+    volumes:
+      - ./conf/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  postgresql:
+    container_name: postgresql
+    image: postgres:9.6-alpine
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - ./conf/postgresql/initdb:/docker-entrypoint-initdb.d
+      - postgresqldata:/var/lib/postgresql/data
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  redis:
+    container_name: redis
+    image: redis:5-alpine
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - redisdata:/data
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  single_chan_pkt_fwd:
+    container_name: single_chan_pkt_fwd
+    image: waziup/single_chan_pkt_fwd
+    build:
+      context: ./single_chan_pkt_fwd
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - ./conf/single_chan_pkt_fwd:/etc/single_chan_pkt_fwd
+      - /var/run/dbus:/var/run/dbus
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev:/dev
+    privileged: true
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+volumes:
+  postgresqldata:
+  redisdata:

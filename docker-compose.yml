@@ -6,21 +6,24 @@ services:
   wazigate-system:
     image: waziup/wazigate-system:${WAZIUP_VERSION}
     container_name: wazigate-system
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - ./wazigate-system/conf.json:/app/conf.json
       - /var/run/dbus:/var/run/dbus
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
-      - ./setup/resolv.conf:/etc/resolv.conf
     ports:
       - "5000:5000"
     privileged: true
-    network_mode: host
     environment:
       - DEBUG_MODE=1                   # for debug has to be set to 1
       - WAZIUP_VERSION=${WAZIUP_VERSION}
-      - WAZIGATE_SYSTEM_ADDR=:5000
-      - WAZIGATE_EDGE_ADDR=:880
+      - WAZIGATE_SYSTEM_ADDR=wazigate-system:5000
+      - WAZIGATE_EDGE_ADDR=wazigate-edge:880
     healthcheck:
       test: curl --fail http://localhost:5000/conf || exit 1
       interval: 30s
@@ -32,52 +35,26 @@ services:
   wazigate-ui:
     image: waziup/wazigate-ui:${WAZIUP_VERSION}
     container_name: wazigate-ui
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
-      - ./setup/resolv.conf:/etc/resolv.conf
       - ./wazigate-ui/conf/:/app/public/conf
     ports:
       - "80:80"
-    network_mode: host
     environment:
       - UI_LANG=en
       - WAZIUP_VERSION=${WAZIUP_VERSION}
-      - WAZIGATE_SYSTEM_ADDR=:5000
-      - WAZIGATE_EDGE_ADDR=:880
-      - WAZIGATE_HOST_ADDR=:5200   # WAZIGATE_HOST is a service running on the host and serves the containers
+      - WAZIGATE_SYSTEM_ADDR=wazigate-system:5000
+      - WAZIGATE_EDGE_ADDR=wazigate-edge:880
+      - WAZIGATE_HOST_ADDR=127.0.0.1:5200   # WAZIGATE_HOST is a service running on the host and serves the containers
     depends_on:
       - wazigate-system
-    #   - wazigate-edge
+      - wazigate-edge
     healthcheck:
       test: curl --fail http://localhost:80/ || exit 1 
-      interval: 30s
-      retries: 10 # Will try for 5 minutes
-    restart: always
-
-#-------------------------#
-  
-  wazigate-edge:
-    container_name: wazigate-edge
-    image: waziup/wazigate-edge:${WAZIUP_VERSION}
-    ports:
-      - "880:880"
-      - "1883:1883"
-    volumes:
-      - ./wazigate-edge:/root/conf
-      - ./setup/resolv.conf:/etc/resolv.conf
-    environment:
-      - WAZIUP_HTTP_ADDR=:880
-#      - WAZIUP_HTTPS_ADDR=:4443
-#      - WAZIUP_MQTT_ADDR=:1883
-#      - WAZIUP_MQTTS_ADDR=:8883
-#      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
-#      - WAZIUP_TLS_KEY =             TLS Key File (.key)
-      - WAZIUP_MONGO=localhost:27017
-      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
-    network_mode: host
-    depends_on:
-      - wazigate-mongo
-    healthcheck:
-      test: curl --fail http://localhost:880/device || exit 1 
       interval: 30s
       retries: 10 # Will try for 5 minutes
     restart: always
@@ -87,9 +64,14 @@ services:
   wazigate-mongo:
     container_name: wazigate-mongo
     image: waziup/wazigate-mongo:${WAZIUP_VERSION}
-    hostname: mongo
-    ports:
-      - "27017:27017"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    # hostname: mongo
+    # ports:
+    #   - "27017:27017"
     volumes:
       - ./wazigate-mongo/data:/data
     healthcheck:
@@ -99,29 +81,42 @@ services:
       retries: 12
     extra_hosts:
       - "localhost:127.0.0.1"
-    network_mode: host                 # has to be fixed later to be accessed only locally
     restart: always
 #    entrypoint: "mongod --journal"
 
 #-------------------------#
-
-  wazigate-lora:
-    container_name: wazigate-lora
-    image: waziup/wazigate-lora:${WAZIUP_VERSION}
+  
+  wazigate-edge:
+    container_name: wazigate-edge
+    image: waziup/wazigate-edge:v1.2.0
+    build:
+      context: ./wazigate-edge
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - "880:880"
+      - "1883:1883"
     volumes:
-      - /var/run/dbus:/var/run/dbus
-      - /sys/class/gpio:/sys/class/gpio
-      - /dev:/dev
+      - ./wazigate-edge:/root/conf
+    #  - ./setup/resolv.conf:/etc/resolv.conf
     environment:
-      - WAZIGATE_EDGE_ADDR=:880
-    network_mode: host
-    privileged: true
+      - WAZIUP_HTTP_ADDR=:880
+  #      - WAZIUP_HTTPS_ADDR=:4443
+  #      - WAZIUP_MQTT_ADDR=:1883
+  #      - WAZIUP_MQTTS_ADDR=:8883
+  #      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
+  #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
+      - WAZIUP_MONGO=wazigate-mongo:27017
+      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
     depends_on:
-      - wazigate-edge
-    # healthcheck:
-    #   test: curl --fail http://localhost:880/device || exit 1 
-    #   interval: 30s
-    #   retries: 10 # Will try for 5 minutes
+      - wazigate-mongo
+    healthcheck:
+      test: curl --fail http://127.0.0.1:880/device || exit 1 
+      interval: 30s
+      retries: 10 # Will try for 5 minutes
     restart: always
 
 #-------------------------#

@@ -94,7 +94,7 @@ if [ $DEVMODE == 1 ]; then
 	echo "[ Notice ]: Running in developer mode"
 	sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
 else
-	sudo docker-compose up -d
+	sudo docker-compose -f docker-compose.yml -f docker-compose.wazigate-lora.yml up -d
 fi
 
 #removing dangling images
