@@ -21,6 +21,7 @@ services:
       - /var/run/dbus:/var/run/dbus
       - /sys/class/gpio:/sys/class/gpio
       - /dev:/dev
+    restart: unless-stopped
 
   chirpstack-network-server:
     container_name: chirpstack-network-server
@@ -37,6 +38,7 @@ services:
       - ./conf/chirpstack-network-server:/etc/chirpstack-network-server
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
   chirpstack-application-server:
     container_name: chirpstack-application-server
@@ -55,6 +57,7 @@ services:
       - ./conf/chirpstack-application-server:/etc/chirpstack-application-server
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
   chirpstack-gateway-bridge:
     container_name: chirpstack-gateway-bridge
@@ -70,6 +73,7 @@ services:
       - ./conf/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
   postgresql:
     container_name: postgresql
@@ -84,6 +88,7 @@ services:
       - postgresqldata:/var/lib/postgresql/data
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
   redis:
     container_name: redis
@@ -97,6 +102,7 @@ services:
       - redisdata:/data
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
   single_chan_pkt_fwd:
     container_name: single_chan_pkt_fwd
@@ -116,6 +122,7 @@ services:
     privileged: true
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
+    restart: unless-stopped
 
 volumes:
   postgresqldata:
