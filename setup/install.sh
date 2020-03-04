@@ -63,6 +63,9 @@ fi
 #Wlan: make a copy of the config file
 sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
 
+# Fix the AP mode kicking out clients
+echo -e '\n[device]\nwifi.scan-rand-mac-address=no' | sudo tee -a /etc/NetworkManager/NetworkManager.conf
+
 #--------------------------------#
 
 #Name the gateway
