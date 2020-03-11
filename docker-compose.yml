@@ -41,7 +41,8 @@ services:
         max-size: "200k"
         max-file: "10"
     volumes:
-      - ./wazigate-ui/conf/:/app/public/conf
+      - ./setup/resolv.conf:/etc/resolv.conf
+      # - ./wazigate-ui/conf/:/app/public/conf
     ports:
       - "80:80"
     environment:
