@@ -1,0 +1,30 @@
+{
+    "name": "wazigate-lora",
+    "license": "MIT",
+    "description": "LoRAWAN service for Wazigate",
+    "homepage": "https://www.waziup.io/documentation/wazigate/wazigate-lora",
+    "author": {
+        "name": "Waziup"
+    },
+    "bugs": {},
+    "devDependencies": {},
+    "private": false,
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/waziup/wazigate-lora.git"
+    },
+    "scripts": {},
+    "version": "0.17.1",
+    "wazigate": {
+		"icon": "icon.png",
+		"internal": false,
+        "version": "1",
+        "menu": [
+            {
+                "name": "LoRaWAN Configuration",
+                "icon": "img/lora.svg",
+                "href": "config.html"
+            }
+        ]
+    }
+}

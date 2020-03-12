@@ -81,6 +81,8 @@ services:
     volumes:
       - ./conf/postgresql/initdb:/docker-entrypoint-initdb.d
       - postgresqldata:/var/lib/postgresql/data
+    environment: 
+      - POSTGRES_HOST_AUTH_METHOD=trust
     labels:
       io.waziup.wazigate.dep: "wazigate-lora"
 
@@ -119,3 +121,8 @@ services:
 volumes:
   postgresqldata:
   redisdata:
+
+networks:
+  default:
+    external:
+      name: wazigate
