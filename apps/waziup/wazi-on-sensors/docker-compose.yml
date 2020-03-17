@@ -1,0 +1,26 @@
+version: "3"
+services:
+  wazi-on-sensors:
+    image: waziup/wazi-on-sensors:1.0.0
+    build:
+        context: ./
+        # dockerfile: Dockerfile-dev
+    container_name: wazi-on-sensors
+    volumes:
+      - /var/run/dbus:/var/run/dbus
+    #   - ./:/app
+      - ./:/go/src/wazi-on-sensors
+    ports:
+      - "5300:80"
+    privileged: true  #We need it to access i2c bus
+    environment:
+      - TEST_VAR=1
+    healthcheck:
+       test: curl --fail http://localhost/ || exit 1
+       interval: 30s
+       retries: 10 # Will try for 5 minutes      
+    # restart_policy:
+    #   condition: on-failure
+    #   delay: 5s
+    #   max_attempts: 3
+    #   window: 120s
