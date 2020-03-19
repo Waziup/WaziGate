@@ -1,0 +1,55 @@
+version: '3'
+services:
+
+# THIS FILE IS ONLY FOR PC DEV USAGE, DO NOT USE IT ON Pi OR FOR PRODUCTION
+#-------------------------#
+
+  #wazigate-edge:
+    #container_name: wazigate-edge
+    #image: waziup/wazigate-edge:${WAZIUP_VERSION}
+    #ports:
+      #- "80:880"
+      #- "1883:1883"
+    #volumes:
+      #- ./wazigate-edge:/root/conf
+##      - ./setup/resolv.conf:/etc/resolv.conf
+    #environment:
+      #- WAZIUP_HTTP_ADDR=:880
+##      - WAZIUP_HTTPS_ADDR=:4443
+##      - WAZIUP_MQTT_ADDR=:1883
+##      - WAZIUP_MQTTS_ADDR=:8883
+##      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
+##      - WAZIUP_TLS_KEY =             TLS Key File (.key)
+      #- WAZIUP_MONGO=localhost:27017
+      #- WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
+    #network_mode: host
+    #depends_on:
+      #- wazigate-mongo
+    #healthcheck:
+      #test: curl --fail http://localhost:880/device || exit 1 
+      #interval: 30s
+      #retries: 10 # Will try for 5 minutes
+    ##restart: always
+
+#-------------------------#
+
+  wazigate-mongo:
+    container_name: "waziup.wazigate-mongo"
+    image: mongo
+    hostname: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data:/data
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
+      interval: 5s
+      timeout: 5s
+      retries: 12
+    extra_hosts:
+      - "localhost:127.0.0.1"
+    network_mode: host                 # has to be fixed later to be accessed only locally
+    restart: always
+#    entrypoint: "mongod --journal"
+
+#-------------------------#

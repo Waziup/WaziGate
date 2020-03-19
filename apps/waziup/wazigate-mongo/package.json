@@ -1,0 +1,18 @@
+{
+	"name": "Mongo DB Test",
+	"version": "1.0.0",
+	"description": "I do not like mongo db, but i like mongo juice ;)",
+	"private": false,
+	"author": "Gholi",
+	"homepage": "https://tenor.com/search/cute-bird-gifs",
+	"wazigate": {
+		"menu": [
+			{
+				"label": "Mongo Milk Shake",
+				"icon": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/Antu_mongodb.svg/512px-Antu_mongodb.svg.png",
+				"href": "#/index.html",
+				"items": []
+			}
+		]
+	}
+}
