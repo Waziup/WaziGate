@@ -57,7 +57,7 @@ services:
   
   wazigate-edge:
     container_name: wazigate-edge
-    image: waziup/wazigate-edge:${WAZIUP_VERSION}
+    image: waziup/wazigate-edge:1.2.1
     ports:
       - "880:880"
       - "1883:1883"
