@@ -4,7 +4,7 @@ services:
 #-------------------------#
 
   wazigate-system:
-    image: waziup/wazigate-system:${WAZIUP_VERSION}
+    image: waziup/wazigate-system:V1.1-Beta1
     container_name: wazigate-system
     volumes:
       - ./wazigate-system/conf.json:/app/conf.json
@@ -18,7 +18,7 @@ services:
     network_mode: host
     environment:
       - DEBUG_MODE=1                   # for debug has to be set to 1
-      - WAZIUP_VERSION=${WAZIUP_VERSION}
+      - WAZIUP_VERSION=V1.1-Beta1
       - WAZIGATE_SYSTEM_ADDR=:5000
       - WAZIGATE_EDGE_ADDR=:880
     healthcheck:
@@ -30,7 +30,7 @@ services:
 #-------------------------#
 
   wazigate-ui:
-    image: waziup/wazigate-ui:${WAZIUP_VERSION}
+    image: waziup/wazigate-ui:V1.1-Beta1
     container_name: wazigate-ui
     volumes:
       - ./setup/resolv.conf:/etc/resolv.conf
@@ -57,7 +57,7 @@ services:
   
   wazigate-edge:
     container_name: wazigate-edge
-    image: waziup/wazigate-edge:1.2.1
+    image: waziup/wazigate-edge:v1.2.1
     ports:
       - "880:880"
       - "1883:1883"
@@ -86,7 +86,7 @@ services:
 
   wazigate-mongo:
     container_name: wazigate-mongo
-    image: waziup/wazigate-mongo:${WAZIUP_VERSION}
+    image: waziup/wazigate-mongo:V1.1-Beta1
     hostname: mongo
     ports:
       - "27017:27017"
@@ -107,7 +107,7 @@ services:
 
   wazigate-lora:
     container_name: wazigate-lora
-    image: waziup/wazigate-lora:${WAZIUP_VERSION}
+    image: waziup/wazigate-lora:V1.1-Beta1
     volumes:
       - /var/run/dbus:/var/run/dbus
       - /sys/class/gpio:/sys/class/gpio
