@@ -1,17 +1,22 @@
 #!/bin/bash
 # This script downloads and installs the Wazigate 
 
-WAZIUP_VERSION="V1.0"
+WAZIUP_VERSION="V1.1"
 
 #--------------------------------#
 
-echo "Downloading Wazigate..."
-sudo curl -fsSLO https://github.com/Waziup/waziup-gateway/archive/$WAZIUP_VERSION.tar.gz
-tar -xzvf $WAZIUP_VERSION.tar.gz
-mv waziup-gateway* waziup-gateway
+#Packages
+sudo apt-get update
+sudo apt-get install -y git
+
+#--------------------------------#
+
+#Downloading wazigate stuff
+#Using HTTP makes us to clone without needing persmission via ssh-keys
+git clone -b v1 https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
+
 sudo chmod a+x setup/install.sh
-sudo chmod a+x setup/uninstall.sh
 
 #--------------------------------#
 
