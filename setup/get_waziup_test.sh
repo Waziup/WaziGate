@@ -2,7 +2,7 @@
 # This script is only used by developer to test the production version of the wazigate framework before every release
 # Please do not use it if you do not know what you are doing
 
-WAZIUP_VERSION="V1.1-Beta1"
+WAZIUP_VERSION="V1.1"
 
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
@@ -23,7 +23,7 @@ sudo apt-get install -y git
 
 #Downloading wazigate stuff
 #Using HTTP makes us to clone without needing persmission via ssh-keys
-git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
+git clone -b v1 https://github.com/Waziup/waziup-gateway.git waziup-gateway
 cd waziup-gateway
 
 sudo chmod a+x setup/install.sh
