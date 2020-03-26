@@ -5,7 +5,7 @@ services:
     container_name: wazigate-lora
     image: waziup/wazigate-lora
     build:
-      context: ./wazigate-lora
+      context: ./
     logging:
       driver: "json-file"
       options:
@@ -123,6 +123,12 @@ volumes:
   redisdata:
 
 networks:
+  wazigate:
+    name: wazigate
+
+networks:
   default:
     external:
       name: wazigate
+      
+

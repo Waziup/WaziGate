@@ -1,0 +1,25 @@
+{
+	"name": "wazi-on-sensors",
+	"version": "1.0.0",
+	"description": "Wazigate On board Sensors",
+	"types": "dashboard.d.ts",
+	"private": true,
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"build": "npx webpack --env.entry=index",
+		"watch": "npx webpack --env.entry=index --watch",
+		"http-server": "http-server"
+	},
+	"author": "Moji",
+	"license": "ISC",
+	"wazigate": {
+		"menu": [
+			{
+				"label": "On board Sensors",
+				"icon": "dist/img/2ee9c0acf05de75425f429762ef8c551.svg#system",
+				"href": "#/apps/waziup.wazi-on-sensors/ui/",
+				"items": []
+			}
+		]
+	}
+}

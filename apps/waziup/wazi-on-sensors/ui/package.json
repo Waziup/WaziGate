@@ -45,6 +45,7 @@
 		"fibers": "^4.0.2",
 		"font-awesome-sass-loader": "^2.0.1",
 		"grommet-icons": "^4.4.0",
+		"http-server": "^0.12.1",
 		"jquery": "^3.4.1",
 		"less-loader": "^5.0.0",
 		"mdbreact": "^4.25.1",

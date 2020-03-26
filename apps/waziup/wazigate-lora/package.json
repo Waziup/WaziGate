@@ -3,9 +3,7 @@
     "license": "MIT",
     "description": "LoRAWAN service for Wazigate",
     "homepage": "https://www.waziup.io/documentation/wazigate/wazigate-lora",
-    "author": {
-        "name": "Waziup"
-    },
+    "author": "Waziup",
     "bugs": {},
     "devDependencies": {},
     "private": false,

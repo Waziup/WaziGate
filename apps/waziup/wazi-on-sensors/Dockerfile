@@ -6,7 +6,7 @@ WORKDIR /go/src/github.com/Waziup/wazi-on-sensors/
 ENV GOPATH=/go/
 
 RUN apk add --no-cache \
-#    go \
+    #    go \
     git \
     curl \
     gcc \
@@ -14,7 +14,7 @@ RUN apk add --no-cache \
     linux-headers \
     zip \
     && mkdir /build/ \
-    && zip /build/index.zip docker-compose.yml \
+    && zip /build/index.zip docker-compose.yml package.json \
     && cp -r ui /build/ui \
     && go build -o /build/start -i . 
 
