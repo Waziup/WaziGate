@@ -57,4 +57,49 @@ services:
     restart: always
 #    entrypoint: "mongod --journal"
 
+<<<<<<< HEAD
 #-------------------------#
+=======
+#-------------------------#
+  
+  wazigate-edge:
+    container_name: wazigate-edge
+    image: waziup/wazigate-edge:v1.2
+    build:
+      context: ./wazigate-edge
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - "880:880"
+      - "1883:1883"
+    volumes:
+      - ./wazigate-edge:/root/conf
+      - ./apps:/root/apps
+    #  - ./setup/resolv.conf:/etc/resolv.conf
+    environment:
+      - WAZIUP_HTTP_ADDR=:880
+  #      - WAZIUP_HTTPS_ADDR=:4443
+  #      - WAZIUP_MQTT_ADDR=:1883
+  #      - WAZIUP_MQTTS_ADDR=:8883
+  #      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
+  #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
+      - WAZIUP_MONGO=wazigate-mongo:27017
+      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
+    depends_on:
+      - wazigate-mongo
+    healthcheck:
+      test: curl --fail http://127.0.0.1:880/device || exit 1 
+      interval: 30s
+      retries: 10 # Will try for 5 minutes
+    restart: always
+
+#-------------------------#
+
+networks:
+  default:
+    external:
+      name: wazigate
+>>>>>>> branch 'master' of https://github.com/Waziup/WaziGate

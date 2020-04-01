@@ -28,6 +28,7 @@ import (
 
 // sockAddr represents the unix socket for this service
 const sockAddr = "/var/run/wazigate-host.sock"
+//const sockAddr = "./wazigate-host.sock"
 
 var router = routing.New()
 
@@ -74,18 +75,18 @@ func main() {
 		log.SetOutput(f)
 	}
 
-	// ListenAndServeHTTP(*host + ":" + *port)
-
 	server := http.Server{
 		Handler: router,
 	}
 
-	l, e := net.Listen("unix", sockAddr)
-	if e != nil {
-		log.Fatal("listen error:", e)
+	unixListener, err := net.Listen("unix", sockAddr)
+	if err != nil {
+		log.Fatal("listen error:", err)
 	}
 	log.Printf("Serving... on socket: [%v]", sockAddr)
-	server.Serve(l)
+	
+	defer unixListener.Close()
+	server.Serve( unixListener)
 }
 
 /*-------------------------*/
