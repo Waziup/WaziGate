@@ -78,23 +78,16 @@ sleep 2
 
 #------------#
 
-#We might remove this from here and keep it in the setup script
-if [ ! -f $SCRIPT_PATH/wazigate-system/conf/conf.json ]; then
-	mkdir -p $SCRIPT_PATH/wazigate-system/conf/
-	cp $SCRIPT_PATH/setup/conf.default.json $SCRIPT_PATH/wazigate-system/conf/conf.json
-fi
-
-#------------#
-
 # Resolving the issue of not having internet within the containers
 sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
 
-#Starting the docker containers
+#Starting the docker containers # We may remove this later or completely change it
 if [ $DEVMODE == 1 ]; then
 	echo "[ Notice ]: Running in developer mode"
-	sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml up -d
+	sudo docker-compose up -d
 else
-	sudo docker-compose -f docker-compose.yml up -d
+	sudo docker-compose pull   # Need to be fixed later, this way it will do auto update as well
+	sudo docker-compose up -d  --no-build
 fi
 
 #removing dangling images

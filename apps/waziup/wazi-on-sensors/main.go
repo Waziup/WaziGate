@@ -28,7 +28,7 @@ import (
 var router = routing.New()
 
 // Please do not change this line
-const sockAddr = "/conf/socket.sock"
+const sockAddr = "./app/proxy.sock"
 
 func init() {
 
