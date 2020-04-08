@@ -2,6 +2,7 @@
 # This script downloads and installs the Wazigate 
 
 WAZIUP_VERSION="V1.0"
+WAZIGATE_ID=`cat /sys/class/net/eth0/address | tr -d ":"`
 
 #--------------------------------#
 
@@ -16,6 +17,7 @@ sudo chmod a+x setup/uninstall.sh
 #--------------------------------#
 
 sudo sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
+sudo sed -i "s/^WAZIGATE_ID=.*/WAZIGATE_ID=$WAZIGATE_ID/g" .env
 
 #--------------------------------#
 
@@ -29,6 +31,7 @@ sudo sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 
 echo "Downloading the docker images..."
 cd $WAZIUP_ROOT/
+sudo docker network create wazigate
 sudo docker-compose pull
 echo "Done"
 

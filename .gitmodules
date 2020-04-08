@@ -2,17 +2,3 @@
 	path = wazigate-edge
 	url = https://github.com/Waziup/wazigate-edge.git
 	branch = master
-[submodule "wazigate-system"]
-	path = wazigate-system
-	url = https://github.com/Waziup/wazigate-system.git
-	branch = master
-[submodule "wazigate-ui"]
-	path = wazigate-ui
-	url = https://github.com/Waziup/wazigate-ui.git
-	branch = master
-[submodule "wazigate-lora"]
-	path = wazigate-lora
-	url = https://github.com/Waziup/wazigate-lora.git
-[submodule "single_chan_pkt_fwd"]
-	path = single_chan_pkt_fwd
-	url = https://github.com/Waziup/single_chan_pkt_fwd
