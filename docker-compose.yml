@@ -30,10 +30,11 @@ services:
     depends_on:
       - wazigate-mongo
     healthcheck:
-      test: curl --fail http://localhost:880/device || exit 1 
+      test: curl --fail http://localhost/ || exit 1 
       interval: 30s
       retries: 10 # Will try for 5 minutes
     restart: always
+    entrypoint: "/go/src/github.com/Waziup/wazigate-edge/wazigate-edge -www wazigate-dashboard" #used in dev mode
 
 #-------------------------#
 
@@ -58,8 +59,3 @@ services:
 #    entrypoint: "mongod --journal"
 
 #-------------------------#
-
-networks:
-  default:
-    external:
-      name: wazigate
