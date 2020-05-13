@@ -1,3 +1,20 @@
+V1.1.1
+------
+Bug fixes: 
+- https://github.com/Waziup/WaziGate/issues/72
+- https://github.com/Waziup/WaziGate/issues/73
+
+V1.1
+----
+New features:
+- new wazigate-lora in Go language
+- HDMI screen direct connection
+
+Bug fixes: 
+- https://github.com/Waziup/WaziGate/issues/61
+- https://github.com/Waziup/WaziGate/issues/54
+- Performance improvements
+
 V1.0
 ----
 
