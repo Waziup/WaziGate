@@ -7,9 +7,15 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 #--------------------------------#
 
+echo "Installing system-wide packages..."
+#Packages
+sudo apt-get update
+sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
 
 #sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
 #sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+
+sleep 1
 
 # sudo usermod -a -G i2c,spi,gpio pi
 #sudo -H pip3 install --upgrade pip setuptools
@@ -19,23 +25,20 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
 #--------------------------------#
 
-#Docker
-echo "Installing Docker..."
+# Docker installation
 sudo systemctl stop docker.service
 sudo systemctl disable docker.service
-sudo rm -rf /var/lib/docker/
 sudo curl -fsSL get.docker.com -o get-docker.sh 
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
-#sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
-sudo apt-get install -y docker-compose
+sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
 
-echo "Installing system-wide packages..."
-#Packages
-#sudo apt-get update
-sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
+#--------------------------------#
+
+# Docker init
+docker network create wazigate
 
 #--------------------------------#
 
@@ -62,9 +65,6 @@ fi
 
 #Wlan: make a copy of the config file
 sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
-
-# Fix the AP mode kicking out clients
-echo -e '\n[device]\nwifi.scan-rand-mac-address=no' | sudo tee -a /etc/NetworkManager/NetworkManager.conf
 
 #--------------------------------#
 
@@ -134,6 +134,9 @@ fi
 
 ##do the AUTO_LOGIN 
 
+#sudo apt install -y midori
+
+mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
 #nano ~/.config/lxsession/LXDE-pi/autostart
 
 # -- Installing Kweb ---------#
@@ -148,7 +151,6 @@ rm -rf $KWEB_VER
 #--------------#
 
 ## Auto run the browser
-mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
 echo -e "@xset s off" > ~/.config/lxsession/LXDE-pi/autostart
 echo -e "@xset -dpms" >> ~/.config/lxsession/LXDE-pi/autostart
 echo -e "@xset s noblank" >> ~/.config/lxsession/LXDE-pi/autostart

@@ -60,7 +60,6 @@ sudo service pure-ftpd restart
 #--------------------------------#
 
 echo "Building the docker images..."
-sudo docker network create wazigate
 sudo docker-compose -f docker-compose.yml -f docker-compose-dev.yml build --force-rm
 
 for i in {10..01}; do
