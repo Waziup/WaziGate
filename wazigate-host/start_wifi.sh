@@ -22,10 +22,20 @@ sleep 1
 sudo wpa_cli -i wlan0 reconfigure
 
 sleep 1
-sudo ip link set dev wlan0 down
+sudo wpa_cli terminate
 
 sleep 1
 sudo wpa_cli terminate
+
+sleep 1
+sudo ip link set dev wlan0 down
+
+
+# Killing the WPA Just to be sure it is terminated
+ps ax | grep "supplicant" | awk '{print $1}' | sudo xargs kill
+
+sleep 1
+
 
 sleep 2
 sudo ip link set dev wlan0 up
@@ -34,10 +44,14 @@ sudo ip link set dev wlan0 up
 sleep 1
 sudo systemctl restart dhcpcd.service
 
+
+sleep 1
+sudo wpa_cli terminate
+
+sleep 1
 sudo wpa_supplicant -B -i wlan0 -c /etc/wpa_supplicant/wpa_supplicant.conf
 
 sleep 1
-
 sudo systemctl restart networking
 
 # Resolving the issue of not having internet within the containers

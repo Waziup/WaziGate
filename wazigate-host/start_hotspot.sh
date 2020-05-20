@@ -1,6 +1,11 @@
 #!/bin/bash
 
 sudo wpa_cli terminate -i wlan0
+
+sleep 1
+sudo wpa_cli terminate
+
+
 sudo systemctl unmask hostapd.service
 sudo systemctl enable hostapd.service
 
@@ -29,6 +34,11 @@ sudo service networking start
 #sudo reboot; ';
 
 #	sudo systemctl restart networking
+
+sleep 1
+# Killing the WPA Just to be sure it is terminated
+ps ax | grep "supplicant" | awk '{print $1}' | sudo xargs kill
+
 
 sleep 1
 
