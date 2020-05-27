@@ -34,7 +34,7 @@ services:
       interval: 30s
       retries: 10 # Will try for 5 minutes
     restart: always
-    entrypoint: "/go/src/github.com/Waziup/wazigate-edge/wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
+    #entrypoint: "/go/src/github.com/Waziup/wazigate-edge/wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
 
 #-------------------------#
 
@@ -59,3 +59,8 @@ services:
 #    entrypoint: "mongod --journal"
 
 #-------------------------#
+
+networks:
+  default:
+    external:
+      name: wazigate

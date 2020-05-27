@@ -81,6 +81,8 @@ sleep 2
 # Resolving the issue of not having internet within the containers
 sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
 
+docker network create wazigate
+
 #Starting the docker containers # We may remove this later or completely change it
 if [ $DEVMODE == 1 ]; then
 	echo "[ Notice ]: Running in developer mode"
