@@ -2,8 +2,6 @@
 # This script is only used by developer to test the production version of the wazigate framework before every release
 # Please do not use it if you do not know what you are doing
 
-WAZIUP_VERSION="V1.1-Beta1"
-
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
@@ -23,15 +21,23 @@ sudo apt-get install -y git
 
 #Downloading wazigate stuff
 #Using HTTP makes us to clone without needing persmission via ssh-keys
-git clone https://github.com/Waziup/waziup-gateway.git waziup-gateway
+git clone https://github.com/Waziup/WaziGate.git waziup-gateway
 cd waziup-gateway
+
+mkdir -p apps
+cd apps
+mkdir -p waziup
+cd waziup
+rm -rf wazigate-system
+
+git clone https://github.com/Waziup/wazigate-system.git
+cd wazigate-system
+rm -rf api docs ui Dockerfile conf.json wazigate-system Dockerfile-dev go.* *.go package-lock.json
+
+cd $WAZIUP_ROOT
 
 sudo chmod a+x setup/install.sh
 sudo chmod a+x setup/uninstall.sh
-
-#--------------------------------#
-
-sudo sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
 
 #--------------------------------#
 

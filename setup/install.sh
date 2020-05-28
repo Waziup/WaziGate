@@ -2,6 +2,7 @@
 # Installing the WaziGate framework on your device
 # @author: Mojiz 20 Jun 2019
 
+#--------------------------------#
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
@@ -12,16 +13,8 @@ echo "Installing system-wide packages..."
 sudo apt-get update
 sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
 
-#sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
-#sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
-
 sleep 1
 
-# sudo usermod -a -G i2c,spi,gpio pi
-#sudo -H pip3 install --upgrade pip setuptools
-# sudo -H pip3 install luma.oled 
-# sudo -H pip3 install flask 
-# sudo -H pip3 install psutil
 
 #--------------------------------#
 
@@ -32,7 +25,7 @@ sudo curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
-sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
+sudo apt-get install -y docker-compose
 echo "Done"
 
 #--------------------------------#
@@ -79,7 +72,7 @@ sudo sh -c 'echo "static domain_name_servers=8.8.8.8" >> /etc/dhcpcd.conf'
 
 #--------------------------------#
 #Edge default cloud settings. (Used only in the production version)
-cp setup/clouds.json wazigate-edge
+#cp setup/clouds.json wazigate-edge
 
 #--------------------------------#
 
