@@ -57,6 +57,11 @@ if ! grep -qFx 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd; t
   sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 fi
 
+# In AP mode we need this fix, otherwise RPi kicks the clients out after a while.
+if ! grep -qFx "wifi.scan-rand-mac-address=no" /etc/NetworkManager/NetworkManager.conf; then 
+	echo -e '\n[device]\nwifi.scan-rand-mac-address=no' | sudo tee -a /etc/NetworkManager/NetworkManager.conf
+fi
+
 #setup access point by default
 #sudo cp --backup=numbered setup/interfaces_ap /etc/network/interfaces
 

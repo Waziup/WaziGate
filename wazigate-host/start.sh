@@ -7,10 +7,10 @@ while :
 do
 	if [ "$1" == "1" ]; then
 		#Debug Mode (store logs into a file "host.logs")
-		sudo $SCRIPT_PATH/wazigate-host -d 1 &
+		sudo $SCRIPT_PATH/wazigate-host -d 1
 	
 	else
-		sudo $SCRIPT_PATH/wazigate-host &
+		sudo $SCRIPT_PATH/wazigate-host
 	fi
 
 	sleep 1
