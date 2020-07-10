@@ -23,6 +23,11 @@ sudo service ntp start
 
 #------------#
 
+# In AP mode we need this fix, otherwise RPi kicks the clients out after a while.
+if ! grep -qFx "wifi.scan-rand-mac-address=no" /etc/NetworkManager/NetworkManager.conf; then 
+	echo -e '\n[device]\nwifi.scan-rand-mac-address=no' | sudo tee -a /etc/NetworkManager/NetworkManager.conf
+fi
+
 #We need this because when you remove the cable it does not work
 sudo ip link set eth0 down
 sleep 1
