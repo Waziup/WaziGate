@@ -15,7 +15,9 @@ sudo chmod a+x setup/uninstall.sh
 
 #--------------------------------#
 
+WAZIGATE_ID=`cat /sys/class/net/eth0/address | tr -d ":"`
 sudo sed -i "s/^WAZIUP_VERSION=.*/WAZIUP_VERSION=$WAZIUP_VERSION/g" .env
+sudo sed -i "s/^WAZIGATE_ID=.*/WAZIGATE_ID=$WAZIGATE_ID/g" .env
 
 #--------------------------------#
 
