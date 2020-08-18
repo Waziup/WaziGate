@@ -92,7 +92,7 @@
             </div>
         </div>
     </div>
-    <script>
+    <script type="text/javascript">
 
         var hostURL = "http://localhost/"
 
@@ -111,6 +111,8 @@
                 setTimeout(checkServerStatus, 1000);
             };
             msg("Loading...");
+            img.width = 3;
+            img.height = 5;
             img.src = hostURL + "/wazigate.png";
         }
 
