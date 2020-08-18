@@ -25,6 +25,7 @@ services:
 #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
       - WAZIUP_MONGO=localhost:27017
       - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
+      - WAZIGATE_ID=${WAZIGATE_ID}
       #- WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
     network_mode: host
     depends_on:
