@@ -6,7 +6,7 @@ SCRIPT_PATH=$(dirname $(realpath $0))
 #HDMI_STATUS=$(tvservice -s | awk '{print $2}')
 #NO_DISPLAY=$((HDMI_STATUS & 1))
 
-HDMI_STATUS=$(tvservice -s | grep "HDMI")
+HDMI_STATUS=$(tvservice -l | grep "HDMI")
 
 if [ -z "$HDMI_STATUS" ]; then
     echo "No HDMI display found!"
