@@ -13,4 +13,7 @@ if [ -z "$HDMI_STATUS" ]; then
     exit 0;
 fi
 
-kweb -KJJE, file:///$SCRIPT_PATH/init-hdmi-ui.html
+# kweb -KJJE, file:///$SCRIPT_PATH/init-hdmi-ui.html
+
+sed -i 's/"exited_cleanly": false/"exited_cleanly": true/' ~/.config/chromium/Default/Preferences
+chromium-browser --noerrdialogs --kiosk file:///$SCRIPT_PATH/init-hdmi-ui.html --incognito --disable-translate

@@ -18,7 +18,6 @@ sudo sed -i '/^static domain_name_servers=192.168.200.1.*/d' /etc/dhcpcd.conf
 sudo service networking start
 
 sleep 1
-
 sudo wpa_cli -i wlan0 reconfigure
 
 sleep 1

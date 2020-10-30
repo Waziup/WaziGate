@@ -2,7 +2,6 @@
 # Installing the WaziGate framework on your device
 # @author: Mojiz 20 Jun 2019
 
-#--------------------------------#
 #Setup WAZIUP_ROOT as first argument, with a default value
 WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 
@@ -13,8 +12,16 @@ echo "Installing system-wide packages..."
 sudo apt-get update
 sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd connectd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
 
+#sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
+#sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
+
 sleep 1
 
+# sudo usermod -a -G i2c,spi,gpio pi
+#sudo -H pip3 install --upgrade pip setuptools
+# sudo -H pip3 install luma.oled 
+# sudo -H pip3 install flask 
+# sudo -H pip3 install psutil
 
 #--------------------------------#
 
@@ -25,7 +32,7 @@ sudo curl -fsSL get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
 sudo usermod -aG docker $USER
 sudo rm get-docker.sh
-sudo apt-get install -y docker-compose
+sudo cp setup/docker-compose /usr/bin/ && sudo chmod +x /usr/bin/docker-compose
 echo "Done"
 
 #--------------------------------#
@@ -53,11 +60,6 @@ if ! grep -qFx 'DAEMON_CONF="/etc/hostapd/hostapd.conf"' /etc/default/hostapd; t
   sudo sed -i -e '$i \DAEMON_CONF="/etc/hostapd/hostapd.conf"\n' /etc/default/hostapd
 fi
 
-# In AP mode we need this fix, otherwise RPi kicks the clients out after a while.
-if ! grep -qFx "wifi.scan-rand-mac-address=no" /etc/NetworkManager/NetworkManager.conf; then 
-	echo -e '\n[device]\nwifi.scan-rand-mac-address=no' | sudo tee -a /etc/NetworkManager/NetworkManager.conf
-fi
-
 #setup access point by default
 #sudo cp --backup=numbered setup/interfaces_ap /etc/network/interfaces
 
@@ -77,7 +79,7 @@ sudo sh -c 'echo "static domain_name_servers=8.8.8.8" >> /etc/dhcpcd.conf'
 
 #--------------------------------#
 #Edge default cloud settings. (Used only in the production version)
-#cp setup/clouds.json wazigate-edge
+cp setup/clouds.json wazigate-edge
 
 #--------------------------------#
 
@@ -138,13 +140,17 @@ mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
 #nano ~/.config/lxsession/LXDE-pi/autostart
 
 # -- Installing Kweb ---------#
-KWEB_VER="kweb-1.6.9"
-wget -O $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz http://steinerdatenbank.de/software/$KWEB_VER.tar.gz
-tar -xzf $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz
-cd $KWEB_VER/
-sudo ./debinstall
-cd ..
-rm -rf $KWEB_VER
+# KWEB_VER="kweb-1.6.9"
+# wget -O $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz http://steinerdatenbank.de/software/$KWEB_VER.tar.gz
+# tar -xzf $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz
+# cd $KWEB_VER/
+# sudo ./debinstall
+# cd ..
+# rm -rf $KWEB_VER
+# Due to some limitation we are trying Chromium instead
+
+# lets update it because we need version 78+
+sudo apt-get install chromium-browser --yes
 
 #--------------#
 
