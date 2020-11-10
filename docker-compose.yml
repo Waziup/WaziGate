@@ -5,7 +5,7 @@ services:
   
   wazigate-edge:
     container_name: wazigate-edge
-    image: waziup/wazigate-edge:dev
+    image: waziup/wazigate-edge:latest
     build: ./wazigate-edge
     ports:
       - "80:80"
