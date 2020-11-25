@@ -15,7 +15,7 @@ services:
       - ./apps:/root/apps # Where the WaziApps are installed
       - /var/run:/var/run # Mapping the host sockets
       - ./wazigate-edge:/go/src/github.com/Waziup/wazigate-edge/ # need it for development
-      - ./setup/resolv.conf:/etc/resolv.conf
+      #- ./setup/resolv.conf:/etc/resolv.conf
     environment:
       - WAZIUP_HTTP_ADDR=:80
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -23,11 +23,10 @@ services:
 #      - WAZIUP_MQTTS_ADDR=:8883
 #      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
 #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
-      - WAZIUP_MONGO=localhost:27017
+      - WAZIUP_MONGO=wazigate-mongo:27017
       - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
-      - WAZIGATE_ID=${WAZIGATE_ID}
       #- WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
-    network_mode: host
+    #network_mode: host
     depends_on:
       - wazigate-mongo
     healthcheck:
@@ -35,6 +34,7 @@ services:
       interval: 30s
       retries: 10 # Will try for 5 minutes
     restart: always
+    #entrypoint: tail -f /dev/null
     #entrypoint: "/go/src/github.com/Waziup/wazigate-edge/wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
 
 #-------------------------#
@@ -43,7 +43,7 @@ services:
     container_name: wazigate-mongo
     image: waziup/wazigate-mongo:V1.1-Beta1
     build: ./wazigate-mongo
-    hostname: mongo
+    #hostname: mongo
     ports:
       - "27017:27017"
     volumes:
@@ -53,9 +53,9 @@ services:
       interval: 5s
       timeout: 5s
       retries: 12
-    extra_hosts:
-      - "localhost:127.0.0.1"
-    network_mode: host                 # has to be fixed later to be accessed only locally
+#    extra_hosts:
+#      - "localhost:127.0.0.1"
+#    network_mode: host
     restart: always
 #    entrypoint: "mongod --journal"
 
