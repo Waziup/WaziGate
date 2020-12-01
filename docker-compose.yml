@@ -39,15 +39,18 @@ services:
 
 #-------------------------#
 
-  wazigate-mongo:
+ wazigate-mongo:
     container_name: wazigate-mongo
-    image: waziup/wazigate-mongo:V1.1-Beta1
-    build: ./wazigate-mongo
+    #image: waziup/wazigate-mongo:V1.1-Beta1
+    image: webhippie/mongodb:latest
+    #build: ./wazigate-mongo
     #hostname: mongo
     ports:
       - "27017:27017"
     volumes:
-      - ./wazigate-mongo/data:/data
+      - ./wazigate-mongo/data:/var/lib/mongodb
+      - ./wazigate-mongo/backup:/var/lib/backup
+      - ./wazigate-mongo/bin:/var/lib/bin
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
       interval: 5s
@@ -57,7 +60,9 @@ services:
 #      - "localhost:127.0.0.1"
 #    network_mode: host
     restart: always
-#    entrypoint: "mongod --journal"
+    #entrypoint: "/etc/init.d/mongodb stop; rm -f /var/lib/mongodb/mongod.lock; mongod --repair --dbpath=/var/lib/mongodb/ && mongod --dbpath=$
+    #entrypoint: "tail -f /dev/null"
+    entrypoint: "sh /var/lib/bin/start.sh"
 
 #-------------------------#
 
