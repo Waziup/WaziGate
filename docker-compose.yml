@@ -39,7 +39,7 @@ services:
 
 #-------------------------#
 
- wazigate-mongo:
+  wazigate-mongo:
     container_name: wazigate-mongo
     #image: waziup/wazigate-mongo:V1.1-Beta1
     image: webhippie/mongodb:latest
