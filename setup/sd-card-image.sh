@@ -23,7 +23,7 @@ sudo mkdir -p /media/remote
 
 echo -e "Mounting the remote directory...\nEnter the password: \t123\n"
 
-sudo mount -t cifs //192.168.0.116/share /media/remote -o username=moji
+sudo mount -t cifs //10.42.0.1/share /media/remote -o username=moji
 
 if mount | grep /media/remote > /dev/null; then
     echo -e "Mounted SUccessfully\n\n"
@@ -37,10 +37,11 @@ fi
 echo -e "Reverting Wazigate to its default values..."
 
 cd /home/pi/waziup-gateway/
-sudo docker-compose stop
+#sudo docker-compose stop
+sudo docker stop $(sudo docker ps -q)
 sudo rm -f /home/pi/waziup-gateway/.default_ap_done
 cp /home/pi/waziup-gateway/setup/clouds.json /home/pi/waziup-gateway/wazigate-edge/
-sudo cp /home/pi/waziup-gateway/setup/conf.default.json /home/pi/waziup-gateway/wazigate-system/conf/conf.json
+#sudo cp /home/pi/waziup-gateway/setup/conf.default.json /home/pi/waziup-gateway/wazigate-system/conf/conf.json
 sudo rm -f -r /home/pi/waziup-gateway/wazigate-mongo/data
 
 echo -e "Done.\n"
