@@ -73,15 +73,36 @@ if [ ! -f .default_ap_done ] ; then
 	gwId="${MAC^^}"
 	sudo sed -i "s/^ssid.*/ssid=WAZIGATE_$gwId/g" /etc/hostapd/hostapd.conf
 
+	
+	# Launch the HotSpot Mode
+	sudo bash wazigate-host/start_hotspot.sh
 	touch .default_ap_done
 	
-	#Launch the HotSpot Mode
-	sudo bash wazigate-host/start_hotspot.sh
+	
+	# Pulling the docker images and launching the required ones
+	
+	cd $SCRIPT_PATH
+	sudo docker-compose pull
+
+	cd $SCRIPT_PATH/apps/waziup/wazigate-system
+	sudo docker-compose pull
+	sudo docker-compose up -d  --no-build	
+	
+
+	# Running the lora App to make the containers created for the first time
+	# Since there is an issue with postgres initialization and so Chirpstack won't start, 
+	#  we have to remove the volumes on ISO making process, here we launch it to create the volumes from scratch
+
+	cd $SCRIPT_PATH/apps/waziup/wazigate-lora
+	sudo docker-compose up -d  --no-build
+	
 fi;
 
 sleep 2
 
 #------------#
+
+cd $SCRIPT_PATH
 
 # Resolving the issue of not having internet within the containers
 sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
@@ -96,21 +117,11 @@ if [ $DEVMODE == 1 ]; then
 	cd ./apps/waziup/wazigate-system
 	sudo docker-compose up -d
 else
-	sudo docker-compose pull   # Need to be fixed later, this way it will do auto update as well
 	sudo docker-compose up -d  --no-build
-	
-	cd ./apps/waziup/wazigate-system
-	#sudo docker-compose pull   # Need to be fixed later, this way it will do auto update as well
-	sudo docker-compose up -d  --no-build
-
 fi
 
 cd $SCRIPT_PATH
 
-#removing dangling images
-#sudo docker image prune -f
-
 #------------#
-
 
 exit 0;

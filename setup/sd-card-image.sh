@@ -43,7 +43,11 @@ sudo rm -f /home/pi/waziup-gateway/.default_ap_done
 cp /home/pi/waziup-gateway/setup/clouds.json /home/pi/waziup-gateway/wazigate-edge/
 #sudo cp /home/pi/waziup-gateway/setup/conf.default.json /home/pi/waziup-gateway/wazigate-system/conf/conf.json
 sudo rm -f -r /home/pi/waziup-gateway/wazigate-mongo/data
-sudo docker system prune --volumes -f
+
+#sudo docker rm -f postgresql redis
+cd /home/pi/waziup-gateway/waziup-gateway/apps/waziup/wazigate-lora && \
+sudo docker-compose down && \
+sudo docker volume rm $(sudo docker volume ls -q)
 
 echo -e "Done.\n"
 

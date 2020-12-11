@@ -113,6 +113,13 @@ echo "Configuring the system..."
 if ! grep -qFx "dtparam=i2c_arm=on" /boot/config.txt; then
   echo -e '\ndtparam=i2c_arm=on' | sudo tee -a /boot/config.txt
 fi
+
+# Setting the default state for GPIO6 and 26 which are used for push buttons: WiFi/AP and PWR
+if ! grep -qFx "gpio=6,26=ip,pd" /boot/config.txt; then
+  echo -e '\n\ngpio=6,26=ip,pd' | sudo tee -a /boot/config.txt
+fi
+
+
 if ! grep -qF "bcm2708.vc_i2c_override=1" /boot/cmdline.txt; then
   sudo bash -c "echo -n ' bcm2708.vc_i2c_override=1' >> /boot/cmdline.txt"
 fi
@@ -122,6 +129,10 @@ fi
 if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
   echo -e '\ni2c-dev' | sudo tee -a /etc/modules-load.d/raspberrypi.conf
 fi
+
+
+
+
 
 #--------------------------------#
 
