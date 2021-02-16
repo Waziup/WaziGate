@@ -17,11 +17,13 @@ This constant keeps the relative path to the `apps` directory on the host. The p
 -----------------------------
 
 `const appsDirectoryMapped = "/root/apps"`
+
 The apps folder is also mapped to the `wazigate-edge` container in order to make it easier and faster for some operations.
 
 -----------------------------
 
 `const dockerSocketAddress = "/var/run/docker.sock"`
+
 Since the App manager calles some docker APIs for handling images and containers, we need to have this path and to be mapped to the conaienr as well.
 
 -----------------------------
@@ -41,17 +43,20 @@ While an App is being installed or updated, since those opperations are done asy
 -----------------------------
 
 `func GetApps(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
 Implements `GET /apps` list the Apps if the parameter `available` is set, it returns a list of available Apps for installation otherwize it returns the installed Apps in JSON format.
 
 -----------------------------
 
 `func GetApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
 Returns the App info by calling some Docker APIs and reading the `package.json` file in the App folder.
 If this function is called with `install_logs` parameter, it returns the status of the App if it is being installed or updated.
 
 -----------------------------
 
 `func PostApps(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
 This function handles the installation of an App
 
 
