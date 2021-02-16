@@ -44,7 +44,18 @@ While an App is being installed or updated, since those opperations are done asy
 Implements `GET /apps` list the Apps if the parameter `available` is set, it returns a list of available Apps for installation otherwize it returns the installed Apps in JSON format.
 
 -----------------------------
+
+`func GetApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+Returns the App info by calling some Docker APIs and reading the `package.json` file in the App folder.
+If this function is called with `install_logs` parameter, it returns the status of the App if it is being installed or updated.
+
 -----------------------------
+
+`func PostApps(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+This function handles the installation of an App
+
+
+
 -----------------------------
 -----------------------------
 -----------------------------
