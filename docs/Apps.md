@@ -26,7 +26,23 @@ Since the App manager calles some docker APIs for handling images and containers
 
 -----------------------------
 
+```
+type installingAppStatusType struct {
+	id   string
+	done bool
+	log  string
+}
+
+var installingAppStatus []installingAppStatusType
+```
+
+While an App is being installed or updated, since those opperations are done asyncronousely, the UI does not have an idea how it is going. So, we use this struct to keep the user updated about the progress and status.
+
 -----------------------------
+
+`func GetApps(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+Implements `GET /apps` list the Apps if the parameter `available` is set, it returns a list of available Apps for installation otherwize it returns the installed Apps in JSON format.
+
 -----------------------------
 -----------------------------
 -----------------------------
