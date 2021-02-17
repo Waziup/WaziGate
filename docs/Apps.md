@@ -89,25 +89,40 @@ This function bridges `unix sockets` that uses by Apps to `HTTP` protocol via `w
 
 This function generates an `HTML` content for error handling of the `Proxy` function.
 
+-----------------------------
+
+`func GetUpdateApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
+This function receives an appID and determins whether the App has new updates available or not. It checks the digest of all images of the App in docker hub and if it observes any difference, it concludes that there is a new update for the App. Obviousely, the App developers must keep the tags of their images intact for this function to work properly.
 
 -----------------------------
+
+`func getAppImages(appID string) ([]string, error)`
+
+This function receives an appD, find all its images and returns a list of them. It parses the `docker-compose.yml` file of the targetted App.
+
 -----------------------------
+
+`func dockerHubAccessible() bool`
+
+This function checks if the docker hub is accessible via internet or not.
+
 -----------------------------
+
+`func PostUpdateApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
+Ths function receives an `appID` and updates it by pulling the latest images from docker hub and replace with the current one (uninstall the current version and install a new one ;])
+Please note that it will replace `docker-compose.yml` and `package.json` files with the new version as well. If the App developer want to make sure not to replace a config file mapped to the root of the App i.e. `~/waziup-gateway/apps/<org>/<appName>`, they need to handle it themselves.
+
 -----------------------------
+
+`func updateEdge() error`
+
+This function updates the `wazigate-edge` itself and it is called by `PostUpdateApp`.
+
 -----------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
------------------------------
+
+`func uninstallApp(appID string, keepConfig bool) error`
+
+This function removes an App and it is called by `DeleteApp` function.
+
