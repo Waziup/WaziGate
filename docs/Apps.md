@@ -57,10 +57,54 @@ If this function is called with `install_logs` parameter, it returns the status 
 
 `func PostApps(resp http.ResponseWriter, req *http.Request, params routing.Params)`
 
-This function handles the installation of an App
+This function handles the installation of an App. It receives a docker image name and then calls `installApp(imageName)` fucntion which downloads the image from docker hub and installs it on the pi.
+
+-----------------------------
+
+`func installApp(imageName string) (string, error)`
+
+This fucntion performs the App installation. It downloads the given image from the docker hub, then creates a temporaty container in order to extract `index.zip` file which holds all the config and docker-compose files. The temporary container will be deleted afterwards. It then pulls all the dependency images indicated in the `docker-compose.yml` file using `docker-compose` tool running on the host via `wazigate-host` microservice.
+
+-----------------------------
+
+`func PostApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
+This function updates the status of a given App (docker container). Stop, Start, and first-start (pulling images if needed) of an App and also sets Restart policy for each App.
+
+-----------------------------
+
+`func DeleteApp(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
+This function uninstallas an App. It receives the `appID` and `keepConfig` as parameters and removes the containers, images and if `keepConfig` is set to `false`, it removes the associated volumes and config files, basically wipes everything.
+
+-----------------------------
+
+`func HandleAppProxyRequest(resp http.ResponseWriter, req *http.Request, params routing.Params)`
+
+This function bridges `unix sockets` that uses by Apps to `HTTP` protocol via `wazigate-edge`. In other words, it routs all the requests for a specific App going through the `wazigate-edge` container to the targetted App.
+
+-----------------------------
+
+`func handleAppProxyError(appID string, moreInfo string) string`
+
+This function generates an `HTML` content for error handling of the `Proxy` function.
 
 
-
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
+-----------------------------
 -----------------------------
 -----------------------------
 -----------------------------
