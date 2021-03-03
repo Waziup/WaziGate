@@ -29,13 +29,18 @@ services:
     #network_mode: host
     depends_on:
       - wazigate-mongo
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     healthcheck:
       test: curl --fail http://localhost/ || exit 1 
       interval: 30s
       retries: 10 # Will try for 5 minutes
     restart: always
     #entrypoint: tail -f /dev/null
-    #entrypoint: "/go/src/github.com/Waziup/wazigate-edge/wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
+    # entrypoint: "./wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
 
 #-------------------------#
 
@@ -51,6 +56,11 @@ services:
       - ./wazigate-mongo/data:/var/lib/mongodb
       - ./wazigate-mongo/backup:/var/lib/backup
       - ./wazigate-mongo/bin:/var/lib/bin
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
       interval: 5s
