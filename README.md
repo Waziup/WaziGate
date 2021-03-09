@@ -44,7 +44,7 @@ ssh pi@raspberrypi.local
 ```
 Then download and install WaziGate with the following command on the RPI terminal:
 ```
-curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup.sh | bash
+curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup_test.sh | bash
 ```
 
 This will take a while. Time to grab a cup of tea.
