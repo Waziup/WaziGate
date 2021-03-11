@@ -135,7 +135,7 @@ do_wifi_connect() {
 do_wifi_list() {
     
     printf "${YELLOW}\n\tScanning WiFi Network...${NC}" 
-    SSID=$(iw wlan0 scan | awk -f scan.awk | xargs whiptail --output-fd 3 --title "WiFi Setup" --menu  "Choose your WiFi network" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Close --ok-button Connect 3>&1 >/dev/tty  2>/dev/null)
+    SSID=$(iw wlan0 scan | awk -f ${SCRIPT_PATH}/scan.awk | xargs whiptail --output-fd 3 --title "WiFi Setup" --menu  "Choose your WiFi network" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Close --ok-button Connect 3>&1 >/dev/tty  2>/dev/null)
     echo "Done"
 
     if [ -n "${SSID}" ]; then
