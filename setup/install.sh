@@ -182,6 +182,12 @@ sudo cp $WAZIUP_ROOT/setup/waziup-logo.png /usr/share/plymouth/themes/pix/splash
 
 #--------------------------------#
 
+# Text based UI:
+echo -e "sudo bash ${WAZIUP_ROOT}/wazigate-host/text-ui.sh" >> ~/.profile
+
+
+#--------------------------------#
+
 echo "Done"
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
