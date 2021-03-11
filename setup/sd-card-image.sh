@@ -23,7 +23,7 @@ sudo mkdir -p /media/remote
 
 echo -e "Mounting the remote directory...\nEnter the password: \t123\n"
 
-sudo mount -t cifs //10.42.0.1/share /media/remote -o username=gholi
+sudo mount -t cifs //10.42.0.1/share /media/remote -o username=moji
 
 if mount | grep /media/remote > /dev/null; then
     echo -e "Mounted SUccessfully\n\n"
