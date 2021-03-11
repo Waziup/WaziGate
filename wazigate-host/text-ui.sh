@@ -204,7 +204,7 @@ do_reboot() {
     sync
 
     printf "${YELLOW}\n\tStopping the containers gracefully...${NC}" 
-    sudo bash ${SCRIPT_PATH}/../stop.sh
+    sudo docker stop $(sudo docker ps -q)
     echo "Done"
     sudo reboot
   fi
@@ -218,7 +218,7 @@ do_shutdown() {
     sync
     
     printf "${YELLOW}\n\tStopping the containers gracefully...${NC}" 
-    sudo bash ${SCRIPT_PATH}/../stop.sh
+    sudo docker stop $(sudo docker ps -q)
     echo "Done"
     sudo shutdown -P now
   fi
