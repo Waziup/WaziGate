@@ -10,7 +10,7 @@ WAZIUP_ROOT=${1:-$HOME/waziup-gateway}
 echo "Installing system-wide packages..."
 #Packages
 sudo apt-get update
-sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev
+sudo apt-get install -y git gawk network-manager ntp ntpdate dnsmasq hostapd i2c-tools libopenjp2-7 libtiff5 avahi-daemon libmicrohttpd-dev plymouth
 
 #sudo apt-get install python3-dev libfreetype6-dev libjpeg-dev build-essential
 #sudo apt-get install libsdl-dev libportmidi-dev libsdl-ttf2.0-dev libsdl-mixer1.2-dev libsdl
@@ -41,7 +41,7 @@ echo "Done"
 #--------------------------------#
 
 # Docker init
-docker network create wazigate
+sudo docker network create wazigate
 
 #--------------------------------#
 
@@ -70,11 +70,6 @@ fi
 sudo cp --backup=numbered /etc/wpa_supplicant/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf.orig
 
 #--------------------------------#
-
-#Name the gateway
-sudo sed -i 's/^127\.0\.1\.1.*/127\.0\.1\.1\twazigate/g' /etc/hosts
-sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
-sudo echo -e 'wazigate' | sudo tee /etc/hostname
 
 # Resolving the issue of not having internet within the containers
 #sudo bash -c "echo -e 'nameserver 8.8.8.8' > /etc/resolv.conf"
@@ -131,9 +126,6 @@ if ! grep -qFx "i2c-dev" /etc/modules-load.d/raspberrypi.conf; then
 fi
 
 
-
-
-
 #--------------------------------#
 
 #Enabling SPI which is used by LoRa Module
@@ -146,38 +138,36 @@ fi
 
 # ---- HDMI display web interface ----- #
 
-##do the AUTO_LOGIN 
+if xset q &>/dev/null; then
+    echo "X server found. Configuring the web UI settings..."
 
-#sudo apt install -y midori
+    ##do the AUTO_LOGIN 
 
-mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
-#nano ~/.config/lxsession/LXDE-pi/autostart
+    # lets update it because we need version 78+
+    sudo apt-get install chromium-browser --yes
 
-# -- Installing Kweb ---------#
-# KWEB_VER="kweb-1.6.9"
-# wget -O $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz http://steinerdatenbank.de/software/$KWEB_VER.tar.gz
-# tar -xzf $WAZIUP_ROOT/setup/kweb/$KWEB_VER.tar.gz
-# cd $KWEB_VER/
-# sudo ./debinstall
-# cd ..
-# rm -rf $KWEB_VER
-# Due to some limitation we are trying Chromium instead
+    #--------------#
 
-# lets update it because we need version 78+
-sudo apt-get install chromium-browser --yes
+    ## Auto run the browser
+    mkdir -p ~/.config/lxsession && mkdir -p ~/.config/lxsession/LXDE-pi
+    #nano ~/.config/lxsession/LXDE-pi/autostart
 
-#--------------#
+    echo -e "@xset s off" > ~/.config/lxsession/LXDE-pi/autostart
+    echo -e "@xset -dpms" >> ~/.config/lxsession/LXDE-pi/autostart
+    echo -e "@xset s noblank" >> ~/.config/lxsession/LXDE-pi/autostart
+    echo -e "@sh /home/pi/waziup-gateway/wazigate-host/kiosk.sh" >> ~/.config/lxsession/LXDE-pi/autostart
 
-## Auto run the browser
-echo -e "@xset s off" > ~/.config/lxsession/LXDE-pi/autostart
-echo -e "@xset -dpms" >> ~/.config/lxsession/LXDE-pi/autostart
-echo -e "@xset s noblank" >> ~/.config/lxsession/LXDE-pi/autostart
-echo -e "@sh /home/pi/waziup-gateway/wazigate-host/kiosk.sh" >> ~/.config/lxsession/LXDE-pi/autostart
+    echo "Done"
+fi
+
 
 # ---- Splash screen ---- #
 
+# Need to install `plymouth` for new Raspbian OS
 echo -e '\ndisable_splash=1' | sudo tee -a /boot/config.txt
 echo -e '\nsplash quiet plymouth.ignore-serial-consoles logo.nologo vt.global_cursor_default=0' | sudo tee -a /boot/cmdline.txt
+
+sudo mkdir -p /usr/share/plymouth/themes/pix/
 sudo cp $WAZIUP_ROOT/setup/waziup-logo.png /usr/share/plymouth/themes/pix/splash.png
 
 #--------------------------------#
@@ -191,3 +181,18 @@ echo -e "sudo bash ${WAZIUP_ROOT}/wazigate-host/text-ui.sh" >> ~/.profile
 echo "Done"
 
 #echo -e "loragateway\nloragateway" | sudo passwd $USER
+
+echo "Downloading the docker images..."
+cd $WAZIUP_ROOT && sudo docker-compose pull
+
+cd $WAZIUP_ROOT/apps/waziup/wazigate-system && sudo docker-compose pull
+cd $WAZIUP_ROOT/apps/waziup/wazigate-lora && sudo docker-compose pull
+
+echo "Done"
+
+#--------------------------------#
+
+#Name the gateway
+sudo sed -i 's/^127\.0\.1\.1.*/127\.0\.1\.1\twazigate/g' /etc/hosts
+sudo bash -c "echo -e '\n192.168.200.1\twazigate\n' >> /etc/hosts"
+sudo echo -e 'wazigate' | sudo tee /etc/hostname

@@ -49,10 +49,10 @@ sudo sed -i 's/^DEVMODE.*/DEVMODE=0/g' start.sh
 
 #--------------------------------#
 
-echo "Downloading the docker images..."
-cd $WAZIUP_ROOT
-sudo docker-compose pull
-echo "Done"
+#echo "Downloading the docker images..."
+# cd $WAZIUP_ROOT
+# sudo docker-compose pull
+# echo "Done"
 
 for i in {10..01}; do
 	echo -ne "Rebooting in $i seconds... \033[0K\r"
