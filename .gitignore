@@ -10,3 +10,4 @@ wazigate-edge
 .vscode/
 wazigate-mongo/data/
 wazigate-edge
+apps/waziup/wazigate-system
