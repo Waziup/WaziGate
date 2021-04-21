@@ -9,3 +9,4 @@ wazigate-edge
 .gitignore
 .vscode/
 wazigate-mongo/data/
+wazigate-edge
