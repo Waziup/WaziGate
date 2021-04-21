@@ -5,3 +5,7 @@ __pycache__
 RaspiConf
 *~
 /.project
+wazigate-edge
+.gitignore
+.vscode/
+wazigate-mongo/data/
