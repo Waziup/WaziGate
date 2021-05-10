@@ -3,8 +3,6 @@ WaziGate LoRa gateway
 
 This repo contains the source code for the Waziup gateway.
 
-** WARNING: this repo is work in progress. Do not use yet **
-
 Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation .
 The instructions below are for developpers and experts.
 
