@@ -9,4 +9,7 @@ All the components and kept in separate GitHub repositories.
 The various components are integrated together in the “main” GitHub repository, using git “submodules” feature.
 
 The following topics are covered:
-- [ISO creation](GenerateISO.md)
+- [ISO image creation](GenerateISO.md)
+- [RPI system management](System.md)
+- [LoRaWAN management](LoRaWAN.md)
+- [WaziGate apps](Apps.md)
