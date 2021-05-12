@@ -3,7 +3,9 @@ Wazigate System
 
 _This document explains how the wazigate system works in the WaziGate firmware to used for further development._
 
-The first code that is executable by the system is located in `/api/init.go` which sets some configurations like logs and default network devices. Then it runs a number of `Go routins` listed below:
+The management of the Raspberry PI system (such as ON/OFF, Wifi, OLED...) is managemed by a container called wazigate-system.
+The first code that is executed by the container is located in `/api/init.go`. It sets some configurations like logs and default network devices.
+Then it runs a number of `Go routines` listed below:
 
 - TimezoneInit()
 - BlackoutLoop()
@@ -12,10 +14,8 @@ The first code that is executable by the system is located in `/api/init.go` whi
 -	OledLoop()
 -	FanLoop()
 
-Each of these routins take care of one part simultaniosly with others.
-
+Each of these routins take care of one part in parallel with others.
 Then in the `main.go` file, the main fucntion is executed which initiates the HTTP API service over a Unix socket.
-
 The user interface of `wazigate-system` is located in the `ui` folder. It is implemented with `REACT.js`.
 
 All APIs source code are located in the `api` directory.
