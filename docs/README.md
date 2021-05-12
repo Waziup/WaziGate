@@ -2,7 +2,7 @@ WaziGate developpers documentation
 =================================
 
 This folder contains implementation details about the WaziGate software for developpers.
-User documentation can be found in the [Waziup website](www.waziup.io).
+User documentation can be found in the [Waziup website](http://www.waziup.io).
 
 The WaziGate is realized in containerized components written mainly in Go language.
 The containers are running in a Docker platform directly on the Raspberry PI.
