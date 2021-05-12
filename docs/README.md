@@ -10,6 +10,6 @@ The various components are integrated together in the main GitHub repository (th
 
 The following topics are covered:
 - [ISO image creation](GenerateISO.md)
-- [RPI system management](System.md)
+- [Raspberry PI system management](System.md)
 - [LoRaWAN management](LoRaWAN.md)
 - [WaziGate apps](Apps.md)
