@@ -41,12 +41,10 @@ sudo wpa_cli terminate 2>/dev/null
 sleep 1
 sudo ip link set dev wlan0 down
 
-
 # Killing the WPA Just to be sure it is terminated
 ps ax | grep "supplicant" | awk '{print $1}' | sudo xargs kill 2>/dev/null
 
 sleep 1
-
 
 sleep 2
 sudo ip link set dev wlan0 up
