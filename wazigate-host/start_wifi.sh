@@ -24,8 +24,8 @@ sudo wpa_cli -i wlan0 reconfigure
 sleep 1
 sudo ip link set dev wlan0 down
 
-#sleep 1
-#sudo wpa_cli terminate
+sleep 1
+sudo wpa_cli terminate
 
 sleep 2
 sudo ip link set dev wlan0 up
