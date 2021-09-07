@@ -7,7 +7,6 @@ import unittest
 import xmlrunner
 import random
 import logging
-import serial
 import time
 import os
 import sys
@@ -26,19 +25,20 @@ wazigate_url = 'http://172.16.11.186/'
 wazigate_device = {
   'id': 'test000',
   'name': 'test',
-  'meta': {
-    'codec': 'application/x-xlpp',
-    'lorawan': {
-      'appSKey': '23158D3BBC31E6AF670D195B5AED5525',
-      'devAddr': '26011D22',
-      'devEUI': 'AA555A0026011D01',
-      'nwkSEncKey': '23158D3BBC31E6AF670D195B5AED5525',
-      'profile': 'WaziDev'
-    }
-  },
   'sensors': [],
   'actuators': []
 }
+
+meta: {
+  'codec': 'application/x-xlpp',
+  'lorawan': {
+    'appSKey': '23158D3BBC31E6AF670D195B5AED5525',
+    'devAddr': '26011D22',
+    'devEUI': 'AA555A0026011D01',
+    'nwkSEncKey': '23158D3BBC31E6AF670D195B5AED5525',
+    'profile': 'WaziDev'
+  }
+},
 
 wazigate_create_actuator = {
   'id': 'act1',
@@ -50,7 +50,6 @@ auth = {
   "password": "loragateway"
 }
 
-wazicloud_url = 'https://api.waziup.io/api/v2'
 
 class TestWaziGateBasic(unittest.TestCase):
 
@@ -59,7 +58,8 @@ class TestWaziGateBasic(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Token": resp.text.strip('"')}
+        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+        
         # Delete test device if exists
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
 
