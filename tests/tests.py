@@ -152,7 +152,7 @@ class TestWaziGateDevices(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    with open('results.xml', 'w') as output:
+    with open('results.xml', 'wb') as output:
         unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=2),
                       failfast=False, 
                       buffer=False, 
