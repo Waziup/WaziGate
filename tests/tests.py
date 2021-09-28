@@ -20,7 +20,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_url = os.environ.get('WAZIGATE_URL', 'http://172.16.11.187/')
+wazigate_url = os.environ.get('WAZIGATE_URL', 'http://172.16.11.186/')
 
 wazigate_device = {
   'id': 'test000',
@@ -95,60 +95,181 @@ class TestWaziGateSelf(unittest.TestCase):
         self.assertTrue(resp.json()["name"])
         self.assertTrue(resp.json()["created"])
 
-    def test_set_name(self):
+    def test_set_get_name(self):
         """ Test set gateway name"""
         resp = requests.post(wazigate_url + '/device/name', json="test" ,cookies={'Token': self.token})
         self.assertEqual(resp.status_code, 200)
         resp = requests.get(wazigate_url + '/device', cookies={'Token': self.token})
         self.assertEqual(resp.json()["name"], "test")
 
+
 class TestWaziGateDevices(unittest.TestCase):
 
     token = None
-    dev_id = wazigate_device['id']
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
         self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
-        
-        # Delete test device if exists
-        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
 
-    def test_get_device(self):
-        """ Test device gateway"""
-
-        # Create a new LoRaWAN device on WaziGate
-        resp = requests.get(wazigate_url + '/device', headers = self.token)
-        self.assertEqual(resp.status_code, 200)
-
-    def test_create_device_wazigate(self):
+    def test_post_get_delete_devices(self):
         """ Test device creation on the gateway"""
 
         # Create a new LoRaWAN device on WaziGate
-        resp = requests.post(wazigate_url + '/devices', json = wazigate_device, headers = self.token)
+        resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        print(resp.text)
+        
+        # Check that it's effectively created
+        resp2 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        self.assertEqual(resp2.json()["name"], "test")
+    
+        print(wazigate_url + '/devices/' + resp.text)
+        resp3 = requests.delete(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        
+        resp4 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
+    
+    def test_update_name_devices(self):
+        """ Test device update name"""
+
+        # Create a new LoRaWAN device on WaziGate
+        resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
         
         # Check that it's effectively created
-        resp = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
-        self.assertEqual(resp.status_code, 200)
-    
-    def test_delete_device_wazigate(self):
-        """ Test device deletion on the gateway"""
+        resp2 = requests.post(wazigate_url + '/devices/' + resp.text + "/name", json="test2", headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        self.assertEqual(resp3.json()["name"], "test2")
 
-        # Create a new LoRaWAN device on WaziGate
-        resp = requests.post(wazigate_url + '/devices', json = wazigate_device, headers = self.token)
-        
-        # Delete it 
-        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+
+class TestWaziGateSensors(unittest.TestCase):
+
+    token = None
+    dev_id = ""
+    def setUp(self):
+        # Get WaziGate token
+        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
+        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+
+        resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.dev_id = resp.text
+
+    def test_get_sensors(self):
+        """ Test get sensors"""
+        resp = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors', headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+    
+    def test_post_get_delete_sensors(self):
+        """ Test post, get and delete sensors"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
         
-        # Check that it's effectively deleted
-        resp = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
-        self.assertEqual(resp.status_code, 404)
-    
+        resp2 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        self.assertEqual(resp2.json()["name"], "test")
+        
+        resp3 = requests.delete(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
+
+    def test_sensor_value(self):
+        """ Test post and get sensors value"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+
+        resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"') + "/value", json="7.2", headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"') + "/value", headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        self.assertEqual(resp3.json(), "7.2")
+
+    def test_sensor_values(self):
+        """ Test post and get sensors values"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+
+        resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"') + "/values", json=[7.2, 7.3], headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp.text.strip('"') + "/values", headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        self.assertEqual(len(resp3.json()), 2)
+
     # Remove any resources that was created
     def tearDown(self):
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+
+class TestWaziGateActuators(unittest.TestCase):
+
+    token = None
+    dev_id = ""
+    def setUp(self):
+        # Get WaziGate token
+        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
+        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+
+        resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.dev_id = resp.text
+
+    def test_get_sensors(self):
+        """ Test get sensors"""
+        resp = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators', headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+    
+    def test_post_get_delete_sensors(self):
+        """ Test post, get and delete sensors"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        
+        resp2 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        self.assertEqual(resp2.json()["name"], "test")
+        
+        resp3 = requests.delete(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"'), headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
+
+    def test_sensor_value(self):
+        """ Test post and get sensors value"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+
+        resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"') + "/value", json="7.2", headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"') + "/value", headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        self.assertEqual(resp3.json(), "7.2")
+
+    def test_sensor_values(self):
+        """ Test post and get sensors values"""
+        resp = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test'}, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+
+        resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"') + "/values", json=[7.2, 7.3], headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp.text.strip('"') + "/values", headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        self.assertEqual(len(resp3.json()), 2)
+
+    # Remove any resources that was created
+    def tearDown(self):
+        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
 
 
 if __name__ == "__main__":
