@@ -271,6 +271,55 @@ class TestWaziGateActuators(unittest.TestCase):
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
         self.assertEqual(resp.status_code, 200)
 
+class TestWaziGateClouds(unittest.TestCase):
+
+    def_cloud = {
+       "rest": "//api.waziup.io/api/v2",
+       "mqtt": "",
+       "credentials": {
+           "username": "my username",
+           "token": "my password"
+           }
+       }
+    token = None
+    
+    def setUp(self):
+        # Get WaziGate token
+        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
+        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+
+    def test_post_get_delete_clouds(self):
+        """ Test post, get and delete clouds"""
+        resp = requests.post(wazigate_url + '/clouds', json=self.def_cloud, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        
+        resp2 = requests.get(wazigate_url + '/clouds/' + resp.text, headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+        
+        resp3 = requests.delete(wazigate_url + '/clouds/' + resp.text, headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        
+        resp4 = requests.get(wazigate_url + '/clouds/' + resp.text, headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
+
+    def test_events_clouds(self):
+        """ Test clouds events"""
+        resp = requests.post(wazigate_url + '/clouds', json=self.def_cloud, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+       
+        # Try to start the sync with wrong password
+        resp2 = requests.post(wazigate_url + '/clouds/' + resp.text + "/paused", json=False, headers = self.token)
+        self.assertEqual(resp2.status_code, 200)
+       
+        time.sleep(1)
+        # That should result in an error message in the events
+        resp3 = requests.get(wazigate_url + '/clouds/' + resp.text + "/events", headers = self.token)
+        self.assertEqual(resp3.json()[0]['code'], 401)
+        
+        resp4 = requests.delete(wazigate_url + '/clouds/' + resp.text, headers = self.token)
+        self.assertEqual(resp4.status_code, 200)
+        
+class TestWaziGateSystem(unittest.TestCase):
 
 if __name__ == "__main__":
     with open('results.xml', 'wb') as output:
