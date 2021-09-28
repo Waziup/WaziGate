@@ -319,7 +319,6 @@ class TestWaziGateClouds(unittest.TestCase):
         resp4 = requests.delete(wazigate_url + '/clouds/' + resp.text, headers = self.token)
         self.assertEqual(resp4.status_code, 200)
         
-class TestWaziGateSystem(unittest.TestCase):
 
 if __name__ == "__main__":
     with open('results.xml', 'wb') as output:
