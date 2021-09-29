@@ -1,0 +1,12 @@
+[Unit]
+Description=Wazigate Setup Service
+After=network.target
+ConditionFileIsExecutable=/var/lib/wazigate/setup.sh
+
+[Service]
+Type=idle
+WorkingDirectory=/var/lib/wazigate
+ExecStart=/var/lib/wazigate/setup.sh
+
+[Install]
+WantedBy=multi-user.target

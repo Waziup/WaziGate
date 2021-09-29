@@ -1,0 +1,11 @@
+[Unit]
+Description=Wazigate Host Service
+After=network.target wazigate-setup.service
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/wazigate-host
+
+[Install]
+WantedBy=multi-user.target

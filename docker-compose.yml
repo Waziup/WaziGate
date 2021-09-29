@@ -11,11 +11,10 @@ services:
       - "80:80"
       - "1883:1883"
     volumes:
-      - ./wazigate-edge:/root/conf
-      - ./apps:/root/apps # Where the WaziApps are installed
+      - /var/lib/wazigate:/var/lib/wazigate # Where the WaziApps are installed
       - /var/run:/var/run # Mapping the host sockets
-      - ./wazigate-edge:/go/src/github.com/Waziup/wazigate-edge # need it for development
-      #- ./setup/resolv.conf:/etc/resolv.conf
+      # - ./wazigate-edge:/go/src/github.com/Waziup/wazigate-edge # need it for development
+      # - ./setup/resolv.conf:/etc/resolv.conf
     environment:
       - WAZIUP_HTTP_ADDR=:80
 #      - WAZIUP_HTTPS_ADDR=:4443
@@ -24,8 +23,8 @@ services:
 #      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
 #      - WAZIUP_TLS_KEY =             TLS Key File (.key)
       - WAZIUP_MONGO=wazigate-mongo:27017
-      - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
-      #- WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
+      # - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
+      # - WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
     #network_mode: host
     depends_on:
       - wazigate-mongo
@@ -72,7 +71,7 @@ services:
     restart: always
     #entrypoint: "/etc/init.d/mongodb stop; rm -f /var/lib/mongodb/mongod.lock; mongod --repair --dbpath=/var/lib/mongodb/ && mongod --dbpath=$
     #entrypoint: "tail -f /dev/null"
-    entrypoint: "sh /var/lib/bin/start.sh"
+    # entrypoint: "sh /var/lib/bin/start.sh"
 
 #-------------------------#
 
