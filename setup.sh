@@ -30,12 +30,12 @@ if ! docker image inspect wazigate-mongo --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-mongo' (MongoDB) ..."
   # docker image save webhippie/mongodb -o wazigate-mongo.tar
   docker image load -i wazigate-mongo.tar
-  docker-compose run wazigate-mongo
+  docker-compose run -d wazigate-mongo
 fi
 
 if ! docker image inspect wazigate-edge --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-edge' (Wazigate Edge) ..."
   # docker image save waziup/wazigate-edge -o wazigate-edge.tar
   docker image load -i wazigate-edge.tar
-  docker-compose run wazigate-edge
+  docker-compose run -d wazigate-edge
 fi
