@@ -21,8 +21,7 @@ fi
 if ! docker image inspect wazigate-mongo --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-mongo' (MongoDB) ..."
   # docker image save webhippie/mongodb -o wazigate-mongo.tar
-  WAZIGATE_MONGO=$(docker image load -i wazigate-mongo.tar | sed -n 's/.*sha256://p')
-  docker tag $WAZIGATE_MONGO webhippie/mongodb
+  docker image load -i wazigate-mongo.tar
   docker run -d --restart=always --network=wazigate --name wazigate-mongo \
 	-p "27017:27017" \
 	-v "$PWD/wazigate-mongo/data:/var/lib/mongodb" \
@@ -38,8 +37,7 @@ fi
 if ! docker image inspect wazigate-edge --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-edge' (Wazigate Edge) ..."
   # docker image save waziup/wazigate-edge -o wazigate-edge.tar
-  WAZIGATE_EDGE=$(docker image load -i wazigate-edge.tar | sed -n 's/.*sha256://p')
-  docker tag $WAZIGATE_EDGE waziup/wazigate-edge
+  docker image load -i wazigate-edge.tar
   docker run -d --restart=always --network=wazigate --name wazigate-edge \
   	-e "WAZIGATE_ID=$WAZIGATE_ID" \
 	-p "80:80" -p "1883:1883" \
