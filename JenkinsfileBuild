@@ -1,0 +1,34 @@
+pipeline {
+  agent any
+  stages {
+    stage('Prepare') {
+      steps {
+        sh 'docker buildx create --name rpibuilder --platform linux/arm/v7'
+        sh 'docker buildx use rpibuilder'
+        sh 'docker buildx inspect --bootstrap'
+
+        # Clone repo
+        sh 'git clone https://github.com/Waziup/wazigate-edge
+        sh 'cd wazigate-edge
+      }
+    }
+    stage('Build') {
+      steps {
+        # Build Image
+        sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge ---load .
+      }
+    }
+    stage('Export') {
+      steps {
+        # Export Image
+        sh 'docker image save waziup/wazigate-edge -o wazigate-edge.tar
+      }
+    }
+ 
+  }
+  post {
+    always {
+      junit 'tests/results.xml'
+    }
+  }
+}
