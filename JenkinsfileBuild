@@ -6,13 +6,11 @@ pipeline {
         sh 'docker buildx create --name rpibuilder --platform linux/arm/v7'
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
-
-        sh 'git clone https://github.com/Waziup/wazigate-edge'
-        sh 'cd wazigate-edge'
       }
     }
     stage('Build') {
       steps {
+        sh 'cd wazigate-edge'
         sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge ---load .'
       }
     }
