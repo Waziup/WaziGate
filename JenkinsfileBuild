@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Prepare') {
       steps {
-        sh 'docker buildx create --name rpibuilder --platform linux/arm/v7'
+        sh 'docker buildx create --name rpibuilder --platform linux/arm/v7; true'
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
       }
