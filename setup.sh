@@ -42,6 +42,25 @@ if ! docker image inspect wazigate-edge --format {{.Id}} > /dev/null; then
   docker tag $WAZIGATE_EDGE waziup/wazigate-edge
   docker run -d --restart=always --network=wazigate --name wazigate-edge \
   	-e "WAZIGATE_ID=$WAZIGATE_ID" \
+  	-v "/var/run/docker.sock:/var/run/docker.sock" \
+  	-v "/var/run/wazigate-host.sock:/var/run/wazigate-host.sock" \
+  	-v "/var/run/wazigate-host.sock:/var/run/wazigate-host.sock" \
+	-v "$PWD/apps:/root/apps" \
 	-p "80:80" -p "1883:1883" \
 	waziup/wazigate-edge
+fi
+
+if ! docker image inspect waziup/wazigate-system --format {{.Id}} > /dev/null; then
+  echo "Creating container 'wazigate-system' (Wazigate System) ..."
+  # docker image save waziup/wazigate-system -o wazigate-system.tar
+  docker image load -i wazigate-system.tar
+  docker run --network=host --name waziup.wazigate-system \
+  	-v "$PWD/apps/waziup/wazigate-system:/root/app" \
+  	-v "/var/run:/var/run" \
+  	-v "/sys/class/gpio:/sys/class/gpio" \
+  	-v "/dev/mem:/dev/mem" \
+	--privileged \
+	--health-cmd="curl --fail --unix-socket /root/app/proxy.sock http://localhost/ || exit 1" \
+	--health-interval=10s \
+	waziup/wazigate-system
 fi
