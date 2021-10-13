@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Prepare') {
       steps {
-        catchError {
+        catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
             sh 'docker buildx create --name rpibuilder --platform linux/arm/v7; true'
         }
         sh 'docker buildx use rpibuilder'
