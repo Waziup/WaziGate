@@ -2,8 +2,7 @@ pipeline {
   agent any
   environment {
     WAZIGATE_TAG = 'nightly'
-    DOCKER_USERNAME = 'waziupiot' 
-    DOCKER_PASS     = credentials('dockerhub')
+    DOCKER_CREDS = credentials('dockerhub')
   }
   stages {
     stage('Prepare') {
@@ -13,8 +12,7 @@ pipeline {
         }
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
-        echo $DOCKER_PASS
-        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASS'
+        sh 'docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW'
       }
     }
     stage('Build') {
