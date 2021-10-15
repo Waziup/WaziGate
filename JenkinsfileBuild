@@ -18,10 +18,10 @@ pipeline {
     stage('Build') {
       steps {
         dir("wazigate-edge") {
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --load --progress plain .'
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
         }
         dir("apps/waziup/wazigate-system") {
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --load --progress plain .'
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
         }
       }
     }
