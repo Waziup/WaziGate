@@ -1,5 +1,10 @@
 pipeline {
   agent any
+  environment {
+    WAZIGATE_TAG = 'nightly'
+    DOCKER_USERNAME = 'cdupont2' 
+    DOCKER_PASS     = credentials('dockerhub')
+  }
   stages {
     stage('Prepare') {
       steps {
@@ -8,12 +13,16 @@ pipeline {
         }
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
+        sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASS'
       }
     }
     stage('Build') {
       steps {
         dir("wazigate-edge") {
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge --load --progress plain .'
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --load --progress plain .'
+        }
+        dir("apps/waziup/wazigate-system") {
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --load --progress plain .'
         }
       }
     }
