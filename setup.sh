@@ -51,7 +51,7 @@ if ! docker image inspect waziup/wazigate-system --format {{.Id}} > /dev/null; t
   echo "Creating container 'wazigate-system' (Wazigate System) ..."
   # docker image save waziup/wazigate-system -o wazigate-system.tar
   docker image load -i wazigate-system.tar
-  docker run -d --network=host --name waziup.wazigate-system \
+  docker run -d --restart=unless-stopped --network=host --name waziup.wazigate-system \
     -v "$PWD/apps/waziup.wazigate-system:/var/lib/waziapp" \
     -v "/var/run:/var/run" \
     -v "/sys/class/gpio:/sys/class/gpio" \
