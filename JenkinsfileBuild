@@ -1,32 +1,29 @@
 pipeline {
   agent any
+  environment {
+    WAZIGATE_TAG = 'nightly'
+    DOCKER_CREDS = credentials('dockerhub')
+  }
   stages {
     stage('Prepare') {
       steps {
-        catchError {
+        catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
             sh 'docker buildx create --name rpibuilder --platform linux/arm/v7; true'
         }
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
+        sh 'docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW'
       }
     }
     stage('Build') {
       steps {
         dir("wazigate-edge") {
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge --load --progress plain .'
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
+        }
+        dir("apps/waziup/wazigate-system") {
+          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-system:$WAZIGATE_TAG --push --progress plain .'
         }
       }
-    }
-    stage('Export') {
-      steps {
-        sh 'docker image save waziup/wazigate-edge -o wazigate-edge.tar'
-      }
-    }
- 
-  }
-  post {
-    always {
-      junit 'tests/results.xml'
     }
   }
 }
