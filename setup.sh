@@ -79,7 +79,7 @@ if ! docker image inspect waziup/wazigate-lora --format {{.Id}} > /dev/null; the
     -v "/var/run/dbus:/var/run/dbus" \
     -v "/sys/class/gpio:/sys/class/gpio" \
     -v "/dev:/dev" \
-    --device "/dev/ttyACM0:/dev/ttyACM0"
+    --device "/dev/ttyACM0:/dev/ttyACM0" \
     --privileged \
     --tty \
     --label "io.waziup.waziapp=waziup.wazigate-lora" \
