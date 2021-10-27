@@ -124,7 +124,7 @@ if ! docker image inspect waziup/wazigate-lora --format {{.Id}} > /dev/null; the
 
   echo "Creating container 'waziup.wazigate-lora' (Wazigate-LoRa App) ..."
   docker image load -i wazigate-lora.tar
-  docker run -d --restart=unless-stopped --network=wazigate --name waziup/wazigate-lora \
+  docker run -d --restart=unless-stopped --network=wazigate --name waziup.wazigate-lora \
     -v "$PWD/apps/waziup.wazigate-lora:/var/lib/waziapp" \
     --label "io.waziup.waziapp=waziup.wazigate-lora" \
     waziup/wazigate-lora
