@@ -20,7 +20,7 @@ if ! docker network inspect wazigate > /dev/null; then
   docker network create wazigate
 fi
 
-if ! docker image inspect wazigate-mongo --format {{.Id}} > /dev/null; then
+if ! docker image inspect webhippie/mongodb --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-mongo' (MongoDB) ..."
   # docker image save webhippie/mongodb -o wazigate-mongo.tar
   docker image load -i wazigate-mongo.tar
@@ -36,7 +36,7 @@ if ! docker image inspect wazigate-mongo --format {{.Id}} > /dev/null; then
     /var/lib/bin/entrypoint.sh
 fi
 
-if ! docker image inspect wazigate-edge --format {{.Id}} > /dev/null; then
+if ! docker image inspect waziup/wazigate-edge --format {{.Id}} > /dev/null; then
   echo "Creating container 'wazigate-edge' (Wazigate Edge) ..."
   # docker image save waziup/wazigate-edge -o wazigate-edge.tar
   docker image load -i wazigate-edge.tar
