@@ -1,0 +1,748 @@
+{
+   "swagger": "2.0",
+   "info": {
+      "description": "System APIs: These APIs allow you to access all Waziup gateway services provided at the system level.",
+      "version": "1.0.0",
+      "title": "Wazigate System API Documentation"
+   },
+   "host": "",
+   "basePath": "",
+   "tags": [
+      {
+         "name": "Configurations",
+         "description": "WaziGate Configurations"
+      },
+      {
+         "name": "Network",
+         "description": "Network Management"
+      },
+      {
+         "name": "Maintenance",
+         "description": "WaziGate Maintenance"
+      }
+   ],
+   "schemes": [
+      "http",
+      "https"
+   ],
+   "paths": {
+      "/apps/waziup.wazigate-system/conf": {
+         "get": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Retrieves the entire configurations of the gateway",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "array",
+                     "items": {
+                        "$ref": "#/definitions/conf"
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Stores the configurations of the gateway",
+            "description": "",
+            "operationId": "saveConfPUT",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Saving the configurations.",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/conf"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Stores the configurations of the gateway",
+            "description": "",
+            "operationId": "saveConfPost",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Saving the configurations.",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/conf"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/timezone": {
+         "get": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Retrieves the configured timezone",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "array",
+                     "items": {
+                        "$ref": "#/definitions/conf"
+                     }
+                  }
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Stores a new timezone config",
+            "description": "",
+            "operationId": "saveTzPt",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Saving the timezone.",
+                  "required": true,
+                  "schema": {}
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Stores a new timezone config",
+            "description": "",
+            "operationId": "saveTzPs",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "description": "Saving the timezone.",
+                  "required": true,
+                  "schema": {}
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/timezone/auto": {
+         "get": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Shows the timezone automatically, based on the IP address (needs internet connection)",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "array",
+                     "items": {}
+                  }
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/timezones": {
+         "get": {
+            "tags": [
+               "Configurations"
+            ],
+            "summary": "Retrieves a list of all available timezones",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "array",
+                     "items": {}
+                  }
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/internet": {
+         "get": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Indicates if the Internet (Waziup Cloud) is accessible.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "bool",
+                     "items": {
+                        "type": "string"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/net": {
+         "get": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Retrieves the IP, device name and the MAC address of the used network interface.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "$ref": "#/definitions/net"
+                  }
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/net/wifi": {
+         "get": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Information about the WiFi interface.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "$ref": "#/definitions/wifi"
+                  }
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Set the connection configs for WiFi.",
+            "operationId": "saveWiFiPt",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-put"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Set the connection configs for WiFi.",
+            "operationId": "saveWiFiPs",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-put"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/net/wifi/scanning": {
+         "get": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Lists all available wireless networks.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "type": "array",
+                     "items": {
+                        "$ref": "#/definitions/wifi-scanning"
+                     }
+                  }
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/net/wifi/ap": {
+         "get": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Information about the WiFi hotspot on the gateway.",
+            "description": "The WiFi hotspot on the gateway is setup for management purpose.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation",
+                  "schema": {
+                     "$ref": "#/definitions/wifi-ap"
+                  }
+               }
+            }
+         },
+         "put": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Chnages the WiFi hotspot SSID and password.",
+            "operationId": "saveConfAPPt",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-ap"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Chnages the WiFi hotspot SSID and password.",
+            "operationId": "saveConfAPPs",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": true,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-ap"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/net/wifi/mode/ap": {
+         "put": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Chnages the WiFi mode to hotspot/Access point",
+            "operationId": "saveConfAPMode",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-mode-ap"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Network"
+            ],
+            "summary": "Chnages the WiFi mode to hotspot/Access point",
+            "operationId": "saveConfAPModePs",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "schema": {
+                     "$ref": "#/definitions/wifi-mode-ap"
+                  }
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/reboot": {
+         "put": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Restarts the gateway.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/shutdown": {
+         "put": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Shuts down the gateway.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/usage": {
+         "get": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Shows the system resource usage.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/blackout": {
+         "get": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Indicates if your Wazigate is equiped with Blackout protection circuit.",
+            "produces": [
+               "application/json"
+            ],
+            "responses": {
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      },
+      "/apps/waziup.wazigate-system/oled": {
+         "put": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Shows a message on the OLED display",
+            "operationId": "oledPut",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "schema": {}
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         },
+         "post": {
+            "tags": [
+               "Maintenance"
+            ],
+            "summary": "Shows a message on the OLED display",
+            "operationId": "oledPost",
+            "consumes": [
+               "application/json"
+            ],
+            "produces": [
+               "application/json"
+            ],
+            "parameters": [
+               {
+                  "in": "body",
+                  "name": "body",
+                  "required": false,
+                  "schema": {}
+               }
+            ],
+            "responses": {
+               "400": {
+                  "description": "Invalid input"
+               },
+               "200": {
+                  "description": "successful operation"
+               }
+            }
+         }
+      }
+   },
+   "definitions": {
+      "conf": {
+         "type": "object",
+         "properties": {
+            "setup_wizard": {
+               "type": "bool"
+            },
+            "fan_trigger_temp": {
+               "type": "number",
+               "format": "integer"
+            },
+            "oled_halt_timeout": {
+               "type": "number",
+               "format": "integer"
+            },
+            "local_timezone": {
+               "type": "string"
+            }
+         }
+      },
+      "net": {
+         "type": "object",
+         "properties": {
+            "ip": {
+               "type": "string"
+            },
+            "dev": {
+               "type": "string"
+            },
+            "mac": {
+               "type": "string"
+            }
+         }
+      },
+      "wifi": {
+         "type": "object",
+         "properties": {
+            "ap_mode": {
+               "type": "boolean"
+            },
+            "ip": {
+               "type": "string"
+            },
+            "enabled": {
+               "type": "boolean"
+            },
+            "ssid": {
+               "type": "string"
+            },
+            "state": {
+               "type": "string"
+            }
+         }
+      },
+      "wifi-put": {
+         "type": "object",
+         "properties": {
+            "ssid": {
+               "type": "string"
+            },
+            "password": {
+               "type": "string",
+               "description": "If your WiFi does not use a password, leave this parameter empty."
+            }
+         }
+      },
+      "wifi-scanning": {
+         "type": "object",
+         "properties": {
+            "name": {
+               "type": "string"
+            },
+            "signal": {
+               "type": "string"
+            },
+            "security": {
+               "type": "string"
+            }
+         }
+      },
+      "wifi-ap": {
+         "type": "object",
+         "properties": {
+            "SSID": {
+               "type": "string"
+            },
+            "password": {
+               "type": "string"
+            }
+         }
+      }
+   }
+}
