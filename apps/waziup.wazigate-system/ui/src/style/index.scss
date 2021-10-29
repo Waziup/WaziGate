@@ -1,0 +1,365 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color:#f1f1f1;
+  font-size: 16px;
+  line-height: 1.25em;
+  font-family: 'Segoe UI',Roboto,'Helvetica Neue',Arial,'Noto Sans',sans-serif;
+  position: relative;
+  cursor: default;
+  user-select: none;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  
+  box-sizing: border-box;
+  
+  .code {
+    font-family: "monospace";
+  }
+
+  &.windows {
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    .code {
+      font-family: Consolas, Lucida Console, Courier New, monospace;
+    }
+  }
+
+  &.linux {
+    font-family: Roboto, Ubuntu, Arial, sans-serif;
+    .code {
+      font-family: "dejavu sans mono, monospace";
+    }
+  }
+
+  &.mac {
+    font-family: '.SFNSDisplay-Regular', 'Helvetica Neue', 'Lucida Grande', sans-serif;
+    .code {
+      font-family: Menlo, monospace;
+    }
+  }
+}
+
+#body {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#dashboard, .dashboard {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+#dashboard {
+  padding-left: 240px;
+  padding-bottom: 1.25em;
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// general styles
+
+h1, h2, h3, h4 {
+  font-weight: normal;
+  margin: 0;
+  line-height: initial;
+}
+
+a {
+  color: unset;
+  text-decoration: unset;
+}
+
+pre {
+  margin: 0;
+}
+
+.error {
+  background-color: #ffb294;
+  background-image: url('../img/error.svg');
+  background-size: 90px 90px;
+  background-position: top right;
+  background-repeat: no-repeat;
+  padding: 20px 40px;
+  margin: 20px 0;
+}
+
+.title {
+  padding: 0 20px;
+  margin: 40px 0 20px 0;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// menu styles
+
+#menu {
+  position: fixed;
+  left: 0;
+  bottom: 1.25em;
+  top: 0;
+  width: 240px;
+  background-color: #34425A;
+  padding-top: 60px;
+  color: #f1f1f1;
+
+  &:before {
+    content: '';
+    background: url('../img/wazigate.svg');
+    background-size: 120px 78px;
+    position: absolute;
+    bottom: 10px;
+    left: 60px;
+    width: 120px;
+    height: 78px;
+  }
+
+  .menu-item {
+    display: block;
+    line-height: 32px;
+    font-size: 20px;
+    padding: 4px 12px;
+    cursor: pointer;
+
+    &:hover {
+      background: #2a3548;
+    }
+  }
+
+  .item-icon {
+    width: 24px;
+    height: 24px;
+    vertical-align: sub;
+  }
+
+  .item-name {
+    margin-left: 12px;
+  }
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// statusbar styles
+
+
+#statusbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1.25em;
+  background: #303846;
+}
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+// device styles
+
+.devices {
+  padding: 0 20px;
+
+  .devices-device {
+    border: 1px solid #b9b9b9;
+    border-radius: 8px;
+    width: 300px;
+    margin: 10px;
+    display: inline-block;
+    vertical-align: top;
+  }
+    
+  .device-name {
+    padding: 5px 10px;
+    cursor: text;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .device-id {
+    font-size: 0.75em;
+    line-height: 1.75em;
+    padding: 0 10px;
+    background: #dedede;
+    color: #a0a0a0;
+    letter-spacing: 1px;
+    border-radius: 0 0 8px 8px;
+  }
+
+  .device-ent {
+    display: contents;
+  }
+
+  .ent-preview {
+    text-align: center;
+    max-width: 108px;
+    padding: 5px;
+    min-width: 60px;
+    margin: 5px 0 5px 5px;
+    display: inline-block;
+    cursor: pointer;
+    vertical-align: top;
+    // border: 1px solid #b9b9b9;
+    border-radius: 4px;
+
+    &.open {
+      background: #e8e7e7;
+    }
+
+    &:hover {
+      background: #dedede;
+    }
+  }
+
+  .ent-name {
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  .ent-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .ent-details {
+    float: right;
+    width: 100%;
+    background: #e8e8e8;
+    border-top: 1px solid #dadada;
+    border-bottom: 1px solid #dadada;
+    color: #808080;
+  }
+
+  .details-name {
+    min-width: 68px;
+    padding: 0 4px 0 8px;
+    line-height: 1.75em;
+    display: inline-block;
+  }
+
+  // .details-mlname {
+  //   padding: 4px 8px 0 8px;
+  //   line-height: 1.25em;
+  //   display: block;
+  // }
+
+  .ent-detail {
+    padding: 0 8px;
+  }
+
+  .details-field {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .details-value {
+    flex-grow: 1;
+    line-height: 1.75em;
+    padding: 0 8px;
+    display: block;
+  }
+
+  // .details-mlvalue {
+  //   display: block;
+  // }
+
+  .ent-value {
+    width: 100px;
+  }
+
+  .ent-kind {
+    line-height: 1.75em;
+  }
+
+  .kind-label {
+    display: inline-block;
+    cursor: pointer;
+    padding: 0 4px 0 0;
+
+    &:hover {
+      background: #d8d8d8;
+    }
+  }
+
+  .kind-icon {
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+    vertical-align: bottom;
+  }
+
+  .kind-unit {
+    font-size: 10px;
+    padding: 0px 4px;
+    line-height: 16px;
+    border: 1px solid #b9b9b9;
+    margin: 0 4px;
+    display: inline-block;
+    border-radius: 2px;
+    cursor: pointer;
+
+    &:hover {
+      background: #d8d8d8;
+    }
+  }
+
+  .meta-name {
+    padding: 0 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    background: #dadada;
+    line-height: 15px;
+  }
+}
+
+input, select {
+  background: unset;
+  height: 1.75em;
+  line-height: 1.75em;
+  font: unset;
+  padding: 0 4px;
+  border: none;
+  color: unset;
+}
+
+.meta-lora {
+  background: #c6e2ec;
+
+  .meta-name {
+    background: #b3d0da;
+  }
+
+  .lora-id {
+    width: 100%;
+    padding: .25em 12px;
+    line-height: 1.25em;
+    height: 1.75em;
+    box-sizing: border-box;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    background: hsl(196, 37%, 81%);
+    color: #636d71;
+  }
+}
+
+///////////////////////////////////////////////////////////////////////////////
+// app styles
+
+.app {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
