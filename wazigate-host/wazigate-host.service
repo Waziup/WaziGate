@@ -5,6 +5,7 @@ After=network.target wazigate-setup.service
 [Service]
 Type=simple
 Restart=always
+WorkingDirectory=/var/lib/wazigate/wazigate-host
 ExecStart=/usr/bin/wazigate-host
 
 [Install]

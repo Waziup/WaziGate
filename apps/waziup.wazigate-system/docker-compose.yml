@@ -1,0 +1,40 @@
+version: "3.4"
+services:
+
+#-------------------------#
+
+  wazigate-system:
+    image: waziup/wazigate-system:latest
+    container_name: waziup.wazigate-system
+    build:
+      context: ./
+      # target: test # development | test | production (default)
+      # docker-compose up --build
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - ./:/root/app
+      - ./resolv.conf:/etc/resolv.conf
+      - /var/run:/var/run
+      # - /var/run/dbus:/var/run/dbus
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/mem:/dev/mem
+      - ./:/go/src/github.com/Waziup/wazigate-system
+    privileged: true
+    network_mode: host
+    environment:
+      - DEBUG_MODE=1                   # for debug has to be set to 1
+      #- WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
+    healthcheck:
+      test: curl --fail --unix-socket /root/app/proxy.sock http://localhost/ || exit 1
+      interval: 30s
+      retries: 10 # Will try for 5 minutes      
+    restart: always
+    security_opt:
+      - "seccomp:unconfined"
+#    entrypoint: "/root/app/wazigate-system"
+
+#-------------------------#
