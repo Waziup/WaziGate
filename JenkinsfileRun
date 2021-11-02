@@ -7,7 +7,7 @@ pipeline {
     stage('Prepare') {
       steps {
         copyArtifacts projectName: 'compiling/WaziGate_ISO', selector: specific('47')
-        sh 'unzip deplay/$ISO'
+        sh 'unzip deploy/$ISO'
         sh 'sudo kpartx -av 2021-10-31-WaziGate.img'
         sh 'sudo mount /dev/mapper/loop1p2 /mnt/WaziGate_nightly'
         sh 'sudo mount /dev/mapper/loop1p1 /mnt/WaziGate_nightly/boot'
