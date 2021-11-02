@@ -8,7 +8,7 @@ pipeline {
       steps {
         sh 'unzip $ISO'
         sh 'sudo kpartx -av yourimage.img'
-        sh 'sudo mount /dev/mapper/loop1p2 /mnt/WaziGate_nightly
+        sh 'sudo mount /dev/mapper/loop1p2 /mnt/WaziGate_nightly'
         sh 'sudo mount /dev/mapper/loop1p1 /mnt/WaziGate_nightly/boot'
         sh 'sudo echo "console=serial0,115200 console=tty1 root=/dev/nfs nfsroot=172.16.11.191:/mnt/MyISO,vers=3 rw ip=dhcp rootwait elevator=deadline" > /mnt/WaziGate_nightly/boot/cmdline.txt`'
         sh 'sudo echo "" > /mnt/WaziGate_nightly/etc/fstab'
@@ -16,7 +16,7 @@ pipeline {
     }
     stage('Run') {
       steps {
-        sh 'ssh pi@$WAZIGATE_URL 'echo loragateway | sudo shutdown -r now''
+        sh 'ssh pi@$WAZIGATE_URL "echo loragateway | sudo shutdown -r now"'
       }
     }
   }
