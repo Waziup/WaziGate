@@ -1,0 +1,849 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="800"
+   height="350"
+   viewBox="0 0 800 350"
+   version="1.1"
+   id="svg5"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient1250">
+      <stop
+         style="stop-color:#0044aa;stop-opacity:1"
+         offset="0"
+         id="stop1246" />
+      <stop
+         style="stop-color:#0066ff;stop-opacity:1"
+         offset="1"
+         id="stop1248" />
+    </linearGradient>
+    <color-profile
+       name="Agfa-:-Swop-Standard"
+       xlink:href="../../../../Windows/system32/spool/drivers/color/RSWOP.icm"
+       id="color-profile15896" />
+    <rect
+       x="276"
+       y="376"
+       width="128"
+       height="44"
+       id="rect67301" />
+    <linearGradient
+       id="linearGradient1001">
+      <stop
+         style="stop-color:#ff7f2a;stop-opacity:1"
+         offset="0"
+         id="stop997" />
+      <stop
+         style="stop-color:#aa4400;stop-opacity:1"
+         offset="1"
+         id="stop999" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient1250"
+       id="linearGradient1003"
+       x1="320"
+       y1="105"
+       x2="500"
+       y2="105"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-10)" />
+    <linearGradient
+       xlink:href="#linearGradient1001"
+       id="linearGradient54567"
+       x1="1.358924"
+       y1="12.732878"
+       x2="21.764366"
+       y2="12.732878"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter56545"
+       x="-0.028212291"
+       y="-0.031711146"
+       width="1.0592179"
+       height="1.066562">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood56535" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite56537" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="4"
+         result="blur"
+         id="feGaussianBlur56539" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset56541" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite56543" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter56545-2"
+       x="-0.056111112"
+       y="-0.038846154"
+       width="1.1177778"
+       height="1.0815386">
+      <feFlood
+         flood-opacity="0.498039"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood56535-0" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite56537-3" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="4"
+         result="blur"
+         id="feGaussianBlur56539-1" />
+      <feOffset
+         dx="1"
+         dy="1"
+         result="offset"
+         id="feOffset56541-1" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite56543-7" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath16">
+      <path
+         d="M 0,595.28 H 595.28 V 0 H 0 Z"
+         id="path18" />
+    </clipPath>
+    <rect
+       x="188"
+       y="8"
+       width="148.28932"
+       height="52.767464"
+       id="rect37685" />
+    <rect
+       x="188"
+       y="8"
+       width="148.28932"
+       height="52.767464"
+       id="rect37685-7" />
+    <rect
+       x="188"
+       y="8"
+       width="148.28932"
+       height="52.767464"
+       id="rect37685-9" />
+    <rect
+       x="188"
+       y="8"
+       width="148.95651"
+       height="53.041172"
+       id="rect37685-9-5" />
+    <clipPath
+       id="clipPath16-7"
+       clipPathUnits="userSpaceOnUse">
+      <path
+         id="path18-8"
+         d="M 0,595.28 H 595.28 V 0 H 0 Z" />
+    </clipPath>
+    <linearGradient
+       xlink:href="#linearGradient1250"
+       id="linearGradient1428"
+       x1="298"
+       y1="240.46448"
+       x2="323.07104"
+       y2="240.46448"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <g
+     id="layer1">
+    <g
+       id="hero"
+       transform="translate(-12,-87)">
+      <rect
+         style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#d9dfe5;stroke-opacity:1;filter:url(#filter56545)"
+         id="rect38"
+         width="358"
+         height="318.5"
+         x="246"
+         y="99.5" />
+      <text
+         xml:space="preserve"
+         transform="translate(246,229)"
+         id="text37683-5"
+         style="font-size:10.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect37685-9);fill:#4d4d4d;fill-opacity:1"
+         x="0"
+         y="0"><tspan
+           x="188"
+           y="17.43753"
+           id="tspan16072">WaziGate works without an </tspan><tspan
+           x="188"
+           y="30.770906"
+           id="tspan16074">active internet connection. </tspan><tspan
+           x="188"
+           y="44.104282"
+           id="tspan16076">It's perfect for rural areas </tspan><tspan
+           x="188"
+           y="57.43766"
+           id="tspan16078">and harsh conditions.</tspan></text>
+      <text
+         xml:space="preserve"
+         transform="translate(245,337)"
+         id="text37683-5-7"
+         style="font-size:10.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect37685-9-5);fill:#4d4d4d;fill-opacity:1"
+         x="0"
+         y="0"><tspan
+           x="188"
+           y="17.43753"
+           id="tspan16082"><tspan
+             dx="0 0 0 0 11.737294 0 0 0 11.737298 0 0 0 0 0 0 0 0 0 11.737287"
+             style="text-align:justify"
+             id="tspan16080">Use the WaziCloud to </tspan></tspan><tspan
+           x="188"
+           y="30.770906"
+           id="tspan16086"><tspan
+             dx="0 0 0 0 0 0 0 0 0.014736891 0 0 0 0 0 0 0 0 0.014736891"
+             style="text-align:justify"
+             id="tspan16084">connect multiple WaziGates </tspan></tspan><tspan
+           x="188"
+           y="44.104282"
+           id="tspan16090"><tspan
+             dx="0 0 0 0 9.6261759 0 0 0 0 0 0 0 9.6261797 0 0 0 0 9.6261721"
+             style="text-align:justify"
+             id="tspan16088">and process data from </tspan></tspan><tspan
+           x="188"
+           y="57.43766"
+           id="tspan16094"><tspan
+             style="text-align:justify"
+             id="tspan16092">multiple sources. It's free!</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         transform="translate(77,337)"
+         id="text37683-4"
+         style="font-size:10.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect37685-7);fill:#4d4d4d;fill-opacity:1"
+         x="0"
+         y="0"><tspan
+           x="188"
+           y="17.43753"
+           id="tspan16100"><tspan
+             dx="0 0 0 0 0 0 0 0 0 3.967736"
+             style="text-align:justify"
+             id="tspan16096">WaziApps add </tspan><tspan
+             dx="3.9677398 0 0 0 0 0 0 0 0 3.9677322"
+             style="text-align:justify"
+             id="tspan16098">features to </tspan></tspan><tspan
+           x="188"
+           y="30.770906"
+           id="tspan16106"><tspan
+             dx="0 0 0 0 0 9.1986589"
+             style="text-align:justify"
+             id="tspan16102">your Gateway. </tspan><tspan
+             dx="9.1986513 0 0 0 9.1986513"
+             style="text-align:justify"
+             id="tspan16104">You can </tspan></tspan><tspan
+           x="188"
+           y="44.104282"
+           id="tspan16112"><tspan
+             dx="0 0 0 0 0 0 0 4.4419527"
+             style="text-align:justify"
+             id="tspan16108">create your </tspan><tspan
+             dx="4.4419527 0 0 0 4.4419603 0 0 0 0 4.4419451"
+             style="text-align:justify"
+             id="tspan16110">own Apps to </tspan></tspan><tspan
+           x="188"
+           y="57.43766"
+           id="tspan16118"><tspan
+             style="text-align:justify"
+             id="tspan16114">customize it </tspan><tspan
+             style="text-align:justify"
+             id="tspan16116">even further.</tspan></tspan></text>
+      <text
+         xml:space="preserve"
+         transform="translate(77,229)"
+         id="text37683"
+         style="font-size:10.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect37685);fill:#4d4d4d;fill-opacity:1"
+         x="0"
+         y="0"><tspan
+           x="188"
+           y="17.43753"
+           id="tspan16122"><tspan
+             dx="0 0 0 0 10.169145 0 0 0 0 0 10.169152 0 0 0 0 0 0 0 0 0 10.169141"
+             style="text-align:justify"
+             id="tspan16120">Use WiFi, Bluetooth or
+</tspan></tspan><tspan
+           x="188"
+           y="30.770906"
+           id="tspan16126"><tspan
+             dx="0 0 0 0 0 5.1326723 0 0 5.1326723 0 0 0 0 0 0 0 5.1326723"
+             style="text-align:justify"
+             id="tspan16124">LoRa do connect sensors </tspan></tspan><tspan
+           x="188"
+           y="44.104282"
+           id="tspan16130"><tspan
+             dx="0 0 0 0 1.7889125 0 0 0 0 0 0 0 0 0 1.7889068 0 0 0 0 1.7889144"
+             style="text-align:justify"
+             id="tspan16128">and actuators from nearby </tspan></tspan><tspan
+           x="188"
+           y="57.43766"
+           id="tspan16134"><tspan
+             style="text-align:justify"
+             id="tspan16132">or from far away.</tspan></tspan></text>
+      <rect
+         style="fill:url(#linearGradient1003);fill-opacity:1;stroke:none;stroke-opacity:1"
+         id="rect943"
+         width="358"
+         height="9.5"
+         x="246"
+         y="99.5" />
+      <g
+         id="g8"
+         transform="matrix(4.9999996,0,0,4.8666667,342.19178,110.53333)"
+         style="fill:none;fill-opacity:1;stroke:url(#linearGradient54567);stroke-width:0.405442;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:29.3333px;line-height:1.25;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:125;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="265"
+         id="text5506"
+         text-anchor="middle"
+         transform="translate(-36.999999,-122)"><tspan
+           x="400"
+           y="265"
+           id="tspan16136">Wazigate</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5"
+         text-anchor="middle"
+         transform="translate(-61.247843,-80.303298)"><tspan
+           x="400"
+           y="290"
+           id="tspan16138">connect devices with
+</tspan><tspan
+           x="400"
+           y="305.99999"
+           id="tspan16140">any wireless network</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5-8"
+         text-anchor="middle"
+         transform="translate(107.95168,-78.022598)"><tspan
+           x="400"
+           y="290"
+           id="tspan16142">process data locally
+</tspan><tspan
+           x="400"
+           y="305.99999"
+           id="tspan16144">without internet</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5-8-4"
+         text-anchor="middle"
+         transform="translate(106.45168,30.977396)"><tspan
+           x="400"
+           y="290"
+           id="tspan16146">connect to the cloud
+</tspan><tspan
+           x="400"
+           y="305.99999"
+           id="tspan16148">to sync data</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.6667px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5-8-4-3"
+         text-anchor="middle"
+         transform="translate(106.45168,-39.022602)" />
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';text-align:start;text-anchor:start;white-space:pre;inline-size:328.25;fill:#000000;fill-opacity:1;stroke:none"
+         x="260"
+         y="165"
+         id="text5506-5-2"
+         text-anchor="middle"
+         transform="translate(2.4748736)"><tspan
+           x="260"
+           y="165"
+           id="tspan16150">Waziup Edge Gateway with edge computing </tspan><tspan
+           x="260"
+           y="181.00001"
+           id="tspan16152">and offline AI data processing</tspan></text>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5-26"
+         text-anchor="middle"
+         transform="translate(-60.963578,30.677669)"><tspan
+           x="400"
+           y="290"
+           id="tspan16154">add more featuress
+</tspan><tspan
+           x="400"
+           y="305.99999"
+           id="tspan16156">using WaziApps</tspan></text>
+    </g>
+    <g
+       id="wazidev"
+       transform="translate(-65.396579,-59.943888)">
+      <rect
+         style="fill:none;stroke:#d9dfe5;stroke-width:2.0292;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect63639"
+         width="100"
+         height="175"
+         x="90"
+         y="135"
+         ry="5.147059" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect63798"
+         width="5"
+         height="110"
+         x="95"
+         y="150"
+         ry="0" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect63798-0"
+         width="5"
+         height="110"
+         x="180"
+         y="150"
+         ry="0" />
+      <circle
+         style="fill:none;fill-opacity:1;stroke:#d9dfe5;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path63897"
+         cx="97.5"
+         cy="142.5"
+         r="4" />
+      <circle
+         style="fill:none;fill-opacity:1;stroke:#d9dfe5;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path63899"
+         cx="182.5"
+         cy="142.5"
+         r="4" />
+      <circle
+         style="fill:none;fill-opacity:1;stroke:#d9dfe5;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path64127"
+         cx="97.5"
+         cy="267.5"
+         r="4" />
+      <circle
+         style="fill:none;fill-opacity:1;stroke:#d9dfe5;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="path64129"
+         cx="182.5"
+         cy="267.5"
+         r="4" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect64156"
+         width="50"
+         height="5"
+         x="115"
+         y="255" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect64158"
+         width="20"
+         height="20"
+         x="130"
+         y="210"
+         ry="5" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect64160"
+         width="10"
+         height="25"
+         x="140"
+         y="160"
+         ry="0" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect64162"
+         width="15"
+         height="10"
+         x="110"
+         y="175" />
+      <rect
+         style="fill:#d9dfe5;fill-opacity:1;stroke:none;stroke-width:2;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect64164"
+         width="20"
+         height="20"
+         x="130"
+         y="130" />
+      <g
+         id="g14"
+         clip-path="url(#clipPath16)"
+         transform="matrix(0.16337828,0,0,-0.19331942,93.304606,334.12319)"
+         style="fill:#d9dfe5;fill-opacity:1">
+        <g
+           id="g20"
+           transform="translate(354.1562,300.5928)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 2.703,-1.123 4.773,-2.579 5.791,-4.31 v 5.628 c 0,4.747 -9.303,8.594 -20.777,8.594 -11.475,0 -20.777,-3.847 -20.777,-8.594 v -5.622 c 1.021,1.727 3.088,3.181 5.788,4.304 3.884,1.603 9.16,2.571 14.989,2.575 C -9.162,2.571 -3.882,1.603 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path22" />
+        </g>
+        <g
+           id="g24"
+           transform="translate(504.9473,266.0645)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 6.266,8.055 10.053,18.178 10.053,29.125 0,11.431 -4.063,21.896 -10.81,30.158 -1.309,1.584 -3.72,1.791 -5.233,0.346 L -6.817,58.871 C -8.194,57.563 -8.331,55.359 -7.161,53.914 -1.653,47.166 1.652,38.559 1.652,29.195 1.652,20.174 -1.446,11.842 -6.541,5.232 -7.712,3.717 -7.505,1.584 -6.06,0.344 l 0.827,-0.758 C -3.718,-1.859 -1.309,-1.654 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path26" />
+        </g>
+        <g
+           id="g28"
+           transform="translate(495.8584,275.0156)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 4.062,5.715 6.472,12.668 6.472,20.174 0,7.849 -2.618,15.148 -7.023,21.002 -1.308,1.72 -3.787,1.996 -5.371,0.482 l -0.826,-0.759 c -1.377,-1.307 -1.516,-3.374 -0.413,-4.888 3.305,-4.407 5.302,-9.915 5.302,-15.837 0,-5.715 -1.79,-11.016 -4.889,-15.285 -1.033,-1.516 -0.757,-3.58 0.62,-4.752 l 0.826,-0.688 C -3.787,-2.066 -1.309,-1.721 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path30" />
+        </g>
+        <g
+           id="g32"
+           transform="translate(485.8057,284.3105)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 1.928,3.168 3.029,6.887 3.029,10.879 0,4.201 -1.239,8.195 -3.374,11.5 -1.239,1.928 -3.855,2.271 -5.509,0.756 L -6.68,22.379 c -1.238,-1.172 -1.584,-3.098 -0.62,-4.545 1.24,-1.996 1.997,-4.406 1.997,-6.955 0,-2.34 -0.62,-4.543 -1.72,-6.473 -0.895,-1.513 -0.621,-3.373 0.688,-4.545 l 0.826,-0.756 C -3.856,-2.34 -1.171,-1.928 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path34" />
+        </g>
+        <g
+           id="g36"
+           transform="translate(470.3213,295.3965)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 0,-2.32 -1.88,-4.199 -4.2,-4.199 -2.321,0 -4.199,1.879 -4.199,4.199 0,2.319 1.878,4.199 4.199,4.199 C -1.88,4.199 0,2.319 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path38" />
+        </g>
+        <g
+           id="g40"
+           transform="translate(400.4326,327.5273)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="M 0,0 C 1.693,0 3.127,-0.604 4.299,-1.808 5.472,-3.014 6.058,-4.463 6.058,-6.156 V -31.56 c 0,-4.298 -0.83,-8.354 -2.492,-12.165 -1.661,-3.81 -3.908,-7.132 -6.742,-9.965 -2.833,-2.834 -6.155,-5.081 -9.966,-6.743 -3.81,-1.661 -7.865,-2.491 -12.165,-2.491 -4.364,0 -8.451,0.83 -12.261,2.491 -3.811,1.662 -7.133,3.909 -9.967,6.743 -2.833,2.833 -5.08,6.155 -6.741,9.965 -1.662,3.811 -2.493,7.867 -2.493,12.165 v 25.404 c 0,1.693 0.602,3.142 1.808,4.348 1.205,1.204 2.653,1.808 4.349,1.808 1.692,0 3.126,-0.602 4.299,-1.805 1.172,-1.203 1.758,-2.648 1.758,-4.339 v -25.355 c 0,-2.665 0.504,-5.152 1.515,-7.461 1.009,-2.308 2.377,-4.339 4.103,-6.094 1.726,-1.756 3.762,-3.137 6.107,-4.145 2.346,-1.008 4.852,-1.511 7.523,-1.511 2.605,0 5.081,0.503 7.426,1.511 2.346,1.008 4.398,2.389 6.156,4.145 1.759,1.755 3.142,3.786 4.153,6.094 1.009,2.309 1.514,4.796 1.514,7.461 h -0.097 v 25.355 c 0,1.691 0.601,3.136 1.807,4.339 C -3.144,-0.602 -1.694,0 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path42" />
+        </g>
+        <g
+           id="g44"
+           transform="translate(460.3926,294.6973)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 0.325,4.559 -0.813,8.662 -3.415,12.312 -1.301,1.887 -2.879,3.483 -4.732,4.788 -1.854,1.301 -3.854,2.246 -6,2.833 -4.424,1.236 -8.686,0.943 -12.784,-0.88 0.523,0.259 1.043,0.504 1.566,0.733 0.521,0.228 1.044,0.44 1.566,0.635 -0.652,-0.261 -1.287,-0.523 -1.905,-0.782 -0.62,-0.26 -1.222,-0.554 -1.808,-0.879 -2.411,-1.043 -4.495,-2.606 -6.254,-4.69 -2.28,-2.672 -3.761,-5.733 -4.445,-9.184 -0.684,-3.453 -0.439,-6.84 0.732,-10.162 0.913,-2.476 2.28,-4.69 4.105,-6.644 1.822,-1.954 3.972,-3.485 6.448,-4.593 2.474,-1.042 5.044,-1.563 7.71,-1.563 2.665,0 5.235,0.553 7.706,1.661 1.04,0.52 2.031,1.075 2.975,1.661 0.943,0.587 1.838,1.271 2.683,2.052 1.691,1.693 3.055,3.631 4.096,5.813 C -0.716,-4.707 -0.131,-2.41 0,0 m -1.584,27.261 c 2.217,-1.499 4.19,-3.241 5.92,-5.228 1.728,-1.988 3.181,-4.137 4.354,-6.449 1.174,-2.313 2.072,-4.755 2.692,-7.327 0.62,-2.574 0.896,-5.164 0.832,-7.769 -0.132,-3.321 -0.75,-6.562 -1.857,-9.721 -1.108,-3.161 -2.671,-6.075 -4.69,-8.745 -2.54,-3.322 -5.635,-6.009 -9.282,-8.061 -3.649,-2.052 -7.524,-3.339 -11.627,-3.859 -4.169,-0.521 -8.256,-0.211 -12.262,0.928 -4.007,1.139 -7.671,2.947 -10.992,5.423 v 0.098 -16.122 c 0,-1.694 -0.593,-3.127 -1.775,-4.299 -1.181,-1.173 -2.625,-1.759 -4.333,-1.759 -1.706,0 -3.152,0.586 -4.334,1.759 -1.181,1.172 -1.772,2.605 -1.772,4.299 V 1.173 1.759 c 0,0.52 0.016,1.026 0.049,1.514 0.032,0.489 0.081,0.993 0.146,1.515 0.26,2.67 0.897,5.259 1.908,7.768 1.01,2.507 2.283,4.837 3.816,6.985 1.533,2.15 3.328,4.088 5.383,5.814 2.055,1.725 4.289,3.176 6.704,4.348 5.022,2.346 10.308,3.305 15.852,2.883 5.545,-0.425 10.635,-2.199 15.268,-5.325"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path46" />
+        </g>
+        <g
+           id="g48"
+           transform="translate(239.9375,295.709)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 0,3.347 -0.806,6.437 -2.415,9.271 0,0.065 -0.017,0.112 -0.048,0.147 -0.033,0.031 -0.049,0.08 -0.049,0.145 -0.258,0.385 -0.514,0.771 -0.773,1.159 -0.258,0.385 -0.516,0.739 -0.772,1.061 -1.739,2.256 -3.897,4.026 -6.47,5.314 -2.577,1.286 -5.411,1.931 -8.5,1.931 -3.093,0 -5.943,-0.692 -8.551,-2.077 -2.607,-1.387 -4.779,-3.203 -6.519,-5.457 C -35.32,9.883 -36.271,8.113 -36.946,6.182 -37.623,4.25 -37.962,2.188 -37.962,0 v -7.148 c 2.512,1.802 5.28,3.203 8.309,4.203 3.024,0.996 6.214,1.496 9.561,1.496 h 1.065 m 0,32.553 c 4.312,0 8.353,-0.823 12.12,-2.464 C -3.14,26.998 0.146,24.775 2.946,21.976 5.747,19.174 7.971,15.873 9.611,12.073 11.253,8.273 12.074,4.25 12.074,0 v -25.115 c 0,-1.676 -0.579,-3.09 -1.739,-4.25 -1.159,-1.158 -2.576,-1.74 -4.25,-1.74 -1.675,0 -3.106,0.582 -4.298,1.74 C 0.596,-28.205 0,-26.791 0,-25.115 v 11.592 h -19.027 v 0.097 c -0.195,-0.064 -0.55,-0.097 -1.065,-0.097 -2.125,0 -4.153,-0.325 -6.085,-0.967 -1.93,-0.645 -3.685,-1.545 -5.262,-2.703 -1.581,-1.161 -2.948,-2.545 -4.108,-4.155 -1.159,-1.611 -2.028,-3.382 -2.606,-5.312 -0.067,-0.067 -0.098,-0.131 -0.098,-0.195 0,-0.063 -0.033,-0.127 -0.097,-0.192 -0.384,-1.224 -1.093,-2.207 -2.125,-2.945 -1.031,-0.74 -2.219,-1.113 -3.574,-1.113 -1.675,0 -3.091,0.582 -4.25,1.74 -1.159,1.16 -1.739,2.574 -1.739,4.25 V -24.246 0 c 0,3.799 0.643,7.373 1.932,10.722 1.546,4.12 3.866,7.791 6.957,11.011 2.896,2.898 6.228,5.183 9.997,6.857 3.765,1.677 7.806,2.514 12.123,2.514"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path50" />
+        </g>
+        <g
+           id="g52"
+           transform="translate(317.1992,274.7949)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 1.16,-1.127 1.74,-2.527 1.74,-4.201 0,-1.676 -0.58,-3.09 -1.74,-4.25 -1.159,-1.16 -2.575,-1.738 -4.249,-1.738 h -50.81 c -1.673,0 -3.089,0.578 -4.25,1.738 -1.158,1.16 -1.738,2.574 -1.738,4.25 0,1.222 0.355,2.383 1.064,3.478 l 0.579,0.578 40.182,40.282 h -33.324 c -1.676,0 -3.076,0.562 -4.202,1.689 -1.127,1.127 -1.69,2.528 -1.69,4.202 0,1.675 0.563,3.091 1.69,4.25 1.126,1.16 2.526,1.74 4.202,1.74 h 47.91 c 1.674,0 3.074,-0.58 4.202,-1.74 1.125,-1.159 1.69,-2.575 1.69,-4.25 0,-1.223 -0.354,-2.382 -1.062,-3.477 -0.13,-0.129 -0.275,-0.291 -0.435,-0.483 -0.162,-0.193 -0.338,-0.386 -0.531,-0.58 L -18.448,23.812 v 0.096 L -40.666,1.691 H -4.249 C -2.575,1.691 -1.159,1.127 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path54" />
+        </g>
+        <g
+           id="g56"
+           transform="translate(329.0674,326.8125)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="M 0,0 C 1.674,0 3.106,-0.597 4.299,-1.787 5.49,-2.979 6.086,-4.412 6.086,-6.086 V -55.93 c 0,-1.674 -0.596,-3.107 -1.787,-4.297 C 3.106,-61.42 1.674,-62.014 0,-62.014 c -1.675,0 -3.091,0.594 -4.25,1.787 -1.159,1.19 -1.738,2.623 -1.738,4.297 v 49.844 c 0,1.674 0.579,3.107 1.738,4.299 C -3.091,-0.597 -1.675,0 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path58" />
+        </g>
+        <g
+           id="g60"
+           transform="translate(183.9854,324.9766)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="M 0,0 C -1.16,1.159 -2.577,1.738 -4.25,1.738 -5.926,1.738 -7.326,1.159 -8.452,0 -9.58,-1.159 -10.143,-2.577 -10.143,-4.25 v -35.836 l -7.803,7.822 c -3.149,3.157 -6.969,4.735 -11.466,4.735 -2.185,0 -4.272,-0.403 -6.264,-1.207 -1.992,-0.807 -3.725,-1.981 -5.202,-3.528 l -7.708,-7.726 v 35.74 c 0,1.674 -0.586,3.091 -1.754,4.25 -1.168,1.158 -2.595,1.738 -4.283,1.738 -1.687,0 -3.117,-0.58 -4.285,-1.738 -1.169,-1.159 -1.752,-2.576 -1.752,-4.25 v -50.133 c 0,-1.676 0.58,-3.09 1.739,-4.25 1.158,-1.16 2.574,-1.738 4.25,-1.738 1.223,0 2.382,0.351 3.478,1.062 v -0.095 l 17.772,17.869 c 1.094,1.094 2.415,1.64 3.961,1.64 1.415,0 2.704,-0.515 3.862,-1.543 l 17.196,-17.291 0.771,-0.675 0.097,0.095 c 1.029,-0.711 2.125,-1.062 3.284,-1.062 1.673,0 3.09,0.578 4.25,1.738 1.159,1.16 1.738,2.574 1.738,4.25 V -4.25 C 1.738,-2.577 1.159,-1.159 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path62" />
+        </g>
+        <g
+           id="g64"
+           transform="translate(90.333,325.2861)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c -6.266,-8.056 -10.053,-18.179 -10.053,-29.126 0,-11.43 4.063,-21.896 10.81,-30.158 1.309,-1.584 3.721,-1.791 5.233,-0.346 l 0.827,0.76 c 1.377,1.307 1.514,3.51 0.344,4.955 -5.508,6.748 -8.812,15.355 -8.812,24.721 0,9.019 3.097,17.351 8.192,23.961 1.171,1.515 0.964,3.649 -0.48,4.888 L 5.233,0.413 C 3.718,1.858 1.31,1.653 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path66" />
+        </g>
+        <g
+           id="g68"
+           transform="translate(99.4219,316.335)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c -4.062,-5.715 -6.472,-12.669 -6.472,-20.175 0,-7.849 2.618,-15.148 7.023,-21.002 1.308,-1.72 3.787,-1.996 5.371,-0.48 l 0.826,0.758 c 1.377,1.306 1.517,3.373 0.413,4.888 -3.305,4.407 -5.302,9.914 -5.302,15.836 0,5.715 1.79,11.017 4.889,15.285 1.033,1.516 0.757,3.582 -0.62,4.752 L 5.304,0.551 C 3.787,2.065 1.31,1.722 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path70" />
+        </g>
+        <g
+           id="g72"
+           transform="translate(109.4746,307.0391)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c -1.928,-3.166 -3.028,-6.886 -3.028,-10.879 0,-4.199 1.238,-8.193 3.372,-11.498 1.24,-1.93 3.856,-2.273 5.51,-0.758 l 0.827,0.758 c 1.237,1.17 1.584,3.098 0.618,4.543 -1.238,1.998 -1.997,4.408 -1.997,6.955 0,2.342 0.62,4.545 1.721,6.473 0.895,1.514 0.622,3.373 -0.688,4.545 L 5.508,0.896 C 3.856,2.342 1.171,1.928 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path74" />
+        </g>
+        <g
+           id="g76"
+           transform="translate(346.8457,292.4639)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="M 7.311,5.444 C 3.429,3.842 -1.852,2.873 -7.676,2.869 c -5.829,0.004 -11.104,0.973 -14.988,2.575 -2.7,1.123 -4.768,2.577 -5.788,4.304 V 4.126 c 0,-4.747 9.302,-8.594 20.776,-8.594 11.475,0 20.778,3.847 20.778,8.594 V 9.754 C 12.084,8.023 10.014,6.567 7.311,5.444"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path78" />
+        </g>
+        <g
+           id="g80"
+           transform="translate(346.8457,292.4639)"
+           style="fill:#d9dfe5;fill-opacity:1" />
+        <g
+           id="g84"
+           transform="translate(334.8926,340.3047)"
+           style="fill:#d9dfe5;fill-opacity:1">
+          <path
+             d="m 0,0 c 0,-3.262 -2.645,-5.906 -5.907,-5.906 -3.262,0 -5.906,2.644 -5.906,5.906 0,3.262 2.644,5.907 5.906,5.907 C -2.645,5.907 0,3.262 0,0"
+             style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+             id="path86" />
+        </g>
+      </g>
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:5.33333px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#d9dfe5;fill-opacity:1;stroke:none"
+         x="400"
+         y="290"
+         id="text5506-5-9"
+         transform="translate(-292.54089,-0.15254)"><tspan
+           x="400"
+           y="290"
+           id="tspan16160"><tspan
+             style="font-family:monospace;-inkscape-font-specification:monospace"
+             id="tspan16158">WAZIDEV
+</tspan></tspan><tspan
+           x="400"
+           y="295.4186"
+           id="tspan16164"><tspan
+             style="font-family:monospace;-inkscape-font-specification:monospace"
+             id="tspan16162">VER 1.4</tspan></tspan></text>
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+       x="140"
+       y="370"
+       id="text5506-5-0"
+       text-anchor="middle"
+       transform="translate(-64.396579,-69.943888)"><tspan
+         x="140"
+         y="370"
+         id="tspan16166">Wazidev</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:1;font-family:'-apple-system', BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';-inkscape-font-specification:'-apple-system, BlinkMacSystemFont, Segoe UI Variable, Segoe UI, system-ui, ui-sans-serif, Helvetica, Arial, sans-serif, Apple Color Emoji, Segoe UI Emoji';white-space:pre;inline-size:180;fill:#000000;fill-opacity:1;stroke:none"
+       x="706"
+       y="370"
+       id="text5506-5-0-7"
+       text-anchor="middle"
+       transform="translate(5e-6,-68.999998)"><tspan
+         x="706"
+         y="370"
+         id="tspan16168">WaziCloud</tspan></text>
+    <g
+       id="arrow"
+       transform="translate(-69.999995,-14.999998)">
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 212,212 h 72"
+         id="path113762" />
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 282,214 2,-2 -2,-2"
+         id="path116521" />
+    </g>
+    <g
+       id="arrow-6"
+       transform="translate(-69.999995,-66.999998)">
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 212,212 h 72"
+         id="path113762-9" />
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 214,214 -2,-2 2,-2"
+         id="path116521-1" />
+    </g>
+    <g
+       id="arrow-6-4"
+       transform="rotate(90,487,420)">
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 213,212 h 16 c 15,0 18,3 18,18 v 17"
+         id="path113762-9-6" />
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 214,214 -2,-2 2,-2"
+         id="path116521-1-4" />
+    </g>
+    <g
+       id="arrow-6-4-8"
+       transform="rotate(90,506,439)">
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 213,212 h 39 c 20,0 26,6 26,26 v 47"
+         id="path113762-9-6-8" />
+      <path
+         style="fill:none;stroke:#d9dfe5;stroke-width:1px;stroke-linecap:round;stroke-linejoin:miter;stroke-opacity:1"
+         d="m 276,283 2,2 2,-2"
+         id="path116521-1-4-8" />
+    </g>
+    <g
+       id="g1386"
+       style="stroke:url(#linearGradient1428);stroke-opacity:1;fill-opacity:1;fill:none"
+       transform="translate(-43.656845,-196)">
+      <path
+         style="fill:none;stroke:url(#linearGradient1428);stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;fill-opacity:1"
+         d="m 299,231 v 8 h 8 v -8 z"
+         id="path1023" />
+      <path
+         style="fill:none;stroke:url(#linearGradient1428);stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+         d="m 299,231 v 8 h 8 v -8 z"
+         id="path1025" />
+      <path
+         style="fill:none;stroke:url(#linearGradient1428);stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+         d="m 299,244 v 8 h 8 v -8 z"
+         id="path1025-5" />
+      <path
+         style="fill:none;stroke:url(#linearGradient1428);stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+         d="M 316,229.34315 310.34315,235 316,240.65685 321.65685,235 Z"
+         id="path1025-9" />
+      <path
+         style="fill:none;stroke:url(#linearGradient1428);stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;fill-opacity:1"
+         d="m 312,244 v 8 h 8 v -8 z"
+         id="path1025-0" />
+    </g>
+    <rect
+       style="fill:none;stroke:#d9dfe5;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect1508"
+       width="160"
+       height="100"
+       x="248"
+       y="107"
+       ry="2" />
+    <rect
+       style="fill:none;stroke:#d9dfe5;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect1508-9"
+       width="160"
+       height="100"
+       x="416"
+       y="107"
+       ry="2" />
+    <rect
+       style="fill:none;stroke:#d9dfe5;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect1508-7"
+       width="160"
+       height="100"
+       x="248"
+       y="215"
+       ry="2" />
+    <rect
+       style="fill:none;stroke:#d9dfe5;stroke-width:1;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect1508-1"
+       width="160"
+       height="100"
+       x="416"
+       y="215"
+       ry="2" />
+    <path
+       style="fill:none;fill-opacity:1;stroke:#d9dfe5;stroke-width:3;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 745.83839,115.39293 c 31.05816,-0.32365 31.05984,-49.695748 -6.21197,-49.695748 0,-37.2718 -55.90771,-55.9077 -74.54361,-12.42393 -43.48377,0 -43.48377,63.414808 1.74948,62.943258 z"
+       id="path6862" />
+    <g
+       transform="matrix(0.67335582,0,0,-0.7583731,574.78059,308.4463)"
+       clip-path="url(#clipPath16-7)"
+       id="g14-9">
+      <g
+         transform="translate(504.9473,266.0645)"
+         id="g24-4">
+        <path
+           id="path26-9"
+           style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="m -283.34172,-0.43495163 c 6.266,8.05500003 10.053,18.17799963 10.053,29.12499963 0,11.431 -4.063,21.896 -10.81,30.158 -1.309,1.584 -3.72,1.791 -5.233,0.346 l -0.827,-0.758 c -1.377,-1.308 -1.514,-3.512 -0.344,-4.957 5.508,-6.748 8.813,-15.355 8.813,-24.719 0,-9.021 -3.098,-17.353 -8.193,-23.9629996 -1.171,-1.515 -0.964,-3.648 0.481,-4.88800003 l 0.827,-0.758 c 1.515,-1.44499997 3.924,-1.23999997 5.233,0.414" />
+      </g>
+      <g
+         transform="translate(495.8584,275.0156)"
+         id="g28-7">
+        <path
+           id="path30-6"
+           style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="m -283.34172,-0.43495163 c 4.062,5.71500003 6.472,12.66799963 6.472,20.17399963 0,7.849 -2.618,15.148 -7.023,21.002 -1.308,1.72 -3.787,1.996 -5.371,0.482 l -0.826,-0.759 c -1.377,-1.307 -1.516,-3.374 -0.413,-4.888 3.305,-4.407 5.302,-9.915 5.302,-15.837 0,-5.715 -1.79,-11.0159996 -4.889,-15.2849996 -1.033,-1.516 -0.757,-3.57999999 0.62,-4.75200003 l 0.826,-0.68799997 c 1.515,-1.515 3.993,-1.17 5.302,0.55099997" />
+      </g>
+      <g
+         transform="translate(485.8057,284.3105)"
+         id="g32-0">
+        <path
+           id="path34-8"
+           style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="m -283.34172,-0.43495163 c 1.928,3.16800003 3.029,6.88700003 3.029,10.87899963 0,4.201 -1.239,8.195 -3.374,11.5 -1.239,1.928 -3.855,2.271 -5.509,0.756 l -0.826,-0.756 c -1.238,-1.172 -1.584,-3.098 -0.62,-4.545 1.24,-1.996 1.997,-4.406 1.997,-6.955 0,-2.3399996 -0.62,-4.5429996 -1.72,-6.4729996 -0.895,-1.513 -0.621,-3.37299999 0.688,-4.54500003 l 0.826,-0.75599997 c 1.653,-1.445 4.338,-1.033 5.509,0.89499997" />
+      </g>
+      <g
+         transform="translate(183.9854,324.9766)"
+         id="g60-2">
+        <path
+           id="path62-3"
+           style="fill:#d9dfe5;fill-opacity:1;fill-rule:nonzero;stroke:none"
+           d="M 0,0 C -1.16,1.159 -2.577,1.738 -4.25,1.738 -5.926,1.738 -7.326,1.159 -8.452,0 -9.58,-1.159 -10.143,-2.577 -10.143,-4.25 v -35.836 l -7.803,7.822 c -3.149,3.157 -6.969,4.735 -11.466,4.735 -2.185,0 -4.272,-0.403 -6.264,-1.207 -1.992,-0.807 -3.725,-1.981 -5.202,-3.528 l -7.708,-7.726 v 35.74 c 0,1.674 -0.586,3.091 -1.754,4.25 -1.168,1.158 -2.595,1.738 -4.283,1.738 -1.687,0 -3.117,-0.58 -4.285,-1.738 -1.169,-1.159 -1.752,-2.576 -1.752,-4.25 v -50.133 c 0,-1.676 0.58,-3.09 1.739,-4.25 1.158,-1.16 2.574,-1.738 4.25,-1.738 1.223,0 2.382,0.351 3.478,1.062 v -0.095 l 17.772,17.869 c 1.094,1.094 2.415,1.64 3.961,1.64 1.415,0 2.704,-0.515 3.862,-1.543 l 17.196,-17.291 0.771,-0.675 0.097,0.095 c 1.029,-0.711 2.125,-1.062 3.284,-1.062 1.673,0 3.09,0.578 4.25,1.738 1.159,1.16 1.738,2.574 1.738,4.25 V -4.25 C 1.738,-2.577 1.159,-1.159 0,0" />
+      </g>
+    </g>
+  </g>
+</svg>
