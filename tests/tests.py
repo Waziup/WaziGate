@@ -20,7 +20,8 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_url = os.environ.get('WAZIGATE_URL', 'http://172.16.11.186/')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
+wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
   'id': 'test000',
