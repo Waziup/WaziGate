@@ -42,7 +42,7 @@ pipeline {
     stage('Stage') {
       steps {
         sh 'echo "restart containers on RPI"'
-        sh 'ssh pi@$WAZIGATE_IP sudo WAZIGATE_TAG=nightly /var/lib/wazigate/update_containers.sh'
+        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP sudo WAZIGATE_TAG=nightly /var/lib/wazigate/update_containers.sh'
         sh 'echo "Should wait that containers are ready"'
       }
     }
