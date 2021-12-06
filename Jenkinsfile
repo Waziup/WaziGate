@@ -24,6 +24,9 @@ pipeline {
       steps {
         dir("wazigate-edge") {
           git branch: 'v2', url: 'https://github.com/Waziup/wazigate-edge.git'
+          dir ("wazigate-dashboard") {
+            git 'https://github.com/Waziup/wazigate-dashboard.git'
+          }
           sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
         }
         dir("wazigate-system") {
