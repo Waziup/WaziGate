@@ -25,7 +25,7 @@ pipeline {
         dir("wazigate-edge") {
           git branch: 'v2', url: 'https://github.com/Waziup/wazigate-edge.git'
           dir ("wazigate-dashboard") {
-            git branch: 'test-deps', url: 'https://github.com/Waziup/wazigate-dashboard.git'
+            git 'https://github.com/Waziup/wazigate-dashboard.git'
           }
           sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
         }
@@ -49,7 +49,9 @@ pipeline {
     stage('Test') {
       steps {
         dir('tests'){
-          sh 'sudo -E python3 tests.py'
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            sh 'sudo -E python3 tests.py'
+          }
         }
       }
     }
