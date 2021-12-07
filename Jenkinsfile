@@ -49,7 +49,9 @@ pipeline {
     stage('Test') {
       steps {
         dir('tests'){
-          sh 'sudo -E python3 tests.py'
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+            sh 'sudo -E python3 tests.py'
+          }
         }
       }
     }
