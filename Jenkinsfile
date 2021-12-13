@@ -3,9 +3,11 @@
 
 pipeline {
   agent any
+  options {
+    timeout(time: 1, unit: 'HOURS')
+  }
   environment {
     WAZIGATE_TAG = 'nightly'
-    WAZIGATE_IP  = '172.16.11.211' 
   }
   stages {
     stage('Prepare') {
