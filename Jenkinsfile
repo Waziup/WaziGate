@@ -38,6 +38,9 @@ pipeline {
         dir("wazigate-lora") {
           git branch: 'v2', url: 'https://github.com/Waziup/wazigate-lora.git'
           sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-lora:$WAZIGATE_TAG --push --progress plain .'
+          dir("forwarders") {
+            sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-lora-forwarders --push --progress plain .'
+          }
         }
       }
     }
