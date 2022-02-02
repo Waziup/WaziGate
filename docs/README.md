@@ -14,3 +14,4 @@ The following topics are covered:
 - [Raspberry PI system management](System.md)
 - [LoRaWAN management](LoRaWAN.md)
 - [WaziGate apps](Apps.md)
+- [32bit to 64bit architecture conversion](32bit_to_64bit_conversion.md)
