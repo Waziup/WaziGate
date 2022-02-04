@@ -29,17 +29,17 @@ pipeline {
           dir ("wazigate-dashboard") {
             git 'https://github.com/Waziup/wazigate-dashboard.git'
           }
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
+          sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
         }
         dir("wazigate-system") {
           git 'https://github.com/Waziup/wazigate-system.git'
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-system:$WAZIGATE_TAG --push --progress plain .'
+          sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-system:$WAZIGATE_TAG --push --progress plain .'
         }
         dir("wazigate-lora") {
           git branch: 'v2', url: 'https://github.com/Waziup/wazigate-lora.git'
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-lora:$WAZIGATE_TAG --push --progress plain .'
+          sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-lora:$WAZIGATE_TAG --push --progress plain .'
           dir("forwarders") {
-            sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-lora-forwarders --push --progress plain .'
+            sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-lora-forwarders --push --progress plain .'
           }
         }
       }
