@@ -38,7 +38,7 @@
 		"less-loader": "^10.1.0",
 		"mdbreact": "^5.1.0",
 		"mini-css-extract-plugin": "^2.4.2",
-		"node-sass": "^6.0.1",
+		"node-sass": "^7.0.0",
 		"node-sass-chokidar": "^1.5.0",
 		"nodejs": "0.0.0",
 		"pkg-dir": "^6.0.1",
