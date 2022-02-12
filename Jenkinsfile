@@ -47,7 +47,7 @@ pipeline {
     stage('Stage') {
       steps {
         sh 'echo "restart containers on RPI"'
-        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP "cd /var/lib/wazigate; sudo WAZIGATE_TAG=nightly ./update_containers.sh"'
+        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP "cd /var/lib/wazigate; docker-compose down; docker-compose pull; docker-compose up -d"'
       }
     }
     stage('Test') {
