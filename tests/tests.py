@@ -86,7 +86,7 @@ class TestWaziGateSelf(unittest.TestCase):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
         self.token_header = {"Authorization": "Bearer " + resp.text.strip('"')}
-        self.token = resp.text.strip('"')
+        self.token = resp.json()
 
     def test_get_id(self):
         """ Test get ID of the gateway"""
@@ -116,7 +116,7 @@ class TestWaziGateDevices(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+        self.token = {"Authorization": "Bearer " + resp.json()}
 
     def test_post_get_delete_devices(self):
         """ Test device creation on the gateway"""
@@ -161,13 +161,11 @@ class TestWaziGateSensors(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.text.strip('"'), 
-                      "Content-Type": "text/plain"}
+        self.token = {"Authorization": "Bearer " + resp.json()}
 
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
         self.dev_id = resp.json()
-        print(self.dev_id)
 
     def test_get_sensors(self):
         """ Test get sensors"""
@@ -225,11 +223,11 @@ class TestWaziGateActuators(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+        self.token = {"Authorization": "Bearer " + resp.json()}
 
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
-        self.dev_id = resp.text
+        self.dev_id = resp.json()
 
     def test_get_sensors(self):
         """ Test get sensors"""
@@ -295,7 +293,7 @@ class TestWaziGateClouds(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+        self.token = {"Authorization": "Bearer " + resp.json()}
 
     def test_post_get_delete_clouds(self):
         """ Test post, get and delete clouds"""
