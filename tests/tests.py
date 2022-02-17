@@ -166,6 +166,7 @@ class TestWaziGateSensors(unittest.TestCase):
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
         self.dev_id = resp.text
+        print(self.dev_id)
 
     def test_get_sensors(self):
         """ Test get sensors"""
