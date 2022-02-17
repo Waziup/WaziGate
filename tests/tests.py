@@ -161,7 +161,8 @@ class TestWaziGateSensors(unittest.TestCase):
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.text.strip('"')}
+        self.token = {"Authorization": "Bearer " + resp.text.strip('"'), 
+                      "Content-Type": "text/plain"}
 
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
