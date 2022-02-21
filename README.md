@@ -1,87 +1,53 @@
-WaziGate LoRa gateway
-=====================
+# Waziup Edge Gateway
 
-This repo contains the source code for the Waziup gateway.
+This repo contains files and links for the Waziup Edge Gateway.
 
-Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation .
-The instructions below are for developpers and experts.
+[![WaziGate Documentation](https://shields.io/badge/WaziGate-Documentation-blue?style=for-the-badge&labelColor=CCCCCC&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABmJLR0QA/wD/AP+gvaeTAAABWUlEQVQoz8WSTytEcRSGn/NzzSTNhEZ3DAtCUhbWCklJSbERmUZRpOYOOz6CPd9AyScQFi6ShQ8gClFKTLMxzWzm3nssGE1jY8W7O2/n7en8gT+X7ZxOxtfd9mo/7pw3xzMnM5VedjEWeU8mBgCMoHv44lQHFW8Olf0m5yD6WSP1ntUrRg8LyViLBYRBQ9VBwYRBpS4I1QLkU4klQUdArwITWjW/Gec9ldgU9R+AaUX3EJ2wKhtaHbetRBB+2x69r/QNQTciDQrXIL4oPd9EO+2u+fBoMHdxx92qgmYVEwEKYqROobZMHBehE+UGoQhsgN5+L0qlETXHGH8WH4DnMrELuEdqhi0rPCjIJdBTDkZ2X1YQXxUeEPpF9NQCKYHmVM3Y685Q9uuGU+BfAp3FknoABYKjiGeeAosLMQxhZ9xZO+P2/XiM9FmHnXaXKr3cfFM0v9CyzL/oA7wgdKqndednAAAAAElFTkSuQmCC)](https://www.waziup.io/documentation/wazigate/) 
+[![WaziGate Quick Start](https://shields.io/badge/WaziGate-Quick--Start-blue?style=for-the-badge&labelColor=CCCCCC&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAABmJLR0QA/wD/AP+gvaeTAAABWUlEQVQoz8WSTytEcRSGn/NzzSTNhEZ3DAtCUhbWCklJSbERmUZRpOYOOz6CPd9AyScQFi6ShQ8gClFKTLMxzWzm3nssGE1jY8W7O2/n7en8gT+X7ZxOxtfd9mo/7pw3xzMnM5VedjEWeU8mBgCMoHv44lQHFW8Olf0m5yD6WSP1ntUrRg8LyViLBYRBQ9VBwYRBpS4I1QLkU4klQUdArwITWjW/Gec9ldgU9R+AaUX3EJ2wKhtaHbetRBB+2x69r/QNQTciDQrXIL4oPd9EO+2u+fBoMHdxx92qgmYVEwEKYqROobZMHBehE+UGoQhsgN5+L0qlETXHGH8WH4DnMrELuEdqhi0rPCjIJdBTDkZ2X1YQXxUeEPpF9NQCKYHmVM3Y685Q9uuGU+BfAp3FknoABYKjiGeeAosLMQxhZ9xZO+P2/XiM9FmHnXaXKr3cfFM0v9CyzL/oA7wgdKqndednAAAAAElFTkSuQmCC)](https://www.waziup.io/documentation/wazigate/v2/quick_start/) 
+[![Download](https://shields.io/badge/Download-ISO-CCCCCC?style=for-the-badge&labelColor=CCCCCC&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAQAAABKfvVzAAAAO0lEQVQ4y2NgGBLgPxIc1YAO6lGUIsN60rTUk2ZLPSEf1JOmHFVLPbGJo5405RAt9YMtWaND6mgYqgAAJrhwiTjlTUUAAAAASUVORK5CYII=)](https://downloads.waziup.io/WaziGate_latest.zip)
 
-Install
-=======
+Waziup Edge Gateway is a free software for Raspberry Pi that brings edge computing and basic AI data processing. It is designed to work without an active internet connection, which makes it perfectly to use in rural areas with limited to zero network connections. The Gateway supports wireless protocols like LoRa and Bluetooth to connect with various sensors and actuators.
 
-To install the Wazigate on a Raspberry PI, [download](https://www.raspberrypi.org/downloads/raspbian/) the latest raspbian and unzip it:
-```
-wget https://downloads.raspberrypi.org/raspbian_lite_latest
-unzip raspbian_lite_latest
-```
+Complete instructions for Windows, Linux and MacOS users can be found on the website: http://www.waziup.io/documentation.
 
-Flash it on an SD card. You need to find the SD card device ID first:
-```
-# Find the SD card device:
-sudo fdisk -l
-
-# Flash it:
-sudo dd if=./<image name>.img of=/dev/<dev name> status=progress bs=4M
-```
-In the above command, replace with your image name, and with your SD card device (for example: /dev/mmcblk0).
-Be extra careful, as if you enter the wrong dev ID, you could overwrite your own hard disk.
-After that, you need to mount the SD card on you PC (if it's not already mounted somewhere), and create a file named **ssh** without extention on the SD card.
-If it has multiple partitions, just create it on anyone you are allowed to.
-
-```
-mount
-cd <mount path>
-touch ssh
-```
-
-You can now extract the SD card from your PC and insert it into the Raspberry PI.
-You should also connect the RPI to your PC by Ethernet cable.
-SSH into the PI. Password is `raspberry`:
-```
-ssh pi@raspberrypi.local
-```
-Then download and install WaziGate with the following command on the RPI terminal:
-```
-curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup_test.sh | bash
-```
-
-This will take a while. Time to grab a cup of tea.
-Once finished, the pi will be rebooted and then pulls the containers and set up everything, then reboots again.
-Then you can access your Wazigate UI on http://wazigate.local/ !
-
-Develop
-=======
+![WaziGate - Waziup Edge Gateway](./wazigate.svg)
 
 
-For developer version, you need to run the following line:
+## WaziGate Image (ISO)
 
-```
-curl -fsSL https://raw.githubusercontent.com/Waziup/waziup-gateway/master/setup/get_waziup_dev.sh | bash
-```
-This will download the code from github HEAD.
+To start with wazigate, head over to the WaziGate documentation at [waziup.io](https://www.waziup.io/documentation/wazigate/). There you will find the WaziGate Images the flash your Raspberry Pi. 
 
+👉 WaziGate ISO images: https://www.waziup.io/downloads/
 
-Bulding the images
-------------------
+The best tool for flashing the ISO to an SD-Card is the [Raspberry Pi Imager](https://www.raspberrypi.com/software/). You can download the tool from [www.raspberrypi.com](https://www.raspberrypi.com/software/).
 
-You can build the images simply by doing:
-```
-docker-compose build
-```
+Inside Raspberry Pi Imager, click "Select own image" and select the WaziGate image that you just downloaded. When finished, insert the SD-Card into your Raspberry Pi and power it up. After a few minutes, the Pi wil be booted and you should be able to access the Dashboard on **[wazigate.local](http://wazigate.local)** when **connected to your router via LAN cable**. When there is no internet connection, the WaziGate will go into **Access Point Mode**. Look for a Wifi network called `WAZIGATE_...` and connect to that.
 
-Running
--------
+You can also use a keyboard and any HDMI screen with the Raspberry Pi to access the control panel directly. Using that panel you can also connect to a WiFi network quickly.
 
-You can run WaziGate like this:
-```
-docker network create wazigate
-git clone https://github.com/Waziup/wazigate-edge
-cd wazigate-edge
-git clone https://github.com/Waziup/wazigate-dashboard
-cd wazigate-dashboard/
-npm install
-npm run build
-cd ../..
-docker-compose up
-```
-The UI is available on [localhost](http://localhost).
+It may take some time for the device to boot for the first time!
+
+If you are using Linux, connecting to the [wazigate.local](http://wazigate.local) address may not work for you. Check your router to fend the IP address of the Wazigate in you local network and connect to it using that address directly.
+
+## Documentation
+
+Have a look at the [waziup.io documentation](https://www.waziup.io/documentation/wazigate/) on WaziGate. There you will find easy step-by-step tutorials to setup your WaziGate and some YouTube tutorials that will help to get started very quick.
+
+https://www.waziup.io/documentation/wazigate/
+
+## Development
+
+You can connect to the Raspberry Pi via SSH after you enabled the SSH server.
+
+The Raspberry Pi documentation reads:
+
+*For headless setup, SSH can be enabled by placing a file named ssh, without any extension, onto the boot partition of the SD Card. When the Raspberry Pi boots, it looks for the ssh file. If it is found, SSH is enabled and the file is deleted. The content of the file does not matter; it could contain text, or nothing at all.*
+
+See https://www.raspberrypi.com/documentation/computers/remote-access.html#enabling-the-server.
+
+The default SSH username is `pi` and the password `loragateway`. These are different from the username and password that you use in the WaziGate dashboard.
+
+## Building the ISO
+
+There is a repository at [github.com/Waziup/WaziGate-ISO-gen](https://github.com/Waziup/WaziGate-ISO-gen) that we use to create the image for Raspberry Pi (arm/v7 and arm/v8 architecture). It is based on the original [pi-gen](https://github.com/RPi-Distro/pi-gen) repository. The image is derived from the Raspberry Pi OS Lite, meaning that is does not come with a desktop environnement but has a very small footprint and the archive is less than 1GB in size.
+
