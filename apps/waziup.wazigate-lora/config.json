@@ -1,0 +1,56 @@
+{
+    "login": {
+        "email": "admin",
+        "password": "admin"
+    },
+    "organization": {
+        "id": 1,
+        "name": "chirpstack",
+        "display_name": "chirpstack",
+        "can_have_gateways": true
+    },
+    "network_server": {
+        "id": 0,
+        "name": "Local Chirpstack Network Server",
+        "server": "waziup.wazigate-lora.chirpstack-network-server:8000"
+    },
+    "service_profile": {
+        "id": "",
+        "name": "Wazigate Service Profile",
+        "organization_id": 1,
+        "network_server_id": 0
+    },
+    "gateway": {
+        "id": "AA55A00000000000",
+        "name": "LocalWazigate",
+        "description": "The local Wazigate LoRa Gateway can be a Wazihat.",
+        "location": {
+            "latitude": 0,
+            "longitude": 0,
+            "altitude": 0,
+            "source": 0
+        },
+        "organization_id": 1,
+        "network_server_id": 0
+    },
+    "application": {
+        "id": 0,
+        "organization_id": 1,
+        "name": "Wazigate",
+        "description": "Default Wazigate Application"
+    },
+    "device_profiles": [
+        {
+            "name": "Wazidev",
+            "organization_id": 1,
+            "network_server_id": 0,
+            "mac_version": "1.0.1",
+            "reg_params_revision": "A",
+            "factory_preset_freqs": [
+                868100000
+            ],
+            "rf_region": "EU868",
+            "payload_codec": "CAYENNE_LPP"
+        }
+    ]
+}

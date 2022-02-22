@@ -24,30 +24,13 @@ pipeline {
     }
     stage('Build') {
       steps {
-        dir("wazigate-edge") {
-          git branch: 'v2', url: 'https://github.com/Waziup/wazigate-edge.git'
-          dir ("wazigate-dashboard") {
-            git 'https://github.com/Waziup/wazigate-dashboard.git'
-          }
-          sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-edge:$WAZIGATE_TAG --push --progress plain .'
-        }
-        dir("wazigate-system") {
-          git 'https://github.com/Waziup/wazigate-system.git'
-          sh 'docker buildx build --platform=linux/arm/v7 --tag waziup/wazigate-system:$WAZIGATE_TAG --push --progress plain .'
-        }
-        dir("wazigate-lora") {
-          git branch: 'v2', url: 'https://github.com/Waziup/wazigate-lora.git'
-          sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-lora:$WAZIGATE_TAG --push --progress plain .'
-          dir("forwarders") {
-            sh 'docker buildx build --platform=linux/arm64 --tag waziup/wazigate-lora-forwarders:$WAZIGATE_TAG --push --progress plain .'
-          }
-        }
+        sh 'docker buildx bake --push --progress plain'
       }
     }
     stage('Stage') {
       steps {
         sh 'echo "restart containers on RPI"'
-        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP "cd /var/lib/wazigate; docker-compose down; docker-compose pull; docker-compose up -d"'
+        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
     }
     stage('Test') {

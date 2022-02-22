@@ -1,0 +1,20 @@
+{
+	"SX127X_conf": {
+		"lorawan_public": true,
+		"antenna_gain": 0,
+		"antenna_gain_desc": "antenna gain, in dBi",
+        "desc": "Lora MAC, 125kHz, SF12, 868.1 MHz",
+        "bandwidth": 125000,
+        "spread_factor": 12,
+        "freq": 868100000
+	},
+	"gateway_conf": {
+		"gateway_ID": "AA55A00000000000",
+		"servers": [ {
+			"server_address": "waziup.wazigate-lora.chirpstack-gateway-bridge",
+			"serv_port_up": 1700,
+			"serv_port_down": 1700,
+			"serv_enabled": true
+		} ]
+	}
+}

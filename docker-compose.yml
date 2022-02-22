@@ -1,81 +1,171 @@
-version: '3'
-services:
+version: "3.9"
 
-#-------------------------#
-  
+services:
   wazigate-edge:
-    container_name: wazigate-edge
-    image: waziup/wazigate-edge:latest
+    container_name: waziup.wazigate-edge
+    image: waziup/wazigate-edge:$WAZIGATE_TAG
     build: ./wazigate-edge
+    platform: linux/arm/v7
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
+      - ./apps:/root/apps
+    environment:
+      - WAZIGATE_ID=$WAZIGATE_ID
+      - WAZIGATE_VERSION=$WAZIGATE_VERSION
+      - WAZIGATE_TAG=$WAZIGATE_TAG
+      - WAZIUP_MONGO=mongodb://waziup.wazigate-mongo:27017/?connect=direct
     ports:
       - "80:80"
       - "1883:1883"
-    volumes:
-      - /var/lib/wazigate:/var/lib/wazigate # Where the WaziApps are installed
-      - /var/run:/var/run # Mapping the host sockets
-      # - ./wazigate-edge:/go/src/github.com/Waziup/wazigate-edge # need it for development
-      # - ./setup/resolv.conf:/etc/resolv.conf
-    environment:
-      - WAZIUP_HTTP_ADDR=:80
-#      - WAZIUP_HTTPS_ADDR=:4443
-#      - WAZIUP_MQTT_ADDR=:1883
-#      - WAZIUP_MQTTS_ADDR=:8883
-#      - WAZIUP_TLS_CRT =             TLS Cert File (.crt)
-#      - WAZIUP_TLS_KEY =             TLS Key File (.key)
-      - WAZIUP_MONGO=wazigate-mongo:27017
-      # - WAZIUP_CLOUDS_FILE=/root/conf/clouds.json
-      # - WAZIGATE_HOST_ADDR=/var/run/wazigate-host.sock
-    #network_mode: host
-    depends_on:
-      - wazigate-mongo
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
-    healthcheck:
-      test: curl --fail http://localhost/ || exit 1 
-      interval: 30s
-      retries: 10 # Will try for 5 minutes
     restart: always
-    #entrypoint: tail -f /dev/null
-    # entrypoint: "./wazigate-edge -www /go/src/github.com/Waziup/wazigate-edge/wazigate-dashboard" #used in dev mode
 
-#-------------------------#
+  wazigate-system:
+    container_name: waziup.wazigate-system
+    image: waziup/wazigate-system:$WAZIGATE_TAG
+    build: ./wazigate-system
+    platform: linux/arm/v7
+    volumes:
+      - ./apps/waziup.wazigate-system:/var/lib/waziapp
+      - /var/run:/var/run
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev/mem:/dev/mem
+      - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
+    privileged: true
+    healthcheck:
+      test: curl --fail --unix-socket /var/lib/waziapp/proxy.sock http://localhost/ || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 30 # Will try for 5 minutes
+    restart: unless-stopped
+
+  wazigate-lora:
+    container_name: waziup.wazigate-lora
+    image: waziup/wazigate-lora:$WAZIGATE_TAG
+    build: ./wazigate-lora
+    platform: linux/arm/v7
+    labels: 
+      - io.waziup.waziapp=waziup.wazigate-lora
+    volumes:
+      - ./apps/waziup.wazigate-lora:/var/lib/waziapp
+    healthcheck:
+      test: curl --fail --unix-socket /var/lib/waziapp/proxy.sock http://localhost/ || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 30 # Will try for 5 minutes      
+    restart: unless-stopped
+
+  wazigate-lora-forwarders:
+    container_name: waziup.wazigate-lora.forwarders
+    image: waziup/wazigate-lora-forwarders:latest
+    platform: linux/arm/v7
+    tty: true 
+    volumes:
+      - ./apps/waziup.wazigate-lora/forwarders/:/root/conf
+      - /var/run/dbus:/var/run/dbus
+      - /sys/class/gpio:/sys/class/gpio
+      - /dev:/dev
+    environment:
+      - ENABLE_MULTI_SPI=1
+      - ENABLE_MULTI_USB=1
+      - ENABLE_SINGLE_SPI=1
+    devices:
+      - /dev/ttyACM0:/dev/ttyACM0
+    labels:
+      - io.waziup.waziapp=waziup.wazigate-lora
+    privileged: true  
+    restart: unless-stopped
 
   wazigate-mongo:
-    container_name: wazigate-mongo
-    #image: waziup/wazigate-mongo:V1.1-Beta1
-    image: webhippie/mongodb:latest
-    #build: ./wazigate-mongo
-    #hostname: mongo
-    ports:
-      - "27017:27017"
+    container_name: waziup.wazigate-mongo
+    image: waziup/wazigate-mongo:4.4.11
+    platform: linux/arm64
     volumes:
-      - ./wazigate-mongo/data:/var/lib/mongodb
-      - ./wazigate-mongo/backup:/var/lib/backup
-      - ./wazigate-mongo/bin:/var/lib/bin
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "200k"
-        max-file: "10"
+      - ./wazigate-mongo/data:/data/db
     healthcheck:
       test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
-      interval: 5s
+      interval: 10s
       timeout: 5s
       retries: 12
-#    extra_hosts:
-#      - "localhost:127.0.0.1"
-#    network_mode: host
     restart: always
-    #entrypoint: "/etc/init.d/mongodb stop; rm -f /var/lib/mongodb/mongod.lock; mongod --repair --dbpath=/var/lib/mongodb/ && mongod --dbpath=$
-    #entrypoint: "tail -f /dev/null"
-    # entrypoint: "sh /var/lib/bin/start.sh"
+    entrypoint: ["mongod", "--bind_ip_all"]
+
+  redis:
+    container_name: redis
+    image: redis:6-alpine
+    platform: linux/arm64/v8
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30   
+    restart: unless-stopped
+    entrypoint: ["redis-server", "--appendonly yes", "--maxmemory 100mb", "--tcp-backlog 128"]
+
+  postgresql:
+    container_name: postgres
+    image: postgres:alpine3.15
+    platform: linux/arm64/v8
+    volumes:
+      - ./apps/waziup.wazigate-lora/postgresql/initdb:/docker-entrypoint-initdb.d
+      - postgresqldata:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "chirpstack_ns"]
+      interval: 10s
+      timeout: 5s
+      retries: 5  
+    restart: unless-stopped
+
+  chirpstack-gateway-bridge:
+    container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
+    image: waziup/chirpstack-gateway-bridge:3.9.2
+    platform: linux/arm/v7
+    #chirpstack/chirpstack-gateway-bridge:3.13.2
+    labels: 
+      - io.waziup.waziapp=waziup.wazigate-lora
+    volumes:
+      - ./apps/waziup.wazigate-lora/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    ports:
+      - 1700:1700/udp
+    restart: unless-stopped
+
+  chirpstack-application-server:
+    container_name: waziup.wazigate-lora.chirpstack-application-server
+    image: waziup/chirpstack-application-server:3.13.2
+    platform: linux/arm/v7 
+    #chirpstack/chirpstack-application-server:3.17.4 
+    labels: 
+      - io.waziup.waziapp=waziup.wazigate-lora
+    volumes:
+      - ./apps/waziup.wazigate-lora/chirpstack-application-server:/etc/chirpstack-application-server
+    ports:
+      - 8080:8080 
+    restart: unless-stopped
+
+  chirpstack-network-server:
+    container_name: waziup.wazigate-lora.chirpstack-network-server
+    image: waziup/chirpstack-network-server:3.11.0
+    platform: linux/arm/v7
+    #chirpstack/chirpstack-network-server:3.15.5
+    labels:
+      - io.waziup.waziapp=waziup.wazigate-lora
+    volumes:
+      - ./apps/waziup.wazigate-lora/chirpstack-network-server:/etc/chirpstack-network-server
+    restart: unless-stopped
+
 
 #-------------------------#
 
 networks:
   default:
-    external:
-      name: wazigate
+    name: wazigate
+
+volumes:
+  postgresqldata:
+    name: postgresqldata
+  redisdata:
+    name: redisdata
