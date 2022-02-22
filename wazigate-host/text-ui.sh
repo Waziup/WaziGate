@@ -11,6 +11,21 @@ GREEN='\033[92m'
 RED='\033[91m'
 NC='\033[0m'
 
+
+#---------------------------------#
+
+if systemctl is-active --quiet wazigate-setup
+then
+  sp='/-\|'
+  echo "Preparing Wazigate, please wait ..."
+  while systemctl is-active --quiet wazigate-setup
+  do 
+    printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
+    sp=${sp#?}${sp%???}
+    sleep 0.2
+  done
+fi
+
 #---------------------------------#
 
 calc_wt_size() {
