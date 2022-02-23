@@ -4,8 +4,10 @@ services:
   wazigate-edge:
     container_name: waziup.wazigate-edge
     image: waziup/wazigate-edge:$WAZIGATE_TAG
-    build: ./wazigate-edge
-    platform: linux/arm64
+    build:
+      context: ./wazigate-edge
+      x-bake:
+        platforms: "linux/arm64"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
@@ -23,8 +25,10 @@ services:
   wazigate-system:
     container_name: waziup.wazigate-system
     image: waziup/wazigate-system:$WAZIGATE_TAG
-    build: ./wazigate-system
-    platform: linux/arm/v7
+    build:
+      context: ./wazigate-system
+      x-bake:
+        platforms: "linux/arm/v7"
     volumes:
       - ./apps/waziup.wazigate-system:/var/lib/waziapp
       - /var/run:/var/run
@@ -42,8 +46,10 @@ services:
   wazigate-lora:
     container_name: waziup.wazigate-lora
     image: waziup/wazigate-lora:$WAZIGATE_TAG
-    build: ./wazigate-lora
-    platform: linux/arm/v7
+    build:
+      context: ./wazigate-lora
+      x-bake:
+        platforms: "linux/arm64"
     labels: 
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
@@ -58,7 +64,10 @@ services:
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
     image: waziup/wazigate-lora-forwarders:$WAZIGATE_TAG
-    platform: linux/arm64
+    build: 
+      context: ./wazigate-lora/forwarders
+      x-bake:
+        platforms: "linux/arm64"
     tty: true 
     volumes:
       - ./apps/waziup.wazigate-lora/forwarders/:/root/conf
