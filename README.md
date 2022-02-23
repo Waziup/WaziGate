@@ -51,3 +51,12 @@ The default SSH username is `pi` and the password `loragateway`. These are diffe
 
 There is a repository at [github.com/Waziup/WaziGate-ISO-gen](https://github.com/Waziup/WaziGate-ISO-gen) that we use to create the image for Raspberry Pi (arm/v7 and arm/v8 architecture). It is based on the original [pi-gen](https://github.com/RPi-Distro/pi-gen) repository. The image is derived from the Raspberry Pi OS Lite, meaning that is does not come with a desktop environnement but has a very small footprint and the archive is less than 1GB in size.
 
+## Building the debian package
+
+To build the debian package, use:
+```
+dpkg-buildpackage -uc -us
+```
+
+
+

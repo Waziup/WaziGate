@@ -1,0 +1,13 @@
+Source: wazigate
+Section: admin
+Priority: optional
+Maintainer: Corentin dupont <cdupont@waziup.org>
+Build-Depends: debhelper-compat (= 11)     
+Standards-Version: 4.5.1                   
+Rules-Requires-Root: no
+
+
+Package: wazigate
+Architecture: all
+Depends: ${misc:Depends}
+Description: WaziGate package
