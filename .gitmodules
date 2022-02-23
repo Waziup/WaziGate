@@ -2,9 +2,8 @@
 	path = wazigate-edge
 	url = https://github.com/Waziup/wazigate-edge.git
 	branch = v2
-
 [submodule "wazigate-system"]
-	path = apps/waziup/wazigate-system
+	path = wazigate-system
 	url = https://github.com/Waziup/wazigate-system.git
 	branch = master
 [submodule "wazigate-lora"]
