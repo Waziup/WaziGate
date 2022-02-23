@@ -4,6 +4,7 @@ services:
   wazigate-edge:
     container_name: waziup.wazigate-edge
     image: waziup/wazigate-edge:$WAZIGATE_TAG
+    build: ./wazigate-edge
     platform: linux/arm64
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
