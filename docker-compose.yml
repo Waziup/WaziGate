@@ -4,8 +4,7 @@ services:
   wazigate-edge:
     container_name: waziup.wazigate-edge
     image: waziup/wazigate-edge:$WAZIGATE_TAG
-    build: ./wazigate-edge
-    platform: linux/arm/v7
+    platform: linux/arm64
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
@@ -57,8 +56,8 @@ services:
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
-    image: waziup/wazigate-lora-forwarders:latest
-    platform: linux/arm/v7
+    image: waziup/wazigate-lora-forwarders:$WAZIGATE_TAG
+    platform: linux/arm64
     tty: true 
     volumes:
       - ./apps/waziup.wazigate-lora/forwarders/:/root/conf
