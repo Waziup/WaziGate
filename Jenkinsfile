@@ -24,6 +24,9 @@ pipeline {
     }
     stage('Build') {
       steps {
+        // Create the Debian package
+        sh 'dpkg-buildpackage -uc -us'
+        // Build and push all images
         sh 'docker buildx bake --push --progress plain'
       }
     }
