@@ -26,7 +26,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '192.168.188.86')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -281,13 +281,13 @@ class TestWaziGateActuators(unittest.TestCase):
 class TestWaziGateClouds(unittest.TestCase):
 
     def_cloud = {
-        "rest": "//api.waziup.io/api/v2",
-        "mqtt": "",
-        "credentials": {
-            "username": "my username",
-            "token": "my password"
-            }
-        }
+       "rest": "//api.waziup.io/api/v2",
+       "mqtt": "",
+       "credentials": {
+           "username": "my username",
+           "token": "my password"
+           }
+       }
     token = None
     
     def setUp(self):
@@ -325,47 +325,10 @@ class TestWaziGateClouds(unittest.TestCase):
         
         resp4 = requests.delete(wazigate_url + '/clouds/' + resp.text, headers = self.token)
         self.assertEqual(resp4.status_code, 200)
-
-
-class TestWaziGateSensorsAndActuators(unittest.TestCase):
-    token = None
-    dev_id = ""    
-    def setUp(self):
-        # Get WaziGate token
-        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        self.token = {"Authorization": "Bearer " + resp.json()}
-
-        resp = requests.post(wazigate_url + '/devices', json={'name':'test_repeated'}, headers = self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.dev_id = resp.json()
         
-    def test_sensor_and_actuator_value(self): 
-        
-        amount_tests = 10 #100000
-        resp_sens = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test_sensor'}, headers = self.token)
-        self.assertEqual(resp_sens.status_code, 200)
-        resp_act = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test_actuator'}, headers = self.token)
-        self.assertEqual(resp_act.status_code, 200)
-        
-        for x in range(amount_tests):
-            """ Test post and get sensors value"""
-            resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp_sens.text.strip('"') + "/value", json=x, headers = self.token)
-            self.assertEqual(resp2.status_code, 200)
-            
-            resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp_sens.text.strip('"') + "/value", headers = self.token)
-            self.assertEqual(resp3.status_code, 200)
-            self.assertEqual(resp3.json(), x)
-            
-            """ Test post and get actuator value"""
-            resp4 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp_act.text.strip('"') + "/value", json=x, headers = self.token)
-            self.assertEqual(resp4.status_code, 200)
-            
-            resp5 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp_act.text.strip('"') + "/value", headers = self.token)
-            self.assertEqual(resp5.status_code, 200)
-            self.assertEqual(resp5.json(), x)
 
 if __name__ == "__main__":
-    with open('results.xml', 'w') as output:
+    with open('results.xml', 'wb') as output:
         unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=2),
                       failfast=False, 
                       buffer=False, 
