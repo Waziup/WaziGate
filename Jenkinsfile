@@ -47,7 +47,8 @@ pipeline {
     }
   }
   post {
-    always {
+    success {
+      archiveArtifacts artifacts: '../wazigate_0.1_all.deb', fingerprint: true
       junit 'tests/results.xml'
     }
   }
