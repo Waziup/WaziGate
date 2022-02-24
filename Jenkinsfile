@@ -26,6 +26,7 @@ pipeline {
       steps {
         // Create the Debian package
         sh 'dpkg-buildpackage -uc -us'
+        sh 'mv ../wazigate_0.1_all.deb .'
         // Build and push all images
         sh 'docker buildx bake --push --progress plain'
       }
@@ -48,7 +49,7 @@ pipeline {
   }
   post {
     success {
-      archiveArtifacts artifacts: '../wazigate_0.1_all.deb', fingerprint: true
+      archiveArtifacts artifacts: 'wazigate_0.1_all.deb', fingerprint: true
       junit 'tests/results.xml'
     }
   }
