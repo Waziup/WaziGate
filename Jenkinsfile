@@ -50,6 +50,7 @@ pipeline {
   post {
     success {
       archiveArtifacts artifacts: 'wazigate_0.1_all.deb', fingerprint: true
+      sh 'cp wazigate_0.1_all.deb /var/www/Staging/downloads/'
       junit 'tests/results.xml'
     }
   }
