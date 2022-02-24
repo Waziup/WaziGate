@@ -341,7 +341,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
         
     def test_sensor_and_actuator_value(self): 
         
-        amount_tests = 100000
+        amount_tests = 10 #100000
         resp_sens = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test_sensor'}, headers = self.token)
         self.assertEqual(resp_sens.status_code, 200)
         resp_act = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test_actuator'}, headers = self.token)
