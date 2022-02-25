@@ -33,8 +33,10 @@ pipeline {
     }
     stage('Stage') {
       steps {
+        sh 'scp wazigate_0.1_all.deb pi@$WAZIGATE_IP:~/'
+        sh 'ssh pi@$WAZIGATE_IP "sudo dpkg -i wazigate --reinstall"'
         sh 'echo "restart containers on RPI"'
-        sh 'ssh -o StrictHostKeyChecking=no pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
+        sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
     }
     stage('Test') {
