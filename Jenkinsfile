@@ -36,7 +36,7 @@ pipeline {
         sh 'scp wazigate_0.1_all.deb pi@$WAZIGATE_IP:~/'
         sh 'ssh pi@$WAZIGATE_IP "sudo dpkg -i wazigate_0.1_all.deb"'
         sh 'echo "restart containers on RPI"'
-        sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
+        sh 'ssh pi@$WAZIGATE_IP "WAZIGATE_TAG=$WAZIGATE_TAG /var/lib/wazigate/update_containers.sh"'
       }
     }
     stage('Test') {
