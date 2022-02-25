@@ -17,10 +17,11 @@ docker-compose down
 docker-compose pull
 docker-compose up -d
 
-while [ "`docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge`" != "healthy" ]
+EDGE_STATUS=
+while [ "$EDGE_STATUS" != "healthy" ]
 do
-  echo "."
+  EDGE_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge`
+  echo -n "."
   sleep 2
 done
-
 echo "Done"
