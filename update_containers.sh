@@ -12,6 +12,7 @@ WAZIGATE_ID=${WAZIGATE_ID//:}
 
 SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
+cd /var/lib/wazigate/
 docker-compose down
 docker-compose pull
 docker-compose up -d
