@@ -2,3 +2,7 @@
 
 %:
 	dh $@
+
+override_dh_installsystemd:
+	dh_installsystemd --name=wazigate-setup
+	dh_installsystemd --name=wazigate-host
