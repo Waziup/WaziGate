@@ -176,6 +176,101 @@ do_wifi_list() {
 
 #---------------------------------#
 
+CLOUD=waziup
+CLOUD_API=http://localhost/clouds/$CLOUD
+
+do_clouds() {
+  USERNAME=$(curl -s $CLOUD_API | yq ".username")
+  if [ -n "$USERNAME" ]; then
+    PAUSED=$(curl -s $CLOUD_API | yq ".paused")
+    if [[ $PAUSED == "false" ]]; then
+      do_clouds_pause
+    else
+      do_clouds_menu
+    fi
+  else
+    do_clouds_wizard
+  fi
+}
+
+do_clouds_pause() {
+  USERNAME=$(curl -s $CLOUD_API | yq ".username")
+  whiptail --yesno "Stop synchronization with cloud now?\nYou are logged in as '$USERNAME'.\n\nYou can change the username and/or password only when the synchronization is stopped." 20 60 2
+  if [ $? -eq 0 ]; then # yes
+    curl -X POST $CLOUD_API/paused -H "Content-Type: application/json" -d "true"
+  fi
+}
+
+do_clouds_menu() {
+  USERNAME=$(curl -s $CLOUD_API | yq ".username")
+
+  FUN=$(whiptail --title "Cloud Sync '$USERNAME'" --menu "Setup Options" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Exit --ok-button Select \
+      "1 Change Username" "" \
+      "2 Change Password" "" \
+      "3 Activate Synchronization" "" \
+      3>&1 1>&2 2>&3)
+    RET=$?
+    if [ $RET -eq 1 ]; then
+      exit 0
+    elif [ $RET -eq 0 ]; then
+      case "$FUN" in
+        1\ *) do_clouds_username ;;
+        2\ *) do_clouds_password ;;
+        3\ *) do_cloud_unpause ;;
+        # *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
+      esac # || whiptail --msgbox "There was an error running option $FUN" 20 60 1
+    else
+      exit 1
+    fi
+}
+
+do_clouds_username() {
+  USERNAME=$(curl -s $CLOUD_API | yq ".username")
+  USERNAME=$(whiptail --inputbox "WaziCloud Account Mail/Name" 20 70 "$USERNAME" 3>&1 1>&2 2>&3)
+  if [ -z "${USERNAME}" ]; then
+    return 0
+  fi
+  curl -X POST $CLOUD_API/username -H "Content-Type: application/json" -d "\"$USERNAME\""
+  do_clouds_password
+}
+
+do_cloud_unpause() {
+  if curl --fail -X POST $CLOUD_API/paused -H "Content-Type: application/json" -d "false" ; then
+    whiptail --msgbox "Synchronization is now ACTIVE." 20 60 1
+  else
+    whiptail --msgbox "There was an error while activating the synchronization. Check your username and password and try again." 20 60 1
+  fi
+}
+
+do_clouds_password() {
+  TOKEN=$(whiptail --inputbox "WaziCloud Account Password" 20 70 3>&1 1>&2 2>&3)
+  if [ -z "${TOKEN}" ]; then
+    return 0
+  fi
+  curl -X POST -H "Content-Type: application/json" -d "\"$TOKEN\"" $CLOUD_API/token
+
+  do_clouds_menu
+}
+
+do_clouds_wizard() {
+  USERNAME=$(whiptail --inputbox "Welcome to the WaziCloud Setup Wizard!\n\nTo activate synchronization with the WaziCloud, enter your WaziCloud mail below.\n\nYou can create a free account at waziup.io.\n\nUsername / Mail:" 20 70 --title "WaziCloud Setup Wizard" 3>&1 1>&2 2>&3)
+  if [ -z "${USERNAME}" ]; then
+    return 0
+  fi
+  curl -X POST $CLOUD_API/username -H "Content-Type: application/json" -d "\"$USERNAME\""
+  TOKEN=$(whiptail --inputbox "Enter your WaziCloud Account Password below.\n\nPassword:" 20 70 --title "WaziCloud Setup Wizard" 3>&1 1>&2 2>&3)
+  if [ -z "${TOKEN}" ]; then
+    return 0
+  fi
+  curl -X POST $CLOUD_API/token -H "Content-Type: application/json" -d "\"$TOKEN\""
+  whiptail --yesno "Active synchronization with cloud now?" 20 60 2
+  if [ $? -eq 0 ]; then # yes
+    curl -X POST $CLOUD_API/paused -H "Content-Type: application/json" -d "false"
+  fi
+}
+
+#---------------------------------#
+
 do_containers() {
     
     printf "${YELLOW}\n\tPreparing the docker containers information...${NC}" 
@@ -262,10 +357,11 @@ while true; do
     "1 Network Information" "" \
     "2 Connect to a WiFi network" "" \
     "3 Switch to Access Point Mode" "" \
-    "4 Monitor the Containers (Advance)" "" \
-    "5 Monitor the Resource usage (Advance)" "" \
-    "6 Reboot Wazigate" "" \
-    "7 Shutdown Wazigate" "" \
+    "4 WaziCloud Synchronization" "" \
+    "5 Monitor the Containers (Advance)" "" \
+    "6 Monitor the Resource usage (Advance)" "" \
+    "7 Reboot Wazigate" "" \
+    "8 Shutdown Wazigate" "" \
     3>&1 1>&2 2>&3)
   RET=$?
   if [ $RET -eq 1 ]; then
@@ -275,10 +371,11 @@ while true; do
       1\ *) do_network_info ;;
       2\ *) do_wifi_list ;;
       3\ *) do_force_ap_mode ;;
-      4\ *) do_containers ;;
-      5\ *) do_htop ;;
-      6\ *) do_reboot ;;
-      7\ *) do_shutdown ;;
+      4\ *) do_clouds ;;
+      5\ *) do_containers ;;
+      6\ *) do_htop ;;
+      7\ *) do_reboot ;;
+      8\ *) do_shutdown ;;
       # *) whiptail --msgbox "Programmer error: unrecognized option" 20 60 1 ;;
     esac # || whiptail --msgbox "There was an error running option $FUN" 20 60 1
   else
