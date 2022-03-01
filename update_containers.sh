@@ -15,6 +15,9 @@ SSID="WAZIGATE_${WAZIGATE_ID^^}"
 echo "WAZIGATE_TAG=$WAZIGATE_TAG"
 
 cd /var/lib/wazigate/
+
+sudo systemctl restart docker
+
 docker-compose down
 sleep 5
 docker-compose pull
