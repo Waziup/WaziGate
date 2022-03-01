@@ -14,7 +14,9 @@ SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
 cd /var/lib/wazigate/
 docker-compose down
+wait 10
 docker-compose pull
+wait 10
 docker-compose up -d
 
 EDGE_STATUS=

@@ -53,6 +53,7 @@ pipeline {
     success {
       archiveArtifacts artifacts: 'wazigate_0.1_all.deb', fingerprint: true
       sh 'cp wazigate_0.1_all.deb /var/www/Staging/downloads/'
+      sh 'dpkg-scanpackages -m . | gzip --fast > /var/www/Staging/downloads/Packages.gz'
       junit 'tests/results.xml'
     }
   }
