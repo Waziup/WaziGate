@@ -27,6 +27,7 @@ pipeline {
         // Create the Debian package
         sh 'dpkg-buildpackage -uc -us'
         sh 'mv ../wazigate_0.1_all.deb .'
+        sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'
         // Build and push all images
         sh 'docker buildx bake --push --progress plain'
       }
@@ -51,9 +52,8 @@ pipeline {
   }
   post {
     success {
-      archiveArtifacts artifacts: 'wazigate_0.1_all.deb', fingerprint: true
-      sh 'cp wazigate_0.1_all.deb /var/www/Staging/downloads/'
-      sh 'dpkg-scanpackages -m . | gzip --fast > /var/www/Staging/downloads/Packages.gz'
+      sh 'cp wazigate_0.1_all.deb Packages.gz /var/www/Staging/downloads/'
+      archiveArtifacts artifacts: 'wazigate_0.1_all.deb', 'Packages.gz', fingerprint: true
       junit 'tests/results.xml'
     }
   }
