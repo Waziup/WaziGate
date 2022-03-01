@@ -12,11 +12,13 @@ WAZIGATE_ID=${WAZIGATE_ID//:}
 
 SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
+echo "WAZIGATE_TAG=$WAZIGATE_TAG"
+
 cd /var/lib/wazigate/
 docker-compose down
-wait 10
+sleep 5
 docker-compose pull
-wait 10
+sleep 5
 docker-compose up -d
 
 EDGE_STATUS=
