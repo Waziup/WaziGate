@@ -1,4 +1,5 @@
 docker-compose.yml          /var/lib/wazigate
+wazigate_images.tar         /var/lib/wazigate
 apps                        /var/lib/wazigate
 wazigate-host               /var/lib/wazigate
 .env                        /var/lib/wazigate
