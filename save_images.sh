@@ -1,4 +1,4 @@
-IMAGES=`cat docker-compose.yml | yq -r .services[].image | envsubst`
+IMAGES=`cat docker-compose.yml | yq .services[].image | envsubst`
 
 echo "Saving images:\n $IMAGES"
 
