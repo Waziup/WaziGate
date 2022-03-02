@@ -1,43 +1,9 @@
 #!/bin/bash -e
 
+source .env
+
 log () {
   echo "Step $1/4: $2" > /tmp/wazigate-setup-step.txt
-}
-
-# Load docker images, delete docker *.tar files
-load_and_run () {
-  ending=".tar"
-  filename="$1$ending"
-
-  # For debugging
-  ########################################
-  #docker image save "waziup/${name}" -o $1
-  #docker rm -f "waziup.$name"
-  ########################################
-
-  if [ -f $filename ]; then
-    echo "Loading image $1 from file: $filename"
-    docker image load -i $filename
-    rm $filename
-    #docker-compose up -d $name # Now we can use docker-compose file
-  else 
-    echo "Compressed file $filename, of Container $1 does not exist"
-  fi
-}
-
-# Read image names from docker-compose.yml and delete vendor 
-read_image_names () {
-  declare -a IFS=$'' image_names=($(grep '^\s*image' docker-compose.yml | sed 's/image://'))
-
-  for single_elemet in "${image_names[@]}"
-  do
-    # Delete tags
-    striped_elemet=${single_elemet%:*}
-    # Delete before "/"
-    striped_elemet=${striped_elemet#*/}
-
-    load_and_run "$striped_elemet"
-  done
 }
 
 # Delete all connections associated with "WAZIGATE-AP"
@@ -59,7 +25,6 @@ setup_new_connection () {
   nmcli c up WAZIGATE-AP
 }
 
-source .env
 
 ################################################################################
 
@@ -114,7 +79,7 @@ fi
 
 log 3 "Loading docker Iamges"
 # Read from docker compose: load images
-read_image_names
+docker load -i wazigate_images.tar
 
 log 4 "Starting docker containers"
 # Create containers
