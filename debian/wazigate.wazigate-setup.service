@@ -4,7 +4,8 @@ After=network.target
 ConditionFileIsExecutable=/var/lib/wazigate/setup.sh
 
 [Service]
-Type=idle
+Type=simple
+Restart=always
 WorkingDirectory=/var/lib/wazigate
 ExecStart=/var/lib/wazigate/setup.sh
 
