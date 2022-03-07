@@ -24,12 +24,11 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // Create the Debian package
-        sh 'dpkg-buildpackage -uc -us -b'
-        sh 'mv ../wazigate_0.1_all.deb .'
-        sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'
         // Build and push all images
         sh 'docker buildx bake --push --progress plain'
+        // Create the Debian package and manifest
+        sh 'dpkg-buildpackage -uc -us -b; mv ../wazigate_0.1_all.deb .'
+        sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'
       }
     }
     stage('Stage') {

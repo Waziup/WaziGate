@@ -77,10 +77,10 @@ fi
 
 ################################################################################
 
-log 3 "Loading docker Iamges"
+log 3 "Loading docker images"
 # Read from docker compose: load images
 docker load -i wazigate_images.tar
 
 log 4 "Starting docker containers"
 # Create containers
-docker-compose up -d
+docker-compose up
