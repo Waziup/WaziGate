@@ -25,7 +25,7 @@ pipeline {
     stage('Build') {
       steps {
         // Build all images
-        sh 'docker buildx bake --save --progress plain'
+        sh 'docker buildx bake --load --progress plain'
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
