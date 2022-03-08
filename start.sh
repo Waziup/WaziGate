@@ -82,4 +82,4 @@ fi
 
 log 4 "Starting docker containers"
 # Create containers
-docker-compose up -d
+docker-compose up

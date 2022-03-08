@@ -3,7 +3,7 @@ Description=Wazigate Service
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 WorkingDirectory=/var/lib/wazigate
 ExecStart=/var/lib/wazigate/start.sh
 
