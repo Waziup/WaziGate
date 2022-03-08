@@ -9,7 +9,7 @@ docker-compose down
 sleep 5
 
 # Restart
-./start.sh
+docker-compose up -d 
 
 # Wait for starting
 EDGE_STATUS=
