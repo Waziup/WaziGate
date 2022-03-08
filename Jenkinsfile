@@ -16,7 +16,7 @@ pipeline {
         
         sh 'docker run --rm --privileged multiarch/qemu-user-static --reset -p yes'
         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-            sh 'docker buildx create --name rpibuilder --platform linux/arm/v7; true'
+            sh 'docker buildx create --name rpibuilder --platform linux/arm64/v8; true'
         }
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
@@ -36,9 +36,10 @@ pipeline {
     }
     stage('Stage') {
       steps {
+        // Copy Debian package to RPI
         sh 'scp wazigate_0.1_all.deb pi@$WAZIGATE_IP:~/'
         sh 'ssh pi@$WAZIGATE_IP "sudo dpkg -i wazigate_0.1_all.deb"'
-        sh 'echo "restart containers on RPI"'
+        // Restart containers on RPI
         sh 'ssh pi@$WAZIGATE_IP "WAZIGATE_TAG=$WAZIGATE_TAG /var/lib/wazigate/update_containers.sh"'
       }
     }
