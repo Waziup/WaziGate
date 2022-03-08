@@ -9,7 +9,7 @@ docker-compose down
 sleep 5
 
 # Restart
-sudo systemctl restart wazigate.service
+./start.sh
 
 # Wait for starting
 EDGE_STATUS=
