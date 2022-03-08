@@ -32,15 +32,10 @@ log 0 "Prepare"
 
 if [ -f  /sys/class/net/eth0/address ] ; then
   WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
-else
-  if [ -f  /sys/class/net/wlan0/address ] ; then
-    WAZIGATE_ID=$(cat /sys/class/net/wlan0/address)
-  fi;
+elif [ -f  /sys/class/net/wlan0/address ] ; then
+  WAZIGATE_ID=$(cat /sys/class/net/wlan0/address)
 fi;
 export WAZIGATE_ID=${WAZIGATE_ID//:}
-
-sed -i "s/^WAZIGATE_ID.*/WAZIGATE_ID=$WAZIGATE_ID/g" .env
-
 SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
 ################################################################################
@@ -66,7 +61,7 @@ if [ -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
   do
     #echo "${OUTPUT#*_}"
     if [ ${SSID#*_} != ${OUTPUT#*_} ]; then
-      echo "Foud other MAC in NetworkManager: ${OUTPUT#*_}"
+      echo "Found other MAC in NetworkManager: ${OUTPUT#*_}"
       delete_connections #"$waziAPs"
     fi
   done
@@ -79,7 +74,11 @@ fi
 
 log 3 "Loading docker images"
 # Read from docker compose: load images
-docker load -i wazigate_images.tar
+if [ -f wazigate_images.tar ]; then
+  docker load -i wazigate_images.tar
+  rm -f wazigate_images.tar
+fi
+
 
 log 4 "Starting docker containers"
 # Create containers

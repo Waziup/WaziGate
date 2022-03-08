@@ -1,9 +1,8 @@
 #!/usr/bin/make -f
 
 %:
-	./save_images.sh
 	dh $@ --parallel
 
 override_dh_installsystemd:
-	dh_installsystemd --name=wazigate-setup
+	dh_installsystemd --name=wazigate-start
 	dh_installsystemd --name=wazigate-host
