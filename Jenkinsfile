@@ -24,9 +24,12 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // Build and push all images
-        sh 'docker buildx bake --push --progress plain'
-        // Create the Debian package and manifest
+        // Build all images
+        sh 'docker buildx bake --save --progress plain'
+        // Save all images in a single tar file
+        sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
+
+        // Create the Debian package and manifest (including the docker images)
         sh 'dpkg-buildpackage -uc -us -b; mv ../wazigate_0.1_all.deb .'
         sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'
       }
@@ -51,7 +54,11 @@ pipeline {
   }
   post {
     success {
+      // Pushing all images to dockerhub
+      sh 'docker-compose push'
+      // Install debian package in download repo
       sh 'cp wazigate_0.1_all.deb Packages.gz /var/www/Staging/downloads/'
+      // Publish artifacts
       archiveArtifacts artifacts: 'wazigate_0.1_all.deb, Packages.gz', fingerprint: true
       junit 'tests/results.xml'
     }

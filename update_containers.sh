@@ -1,29 +1,17 @@
 #!/bin/bash
 set -x
 
-if [ -f  /sys/class/net/eth0/address ] ; then
-  WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
-else
-  if [ -f  /sys/class/net/wlan0/address ] ; then
-    WAZIGATE_ID=$(cat /sys/class/net/wlan0/address)
-  fi;
-fi;
-WAZIGATE_ID=${WAZIGATE_ID//:}
-
-SSID="WAZIGATE_${WAZIGATE_ID^^}"
-
-echo "WAZIGATE_TAG=$WAZIGATE_TAG"
-
 cd /var/lib/wazigate/
 
+# Switch everything down
 sudo systemctl restart docker
-
 docker-compose down
 sleep 5
-docker-compose pull
-sleep 5
-docker-compose up -d
 
+# Restart
+./start.sh
+
+# Wait for starting
 EDGE_STATUS=
 while [ "$EDGE_STATUS" != "healthy" ]
 do
