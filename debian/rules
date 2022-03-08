@@ -4,5 +4,5 @@
 	dh $@ --parallel
 
 override_dh_installsystemd:
-	dh_installsystemd --name=wazigate-start
+	dh_installsystemd --name=wazigate
 	dh_installsystemd --name=wazigate-host

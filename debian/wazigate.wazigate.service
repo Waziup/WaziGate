@@ -1,5 +1,5 @@
 [Unit]
-Description=Wazigate Setup Service
+Description=Wazigate Service
 After=network.target
 
 [Service]
