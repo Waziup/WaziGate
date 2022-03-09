@@ -1,4 +1,10 @@
-wazigate (0.1) unstable; urgency=medium                     
+wazigate (2.2.0) UNRELEASED; urgency=medium
+
+  * First Debian release of WaziGate
+
+ -- Corentin Dupont <cdupont@waziup.org> Wed, 09 Mar 2022 22:21:56 +0100
+
+wazigate (0.1) unstable; urgency=medium
 
   * Initial release.
 
