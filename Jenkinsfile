@@ -7,7 +7,7 @@ pipeline {
     timeout(time: 1, unit: 'HOURS')
   }
   environment {
-    WAZIGATE_TAG = 'nightly'
+    //WAZIGATE_TAG = 'nightly'
     DEB_NAME = 'wazigate_2.2.0_all.deb'
   }
   stages {
