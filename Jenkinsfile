@@ -8,6 +8,7 @@ pipeline {
   }
   environment {
     WAZIGATE_TAG = 'nightly'
+    DEB_NAME = 'wazigate_2.2.0_all.deb'
   }
   stages {
     stage('Prepare') {
@@ -30,15 +31,15 @@ pipeline {
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
         // Create the Debian package and manifest (including the docker images)
-        sh 'dpkg-buildpackage -uc -us -b; mv ../wazigate_0.1_all.deb .'
+        sh 'dpkg-buildpackage -uc -us -b; mv ../$DEB_NAME .'
         sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'
       }
     }
     stage('Stage') {
       steps {
         // Copy Debian package to RPI
-        sh 'scp wazigate_0.1_all.deb pi@$WAZIGATE_IP:~/'
-        sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --no-triggers -i wazigate_0.1_all.deb"'
+        sh 'scp $DEB_NAME pi@$WAZIGATE_IP:~/'
+        sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --no-triggers -i $DEB_NAME"'
         // Restart containers on RPI
         sh 'ssh pi@$WAZIGATE_IP "WAZIGATE_TAG=$WAZIGATE_TAG /var/lib/wazigate/update_containers.sh"'
       }
@@ -58,9 +59,9 @@ pipeline {
       // Pushing all images to dockerhub
       sh 'docker-compose push'
       // Install debian package in download repo
-      sh 'cp wazigate_0.1_all.deb Packages.gz /var/www/Staging/downloads/'
+      sh 'cp $DEB_NAME Packages.gz /var/www/Staging/downloads/'
       // Publish artifacts
-      archiveArtifacts artifacts: 'wazigate_0.1_all.deb, Packages.gz', fingerprint: true
+      archiveArtifacts artifacts: '$DEB_NAME, Packages.gz', fingerprint: true
       junit 'tests/results.xml'
     }
   }
