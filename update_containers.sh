@@ -8,6 +8,11 @@ sudo systemctl restart docker
 docker-compose down
 sleep 5
 
+if [ -f wazigate_images.tar ]; then
+  docker load -i wazigate_images.tar
+  rm -f wazigate_images.tar
+fi
+
 # Restart
 docker-compose up -d 
 

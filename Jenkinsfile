@@ -41,7 +41,7 @@ pipeline {
         sh 'scp $DEB_NAME pi@$WAZIGATE_IP:~/'
         sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --no-triggers -i $DEB_NAME"'
         // Restart containers on RPI
-        sh 'ssh pi@$WAZIGATE_IP "WAZIGATE_TAG=$WAZIGATE_TAG /var/lib/wazigate/update_containers.sh"'
+        sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
     }
     stage('Test') {
