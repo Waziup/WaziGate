@@ -14,17 +14,14 @@ NC='\033[0m'
 
 #---------------------------------#
 
-if systemctl is-active --quiet wazigate-setup
-then
-  sp='/-\|'
-  echo "Preparing Wazigate, please wait ..."
-  while systemctl is-active --quiet wazigate-setup
-  do 
-    printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
-    sp=${sp#?}${sp%???}
-    sleep 0.2
-  done
-fi
+# Wait for WaziGate to be started
+sp='/-\|'
+while [ `docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge` != "healthy" ]
+do
+  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
+  sp=${sp#?}${sp%???}
+  sleep 0.2
+done
 
 #---------------------------------#
 
