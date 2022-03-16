@@ -24,7 +24,7 @@ pipeline {
         script {
           def props = readProperties file: '.env'
           env.WAZIGATE_TAG = props.WAZIGATE_TAG
-          env.DEB_NAME = 'wazigate_${WAZIGATE_TAG}_all.deb'
+          env.DEB_NAME = "wazigate_${WAZIGATE_TAG}_all.deb"
         }
         sh 'echo "BUILD_ID=$BUILD_ID" >> .env'
       }
