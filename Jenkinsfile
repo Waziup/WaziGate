@@ -8,7 +8,7 @@ pipeline {
   }
   environment {
     WAZIGATE_TAG = '2.2.0'
-    DEB_NAME = 'wazigate_${WAZIGATE_TAG}_all.deb'
+    DEB_NAME = 'wazigate_${env.WAZIGATE_TAG}_all.deb'
   }
   stages {
     stage('Prepare') {
