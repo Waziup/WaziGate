@@ -7,7 +7,7 @@ pipeline {
     timeout(time: 1, unit: 'HOURS')
   }
   environment {
-    WAZIGATE_TAG = 2.2.0
+    WAZIGATE_TAG = '2.2.0'
     DEB_NAME = 'wazigate_${WAZIGATE_TAG}_all.deb'
   }
   stages {
