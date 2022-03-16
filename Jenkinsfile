@@ -8,7 +8,6 @@ pipeline {
   }
   environment {
     //WAZIGATE_TAG = '2.2.0'
-    DEB_NAME = 'wazigate_2.2.0_all.deb'
   }
   stages {
     stage('Prepare') {
@@ -23,8 +22,9 @@ pipeline {
         sh 'docker buildx inspect --bootstrap'
 
         script {
-          def envs = readProperties file: '.env'
-          env.WAZIGATE_TAG = envs.WAZIGATE_TAG
+          def props = readProperties file: '.env'
+          env.WAZIGATE_TAG = props.WAZIGATE_TAG
+          env.DEB_NAME = 'wazigate_${env.WAZIGATE_TAG}_all.deb'
         }
         sh 'echo "BUILD_ID=$BUILD_ID" >> .env'
       }
