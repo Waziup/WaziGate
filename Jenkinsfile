@@ -7,7 +7,8 @@ pipeline {
     timeout(time: 1, unit: 'HOURS')
   }
   environment {
-    DEB_NAME = 'wazigate_2.2.0_all.deb'
+    WAZIGATE_TAG = 2.2.0
+    DEB_NAME = 'wazigate_${WAZIGATE_TAG}_all.deb'
   }
   stages {
     stage('Prepare') {
@@ -25,8 +26,8 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // Build all images (with workaround for https://github.com/docker/buildx/issues/282)
-        sh 'env $(cat .env | grep -v "#" | xargs) docker buildx bake --load --progress plain'
+        // Build all images
+        sh 'docker buildx bake --load --progress plain'
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
