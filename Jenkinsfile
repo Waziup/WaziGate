@@ -6,9 +6,9 @@ pipeline {
   options {
     timeout(time: 1, unit: 'HOURS')
   }
-  environment {
+  //environment {
     //WAZIGATE_TAG = '2.2.0'
-  }
+  //}
   stages {
     stage('Prepare') {
       steps {
