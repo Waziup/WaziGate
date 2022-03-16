@@ -6,14 +6,12 @@ pipeline {
   options {
     timeout(time: 1, unit: 'HOURS')
   }
-  //environment {
-    //WAZIGATE_TAG = '2.2.0'
-  //}
   stages {
     stage('Prepare') {
       steps {
         sh 'pip3 install unittest-xml-reporting'
-        
+       
+        //Install docker buildx builder
         sh 'docker run --rm --privileged multiarch/qemu-user-static --reset -p yes'
         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
             sh 'docker buildx create --name rpibuilder --platform linux/arm64/v8; true'
@@ -21,8 +19,9 @@ pipeline {
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
 
+        //read environment variables
         script {
-          def props = readProperties file: '.env'
+          def props = readProperties interpolate: true, file: '.env'
           env.WAZIGATE_TAG = props.WAZIGATE_TAG
           env.DEB_NAME = "wazigate_${WAZIGATE_TAG}_all.deb"
         }
