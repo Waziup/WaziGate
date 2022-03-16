@@ -14,7 +14,7 @@ services:
       - ./apps:/root/apps
     environment:
       - WAZIGATE_ID=$WAZIGATE_ID   # The ID of the gateway, e.g. the MAC address
-      - WAZIGATE_VERSION="$WAZIGATE_ID (build $BUILD_ID)"  # The version display on the UI
+      - WAZIGATE_VERSION=v$WAZIGATE_TAG (build $BUILD_ID)  # The version display on the UI
       - WAZIUP_MONGO=mongodb://waziup.wazigate-mongo:27017/?connect=direct
     ports:
       - "80:80"
