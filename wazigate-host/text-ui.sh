@@ -108,13 +108,12 @@ do_force_ap_mode() {
 
     echo -e "\n\t${YELLOW}Activating Access Point Mode${NC}"
 
-    sudo bash ${SCRIPT_PATH}/start_hotspot.sh
+    nmcli con add type wifi ifname wlan0 con-name Hostspot autoconnect yes ssid WAZIGATE-AP
+    nmcli con modify Hostspot 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
+    nmcli con modify Hostspot wifi-sec.key-mgmt wpa-psk
+    nmcli con modify Hostspot wifi-sec.psk "loragateway"
+    nmcli con up WAZIGATE-AP
 
-    echo -e "\n"
-    for i in {10..01}; do
-      echo -ne "\tWaiting for the network: ${YELLOW}$i ${NC}seconds... \033[0K\r"
-      sleep 1
-    done
     do_network_info
 
   else
@@ -128,17 +127,8 @@ do_force_ap_mode() {
 do_wifi_connect() {
   echo -e "\n\tConnecting to ${BLUE}${1}${NC}...\n"
 
-  sudo cp /etc/wpa_supplicant/wpa_supplicant.conf.orig /etc/wpa_supplicant/wpa_supplicant.conf
-  
-  sudo wpa_passphrase "${1}" "${2}" | grep -o '^[^#]*' >> /etc/wpa_supplicant/wpa_supplicant.conf
-  
-  sudo bash ${SCRIPT_PATH}/start_wifi.sh
+  nmcli dev wifi connect ${1} password ${2}
 
-  echo -e "\n"
-  for i in {12..01}; do
-    echo -ne "\tWaiting for the network: ${YELLOW}$i ${NC}seconds... \033[0K\r"
-    sleep 1
-  done
   do_network_info
 }
 
@@ -147,7 +137,7 @@ do_wifi_connect() {
 do_wifi_list() {
     
     printf "${YELLOW}\n\tScanning WiFi Network...${NC}" 
-    SSID=$(iw wlan0 scan | awk -f ${SCRIPT_PATH}/scan.awk | xargs whiptail --output-fd 3 --title "WiFi Setup" --menu  "Choose your WiFi network" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Close --ok-button Connect 3>&1 >/dev/tty  2>/dev/null)
+    SSID=$(nmcli -t -f ALL dev wifi | awk -F '[:]' '{ print "\"" $2 " \" \" " $14 " " $16 "\""; }' | xargs whiptail --output-fd 3 --title "WiFi Setup" --menu  "Choose your WiFi network" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Close --ok-button Connect 3>&1 >/dev/tty  2>/dev/null)
     echo "Done"
 
     if [ -n "${SSID}" ]; then
@@ -155,6 +145,7 @@ do_wifi_list() {
         if [ "${SSID}" == "Connect to a Hidden Network" ]; then
           SSID=$(whiptail --inputbox "Network Name (SSID)" 20 70 3>&1 1>&2 2>&3)
           if [ -z "${SSID}" ]; then
+	    echo "Creating Wifi list"
             do_wifi_list
             return 0
           fi
