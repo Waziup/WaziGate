@@ -15,12 +15,22 @@ NC='\033[0m'
 #---------------------------------#
 
 # Wait for WaziGate to be started
-sp='/-\|'
-while [ `docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge` != "healthy" ]
+
+# Is Image loaded?
+while [ -z "$(docker images -q waziup/wazigate-edge)" ]
 do
-  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
-  sp=${sp#?}${sp%???}
+  #echo "Image has not been loaded now"
   sleep 0.2
+done
+
+# Is container healthy? = started
+sp='/-\|'
+while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge)" != "healthy" ]
+do
+ printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
+ #echo "Container \"waziup.wazigate-edge\" was not started now"
+ sp=${sp#?}${sp%???}
+ sleep 0.2
 done
 
 #---------------------------------#
@@ -108,11 +118,24 @@ do_force_ap_mode() {
 
     echo -e "\n\t${YELLOW}Activating Access Point Mode${NC}"
 
-    nmcli con add type wifi ifname wlan0 con-name Hostspot autoconnect yes ssid WAZIGATE-AP
-    nmcli con modify Hostspot 802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared
-    nmcli con modify Hostspot wifi-sec.key-mgmt wpa-psk
-    nmcli con modify Hostspot wifi-sec.psk "loragateway"
-    nmcli con up WAZIGATE-AP
+    # Better not delete: to save old connection: (nmcli con down&up id name)
+    nmcli c down $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
+    nmcli c up $(nmcli -f NAME,UUID -p c | grep WAZIGATE-AP | sed 's/WAZIGATE-AP//' | xargs)
+    
+    #rm -rf /etc/NetworkManager/system-connections/*
+
+    # Create new WAZIGATE-AP
+    # WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
+    # export WAZIGATE_ID=${WAZIGATE_ID//:}
+    # SSID="WAZIGATE_${WAZIGATE_ID^^}"
+
+    # nmcli dev wifi hotspot ifname wlan0 con-name WAZIGATE-AP ssid $SSID password "loragateway"
+    # nmcli connection modify WAZIGATE-AP \
+    #   connection.autoconnect true connection.autoconnect-priority -100 \
+    #   802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared ipv6.method auto \
+    #   wifi-sec.key-mgmt wpa-psk wifi-sec.proto wpa
+    # nmcli c down WAZIGATE-AP
+    # nmcli c up WAZIGATE-AP
 
     do_network_info
 
@@ -127,6 +150,22 @@ do_force_ap_mode() {
 do_wifi_connect() {
   echo -e "\n\tConnecting to ${BLUE}${1}${NC}...\n"
 
+  # # Delete old wlan0 connection, better not delete: to save old connection: (nmcli con down&up id name)
+  # nmcli c down $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
+  # nmcli connection delete uuid $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
+  # rm -rf /etc/NetworkManager/system-connections/*
+
+  # nmcli connection edit con-name WAZIGATE-AP
+
+  # nmcli connection modify WAZIGATE-AP \
+  #     connection.autoconnect true connection.autoconnect-priority -100 \
+  #     802-11-wireless.mode infrastructure ipv4.method auto ipv6.method auto \
+  #     ipv4.ignore-auto-routes no ipv4.ignore-auto-dns no ipv4.dhcp-timeout 0 \
+  #     ipv4.dhcp-send-hostname yes ipv4.dhcp-hostname-flags 0x0 ipv4.never-default no \
+  #     ipv4.may-fail yes ipv4.dad-timeout -1 
+  # nmcli c down WAZIGATE-AP
+  # nmcli c up WAZIGATE-AP
+  
   nmcli dev wifi connect ${1} password ${2}
 
   do_network_info
@@ -135,7 +174,9 @@ do_wifi_connect() {
 #---------------------------------#
 
 do_wifi_list() {
-    
+    nmcli device wifi rescan
+    iw dev wlan0 scan ap-force >/dev/null 2>&1
+
     printf "${YELLOW}\n\tScanning WiFi Network...${NC}" 
     SSID=$(nmcli -t -f ALL dev wifi | awk -F '[:]' '{ print "\"" $2 " \" \" " $14 " " $16 "\""; }' | xargs whiptail --output-fd 3 --title "WiFi Setup" --menu  "Choose your WiFi network" $WT_HEIGHT $WT_WIDTH $WT_MENU_HEIGHT --cancel-button Close --ok-button Connect 3>&1 >/dev/tty  2>/dev/null)
     echo "Done"
