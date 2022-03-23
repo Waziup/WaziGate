@@ -54,6 +54,7 @@ pipeline {
         dir('tests'){
           catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             sh 'sudo -E python3 tests.py'
+            sh 'sudo -E python3 repeated_functional_and performance_tests.py'
           }
         }
       }

@@ -24,7 +24,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '192.168.188.29')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -52,10 +52,10 @@ wazigate_create_actuator = {
 
 auth = {
   "username": "admin",
-  "password": "raspberry"
+  "password": "loragateway"
 }
 
-amount_tests = 1000
+amount_tests = 10000
 
 
 
@@ -99,24 +99,26 @@ class TestWaziGateDevices(unittest.TestCase):
             if evaluate_status_code(self,resp.status_code,200):
                 resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
             current_device_id = resp.json() 
-            print(resp.text)
+            print("Created device with following ID: " + resp.text)
             
             # Check that it's effectively created
             resp2 = requests.get(wazigate_url + '/devices/' + current_device_id, headers = self.token)
             if evaluate_status_code(self,resp2.status_code,200):
                 resp2 = requests.get(wazigate_url + '/devices/' + current_device_id, headers = self.token)
             self.assertEqual(resp2.json()['name'], 'test')
-            print(wazigate_url + '/devices/' + resp2.text)
+            print("Check for created device: " + wazigate_url + '/devices/' + resp2.text)
             
             # Delete device afterwards
             resp3 = requests.delete(wazigate_url + '/devices/' + current_device_id, headers = self.token)
             if evaluate_status_code(self,resp3.status_code,200):
                 resp3 = requests.delete(wazigate_url + '/devices/' + current_device_id, headers = self.token)
+            print("Device was deleted if return empty string: " + resp3.text)
            
             # Check that it's effectively deleted
             resp4 = requests.get(wazigate_url + '/devices/' + current_device_id, headers = self.token)
             if evaluate_status_code(self,resp4.status_code,404): # was 404 in function token gets renewed
                 resp4 = requests.get(wazigate_url + '/devices/' + current_device_id, headers = self.token)
+            print("If device was deleted it should show, that it was not found: " + resp4.text)
                 
         end_time = time.time()
         total_time = end_time - start_time
@@ -131,13 +133,14 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
 
     def setUp(self):
         self.token = get_token()
-
+        
+        # Create device to push/get values to/from
         resp = requests.post(wazigate_url + '/devices', json={'name':'test_repeated'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
         self.dev_id = resp.json()
             
     def test_sensor_and_actuator_value(self): 
-        # Create test devices to push values to
+        # Create test sensors/actuators to push/get values to/from
         resp_sens = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors', json={'name':'test_sensor'}, headers = self.token)
         self.assertEqual(resp_sens.status_code, 200)
         resp_act = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators', json={'name':'test_actuator'}, headers = self.token)
@@ -150,7 +153,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
             resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp_sens.text.strip('"') + "/value", json=x, headers = self.token)
             if evaluate_status_code(self,resp2.status_code,200):
                 resp2 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp_sens.text.strip('"') + "/value", json=x, headers = self.token)
-            
+             
             
             resp3 = requests.get(wazigate_url + '/devices/' + self.dev_id + '/sensors/' + resp_sens.text.strip('"') + "/value", headers = self.token)
             if evaluate_status_code(self,resp3.status_code,200):
@@ -158,6 +161,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
             
             # Check equal    
             self.assertEqual(resp3.json(), x)
+            print ("Sensor   : Result of posted value: " + str(x) + " Result of gotten value: " + str(resp3.json()))
             
             """ Test post and get actuator value"""
             resp4 = requests.post(wazigate_url + '/devices/' + self.dev_id + '/actuators/' + resp_act.text.strip('"') + "/value", json=x, headers = self.token)
@@ -171,6 +175,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
                 
             # Check equal     
             self.assertEqual(resp5.json(), x)
+            print ("Actuator : Result of posted value: " + str(x) + " Result of gotten value: " + str(resp5.json()))
             
         end_time = time.time()
         total_time = end_time - start_time
@@ -179,8 +184,8 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
         print("test_sensor_and_actuator_value: Time in total: " + str(total_time) + "sek     Time for post one sensor value, check, post one actuator value and check: " + str(total_time/amount_tests) +"sek")
 
 if __name__ == "__main__":
-    with open('results_of_repeated_tests.xml', 'w') as output:
-        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=2),
+    with open('results_of_repeated_tests.xml', 'wb') as output:
+        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=1),
                       failfast=False, 
                       buffer=False, 
                       catchbreak=False)
