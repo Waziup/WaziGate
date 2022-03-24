@@ -69,6 +69,7 @@ pipeline {
       // Publish artifacts
       archiveArtifacts artifacts: '$DEB_NAME, Packages.gz', fingerprint: true
       junit 'tests/results.xml'
+      junit 'tests/results_of_repeated_tests.xml'
     }
   }
 }
