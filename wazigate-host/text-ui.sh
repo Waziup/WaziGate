@@ -121,21 +121,6 @@ do_force_ap_mode() {
     # Better not delete: to save old connection: (nmcli con down&up id name)
     nmcli c down $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
     nmcli c up $(nmcli -f NAME,UUID -p c | grep WAZIGATE-AP | sed 's/WAZIGATE-AP//' | xargs)
-    
-    #rm -rf /etc/NetworkManager/system-connections/*
-
-    # Create new WAZIGATE-AP
-    # WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
-    # export WAZIGATE_ID=${WAZIGATE_ID//:}
-    # SSID="WAZIGATE_${WAZIGATE_ID^^}"
-
-    # nmcli dev wifi hotspot ifname wlan0 con-name WAZIGATE-AP ssid $SSID password "loragateway"
-    # nmcli connection modify WAZIGATE-AP \
-    #   connection.autoconnect true connection.autoconnect-priority -100 \
-    #   802-11-wireless.mode ap 802-11-wireless.band bg ipv4.method shared ipv6.method auto \
-    #   wifi-sec.key-mgmt wpa-psk wifi-sec.proto wpa
-    # nmcli c down WAZIGATE-AP
-    # nmcli c up WAZIGATE-AP
 
     do_network_info
 
@@ -149,22 +134,6 @@ do_force_ap_mode() {
 
 do_wifi_connect() {
   echo -e "\n\tConnecting to ${BLUE}${1}${NC}...\n"
-
-  # # Delete old wlan0 connection, better not delete: to save old connection: (nmcli con down&up id name)
-  # nmcli c down $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
-  # nmcli connection delete uuid $(nmcli -f NAME,UUID,DEVICE -p c | grep wlan0 | xargs | awk '{ print $2 }')
-  # rm -rf /etc/NetworkManager/system-connections/*
-
-  # nmcli connection edit con-name WAZIGATE-AP
-
-  # nmcli connection modify WAZIGATE-AP \
-  #     connection.autoconnect true connection.autoconnect-priority -100 \
-  #     802-11-wireless.mode infrastructure ipv4.method auto ipv6.method auto \
-  #     ipv4.ignore-auto-routes no ipv4.ignore-auto-dns no ipv4.dhcp-timeout 0 \
-  #     ipv4.dhcp-send-hostname yes ipv4.dhcp-hostname-flags 0x0 ipv4.never-default no \
-  #     ipv4.may-fail yes ipv4.dad-timeout -1 
-  # nmcli c down WAZIGATE-AP
-  # nmcli c up WAZIGATE-AP
   
   nmcli dev wifi connect ${1} password ${2}
 
