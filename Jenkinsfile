@@ -54,6 +54,14 @@ pipeline {
         dir('tests'){
           catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             sh 'sudo -E python3 tests.py'
+          }
+        }
+      }
+    }
+    stage('Repeated_Tests') {
+      steps {
+        dir('tests'){
+          catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             sh 'sudo -E python3 repeated_functional_and_performance_tests.py'
           }
         }
@@ -67,7 +75,7 @@ pipeline {
       // Install debian package in download repo
       sh 'cp $DEB_NAME Packages.gz /var/www/Staging/downloads/'
       // Publish artifacts
-      archiveArtifacts artifacts: '$DEB_NAME, Packages.gz', fingerprint: true
+      archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
       junit 'tests/results.xml'
       junit 'tests/results_of_repeated_tests.xml'
     }
