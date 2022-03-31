@@ -10,21 +10,29 @@ import os
 import sys
 import logging
 from xmlrunner import XMLTestRunner
+import xml.etree.cElementTree as ET
+from pathlib import Path
 
 logging.basicConfig()
 logging.getLogger().setLevel(logging.DEBUG)
 requests_log = logging.getLogger("requests.packages.urllib3")
 requests_log.setLevel(logging.DEBUG)
-requests_log.propagate = True
+#requests_log.propagate = True
 
 ## Variable declaration
+try:
+     build_nr = int(sys.argv[1])
+except:
+    build_nr = 4
+
+
 
 wazidev_sensor_id = 'temperatureSensor_1'
 wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '192.168.188.29')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -55,7 +63,11 @@ auth = {
   "password": "loragateway"
 }
 
-amount_tests = 10000
+amount_tests = 10
+
+# later in linked list with testnames, global for now
+test_1_time = 0.0
+test_2_time = 0.0
 
 
 
@@ -76,6 +88,32 @@ def evaluate_status_code(self,statusCode,expected_statusCode):
         return True
     else:
         return False
+    
+    
+# append values in xml file for evaluation of performance metrics over time
+def save_values_for_evaluation(time_1,time_2):
+    name_of_file = "aggregated_performance_results.xml"
+    path_exists = os.path.exists(name_of_file)
+    
+    if path_exists: #append data
+        tree = ET.parse(name_of_file)
+        root = tree.getroot()
+
+        current_build = ET.SubElement(root, "build", buildnr=str(build_nr))
+        #root.append(current_build)
+        ET.SubElement(current_build, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
+        ET.SubElement(current_build, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
+        tree = ET.ElementTree(root)    
+        tree.write(name_of_file)
+    else:
+        root = ET.Element("root")
+        build = ET.SubElement(root, "build", buildnr=str(build_nr))
+    
+        ET.SubElement(build, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
+        ET.SubElement(build, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
+    
+        tree = ET.ElementTree(root)
+        tree.write(name_of_file)
     
     
 # Classes for the tests     
@@ -123,9 +161,11 @@ class TestWaziGateDevices(unittest.TestCase):
         end_time = time.time()
         total_time = end_time - start_time
         
+        global test_1_time
+        test_1_time = total_time
         
         print("test_post_get_delete_devices: Time in total: " + str(total_time) + "sek     Time for one create, check, delete and check: " + str(total_time/amount_tests)+"sek")
-            
+
 
 class TestWaziGateSensorsAndActuators(unittest.TestCase):
     token = None
@@ -179,13 +219,16 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
             
         end_time = time.time()
         total_time = end_time - start_time
-            
+        global test_2_time
+        test_2_time = total_time
             
         print("test_sensor_and_actuator_value: Time in total: " + str(total_time) + "sek     Time for post one sensor value, check, post one actuator value and check: " + str(total_time/amount_tests) +"sek")
+        
 
 if __name__ == "__main__":
-    with open('results_of_repeated_tests.xml', 'wb') as output:
-        unittest.main(testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=1),
+    with open('results_of_repeated_tests.xml', 'w') as output:
+        unittest.main(argv=['first-arg-is-ignored'], exit=False, testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=1),
                       failfast=False, 
                       buffer=False, 
                       catchbreak=False)
+    save_values_for_evaluation(test_1_time, test_2_time)
