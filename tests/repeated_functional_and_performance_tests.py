@@ -32,7 +32,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186') #'192.168.188.29')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -104,7 +104,7 @@ def save_values_for_evaluation(time_1,time_2):
         ET.SubElement(current_build, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
         ET.SubElement(current_build, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
         tree = ET.ElementTree(root)    
-        tree.write(name_of_file)
+        tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
     else:
         root = ET.Element("root")
         build = ET.SubElement(root, "build", buildnr=str(build_nr))
@@ -219,6 +219,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
             
         end_time = time.time()
         total_time = end_time - start_time
+        
         global test_2_time
         test_2_time = total_time
             

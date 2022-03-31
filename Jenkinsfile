@@ -79,6 +79,30 @@ pipeline {
       archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
       junit 'tests/results.xml'
       junit 'tests/results_of_repeated_tests.xml'
+      // Create Plot for tracking performance
+      // plot xmlFileName: 'aggregated_performance_results.xml', 
+      //   xmlSeries: [[
+      //                       file: 'aggregated_performance_results.xml',
+      //                       exclusionValues: '',
+      //                       displayTableFlag: false,
+      //                       inclusionFlag: 'OFF',
+      //                       url: '']],
+      //   group: 'Performance evaluation',
+      //   title: 'Time taken for individual tests',
+      //   style: 'line',
+      //   exclZero: false,
+      //   keepRecords: false,
+      //   logarithmic: false,
+      //   numBuilds: '',
+      //   useDescr: false,
+      //   yaxis: 'testime',
+      //   yaxisMaximum: '',
+      //   yaxisMinimum: ''
+    plot(group: 'Performance evaluation', title: 'Time taken for individual tests',
+      csvFileName: 'plot_aggregated_performance_results.csv',
+      xmlSeries: [[file: 'phploc.xml', nodeType: 'NUMBER', xpath: '/root/build']],//,url: "${env.JOB_URL}%build%/"]],
+      style: 'line', yaxis: 'Time',
+      keepRecords: false)
     }
   }
 }
