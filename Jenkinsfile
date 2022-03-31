@@ -63,7 +63,7 @@ pipeline {
         dir('tests'){
           catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
             echo "current build number: ${currentBuild.number}"
-            sh 'sudo -E python3 repeated_functional_and_performance_tests.py ${currentBuild.number}'
+            sh 'sudo -E python3 repeated_functional_and_performance_tests.py "${currentBuild.number}"'
           }
         }
       }
