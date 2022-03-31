@@ -100,8 +100,8 @@ pipeline {
       //   yaxisMinimum: ''
     plot(group: 'Performance evaluation', title: 'Time taken for individual tests',
       csvFileName: 'plot_aggregated_performance_results.csv',
-      xmlSeries: [[file: 'phploc.xml', nodeType: 'NUMBER', xpath: '/root/build']],//,url: "${env.JOB_URL}%build%/"]],
-      style: 'line', yaxis: 'Time',
+      xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'NUMBER', xpath: '/root/build', url: '']],//,url: "${env.JOB_URL}%build%/"]],
+      style: 'line', yaxis: 'Time in sec',
       keepRecords: false)
     }
   }
