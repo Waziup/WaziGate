@@ -98,11 +98,16 @@ pipeline {
       //   yaxis: 'testime',
       //   yaxisMaximum: '',
       //   yaxisMinimum: ''
-    plot(group: 'Performance evaluation', title: 'Time taken for individual tests',
-      csvFileName: 'plot_aggregated_performance_results.csv',
-      xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'NUMBER', xpath: '/root/build', url: '']],//,url: "${env.JOB_URL}%build%/"]],
+    plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
+      csvFileName: 'plot_aggregated_performance_results_test1.csv',
+      xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'NUMBER', xpath: '/root/test1', url: '']],//,url: "${env.JOB_URL}%build%/"]],
       style: 'line', yaxis: 'Time in sec',
       keepRecords: false)
+    plot(group: 'Performance evaluation', title: 'Time taken for test_sensor_and_actuator_value',
+      csvFileName: 'plot_aggregated_performance_results_test2.csv',
+      xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'NUMBER', xpath: '/root/test2', url: '']],//,url: "${env.JOB_URL}%build%/"]],
+      style: 'line', yaxis: 'Time in sec',
+      keepRecords: false)  
     }
   }
 }

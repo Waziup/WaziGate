@@ -23,7 +23,7 @@ requests_log.setLevel(logging.DEBUG)
 try:
      build_nr = int(sys.argv[1])
 except:
-    build_nr = 4
+    build_nr = 3
 
 
 
@@ -32,7 +32,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186') #'192.168.188.29')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '192.168.188.29') #172.16.11.186')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -63,7 +63,7 @@ auth = {
   "password": "loragateway"
 }
 
-amount_tests = 10000
+amount_tests = 10
 
 # later in linked list with testnames, global for now
 test_1_time = 0.0
@@ -99,21 +99,26 @@ def save_values_for_evaluation(time_1,time_2):
         tree = ET.parse(name_of_file)
         root = tree.getroot()
 
-        current_build = ET.SubElement(root, "build", buildnr=str(build_nr))
-        #root.append(current_build)
-        ET.SubElement(current_build, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
-        ET.SubElement(current_build, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
+        test1 = root.find('test1')
+        ET.SubElement(test1, "b"+str(build_nr)).text = str(test_1_time)
+        
+        test2 = root.find('test2')
+        ET.SubElement(test2, "b"+str(build_nr)).text = str(test_2_time)
+        
         tree = ET.ElementTree(root)    
         tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
     else:
         root = ET.Element("root")
-        build = ET.SubElement(root, "build", buildnr=str(build_nr))
-    
-        ET.SubElement(build, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
-        ET.SubElement(build, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
-    
+        #build = ET.SubElement(root, "build", buildnr=str(build_nr))
+        
+        test1 = ET.SubElement(root, "test1", name="test_post_get_delete_devices")
+        ET.SubElement(test1, "b"+str(build_nr)).text = str(test_1_time)
+        
+        test2 = ET.SubElement(root, "test2", name="test_sensor_and_actuator_value")
+        ET.SubElement(test2, "b"+str(build_nr)).text = str(test_2_time)
+        
         tree = ET.ElementTree(root)
-        tree.write(name_of_file)
+        tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
     
     
 # Classes for the tests     
@@ -227,7 +232,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
         
 
 if __name__ == "__main__":
-    with open('results_of_repeated_tests.xml', 'wb') as output:
+    with open('results_of_repeated_tests.xml', 'w') as output:
         unittest.main(argv=['first-arg-is-ignored'], exit=False, testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=1),
                       failfast=False, 
                       buffer=False, 
