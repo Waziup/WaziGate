@@ -32,7 +32,7 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '192.168.188.29') #172.16.11.186')
+wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')#192.168.188.29')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -63,7 +63,7 @@ auth = {
   "password": "loragateway"
 }
 
-amount_tests = 10
+amount_tests = 1000
 
 # later in linked list with testnames, global for now
 test_1_time = 0.0
@@ -232,7 +232,7 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
         
 
 if __name__ == "__main__":
-    with open('results_of_repeated_tests.xml', 'w') as output:
+    with open('results_of_repeated_tests.xml', 'wb') as output:
         unittest.main(argv=['first-arg-is-ignored'], exit=False, testRunner=xmlrunner.XMLTestRunner(output=output, verbosity=1),
                       failfast=False, 
                       buffer=False, 
