@@ -25,7 +25,7 @@ done
 
 # Is container healthy? = started
 sp='/-\|'
-while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge)" != "healthy" ]
+while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge) 2>/dev/null" != "healthy" ]
 do
  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
  #echo "Container \"waziup.wazigate-edge\" was not started now"
