@@ -15,20 +15,11 @@ NC='\033[0m'
 #---------------------------------#
 
 # Wait for WaziGate to be started
-
-# Is Image loaded?
-while [ -z "$(docker images -q waziup/wazigate-edge)" ]
-do
-  #echo "Image has not been loaded now"
-  sleep 0.2
-done
-
 # Is container healthy? = started
 sp='/-\|'
-while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge) 2>/dev/null" != "healthy" ]
+while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge 2>/dev/null)" != "healthy" ]
 do
  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
- #echo "Container \"waziup.wazigate-edge\" was not started now"
  sp=${sp#?}${sp%???}
  sleep 0.2
 done
