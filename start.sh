@@ -8,7 +8,7 @@ log () {
 
 # Delete all connections associated with "WAZIGATE-AP"
 delete_connections () {
-  nmcli c down WAZIGATE-AP
+  #nmcli c down WAZIGATE-AP
   nmcli connection delete uuid $(nmcli -f NAME,UUID -p c | grep WAZIGATE-AP | sed 's/WAZIGATE-AP//' | xargs)
   rm -rf /etc/NetworkManager/system-connections/*
 }
@@ -65,7 +65,13 @@ if [ -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
       delete_connections #"$waziAPs"
     fi
   done
+  # After deleting old "WAZIGATE-AP" connections, create a new one
+  if [ ! -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
+    echo "Setup a new connection"
+    setup_new_connection
+  fi
 else
+  # Create a new "WAZIGATE-A"P connection, if there are no connections 
   echo "Setup a new connection"
   setup_new_connection
 fi
