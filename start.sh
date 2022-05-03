@@ -28,7 +28,7 @@ setup_new_connection () {
 
 ################################################################################
 
-log 0 "Prepare"
+log 0 "Prepare : This might take several minutes, thanks for your patience."
 
 if [ -f  /sys/class/net/eth0/address ] ; then
   WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
@@ -40,7 +40,7 @@ SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
 ################################################################################
 
-log 1 "Enabling interfaces"
+log 1 "Enabling interfaces : This might take several minutes, thanks for your patience."
 
 # Enable SPI
 echo "Enabling SPI ..."
@@ -51,7 +51,7 @@ raspi-config nonint do_i2c 0
 
 ################################################################################
 
-log 2 "Configuring Access Point"
+log 2 "Configuring Access Point : This might take several minutes, thanks for your patience."
 
 echo "Current MAC: $WAZIGATE_ID"
 if [ -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
@@ -72,7 +72,7 @@ fi
 
 ################################################################################
 
-log 3 "Loading docker images"
+log 3 "Loading docker images : This might take several minutes, thanks for your patience."
 # Read from docker compose: load images
 if [ -f wazigate_images.tar ]; then
   docker load -i wazigate_images.tar
@@ -80,6 +80,6 @@ if [ -f wazigate_images.tar ]; then
 fi
 
 
-log 4 "Starting docker containers"
+log 4 "Starting docker containers : This might take several minutes, thanks for your patience."
 # Create containers
 docker-compose up > /dev/null
