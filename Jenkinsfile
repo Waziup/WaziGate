@@ -80,12 +80,14 @@ pipeline {
       junit 'tests/results.xml'
       junit 'tests/results_of_repeated_tests.xml'
       // Create Plot for tracking performance
-      // plot xmlFileName: 'aggregated_performance_results.xml', 
+      // plot xmlFileName: 'plot_aggregated_performance_results_test1test.csv', 
       //   xmlSeries: [[
       //                       file: 'aggregated_performance_results.xml',
       //                       exclusionValues: '',
       //                       displayTableFlag: false,
       //                       inclusionFlag: 'OFF',
+      //                       nodeType: 'Nodeset', 
+      //                       xpath: '/root/test1/*',
       //                       url: '']],
       //   group: 'Performance evaluation',
       //   title: 'Time taken for individual tests',
@@ -96,8 +98,8 @@ pipeline {
       //   numBuilds: '',
       //   useDescr: false,
       //   yaxis: 'testime',
-      //   yaxisMaximum: '',
-      //   yaxisMinimum: ''
+      //   yaxisMaximum: '250',
+      //   yaxisMinimum: '0'
     plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
       csvFileName: 'plot_aggregated_performance_results_test1.csv',
       xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/test1/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],

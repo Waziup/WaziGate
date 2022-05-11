@@ -8,7 +8,7 @@
 dsn="postgres://chirpstack_ns:chirpstack_ns@postgresql/chirpstack_ns?sslmode=disable"
 
 [redis]
-url="redis://redis:6379"
+url="redis://host.docker.internal:6379"
 
 [network_server]
 net_id="000000"

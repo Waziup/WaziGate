@@ -5,7 +5,8 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/var/lib/wazigate
-ExecStart=/var/lib/wazigate/start.sh
+ExecStart=/usr/bin/wazigate
+
 
 [Install]
 WantedBy=multi-user.target

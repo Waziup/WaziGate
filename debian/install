@@ -6,3 +6,4 @@ wazigate-host               /var/lib/wazigate
 start.sh                    /var/lib/wazigate
 update_containers.sh        /var/lib/wazigate
 wazigate-host/wazigate-host /usr/bin
+wazigate-edge/wazigate      /usr/bin
