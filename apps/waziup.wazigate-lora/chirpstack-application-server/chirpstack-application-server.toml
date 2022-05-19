@@ -5,7 +5,9 @@
 dsn="postgres://chirpstack_as:chirpstack_as@postgresql/chirpstack_as?sslmode=disable"
 
 [redis]
-url="redis://host.docker.internal:6379"
+servers=[
+  "/var/run/redis.sock",
+]
 
 [application_server.integration]
 marshaler="json"

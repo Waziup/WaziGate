@@ -82,7 +82,7 @@ log 3 "Loading docker images : This might take several minutes, thanks for your 
 # Read from docker compose: load images
 if [ -f wazigate_images.tar ]; then
   docker load -i wazigate_images.tar
-  rm -f wazigate_images.tar
+  #rm -f wazigate_images.tar
 fi
 
 

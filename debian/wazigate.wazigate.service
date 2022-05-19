@@ -6,7 +6,8 @@ After=network.target
 Type=simple
 WorkingDirectory=/var/lib/wazigate
 ExecStart=/usr/bin/wazigate
-
+Environment="WAZIUP_WWW=/var/lib/wazigate/www"
+Environment="WAZIUP_MONGO=mongodb://localhost:27017/?connect=direct"
 
 [Install]
 WantedBy=multi-user.target

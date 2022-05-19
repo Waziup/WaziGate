@@ -42,8 +42,9 @@ services:
       retries: 30 # Will try for 5 minutes
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   wazigate-lora:
     container_name: waziup.wazigate-lora
@@ -63,8 +64,8 @@ services:
       retries: 30 # Will try for 5 minutes      
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
@@ -90,8 +91,9 @@ services:
     privileged: true  
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   # wazigate-mongo:
   #   container_name: waziup.wazigate-mongo
@@ -137,8 +139,8 @@ services:
       retries: 5  
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
 
   chirpstack-gateway-bridge:
     container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
@@ -153,8 +155,9 @@ services:
       - 1700:1700/udp
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   chirpstack-application-server:
     container_name: waziup.wazigate-lora.chirpstack-application-server
@@ -165,12 +168,14 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-application-server:/etc/chirpstack-application-server
+      - /var/run/redis.sock:/var/run/redis.sock
     ports:
       - 8080:8080 
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   chirpstack-network-server:
     container_name: waziup.wazigate-lora.chirpstack-network-server
@@ -181,10 +186,12 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-network-server:/etc/chirpstack-network-server
+      - /var/run/redis.sock:/var/run/redis.sock
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:host.docker.internal"
-      - "waziup.wazigate-edge:host.docker.internal"
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
 
 #-------------------------#
