@@ -1,26 +1,6 @@
 version: "3.9"
 
 services:
-  # wazigate-edge:
-  #   container_name: waziup.wazigate-edge
-  #   image: waziup/wazigate-edge:$WAZIGATE_TAG
-  #   build:
-  #     context: ./wazigate-edge
-  #     x-bake:
-  #       platforms: "linux/arm64"
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
-  #     - ./apps:/root/apps
-  #   environment:
-  #     - WAZIGATE_ID=$WAZIGATE_ID   # The ID of the gateway, e.g. the MAC address
-  #     - WAZIGATE_VERSION=v$WAZIGATE_TAG (build $BUILD_ID)  # The version display on the UI
-  #     - WAZIUP_MONGO=mongodb://docker.host.internal:27017/?connect=direct
-  #   ports:
-  #     - "80:80"
-  #     - "1883:1883"
-  #   restart: always
-
   wazigate-system:
     container_name: waziup.wazigate-system
     image: waziup/wazigate-system:$WAZIGATE_TAG
@@ -94,35 +74,7 @@ services:
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
       - "wazigate-edge:172.17.0.1"
-
-  # wazigate-mongo:
-  #   container_name: waziup.wazigate-mongo
-  #   image: waziup/wazigate-mongo:4.4.11
-  #   platform: linux/arm64
-  #   volumes:
-  #     - ./wazigate-mongo/data:/data/db
-  #   healthcheck:
-  #     test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
-  #     interval: 10s
-  #     timeout: 5s
-  #     retries: 12
-  #   restart: always
-  #   entrypoint: ["mongod", "--bind_ip_all"]
-
-  # redis:
-  #   container_name: redis
-  #   image: redis:6-alpine
-  #   platform: linux/arm64/v8
-  #   volumes:
-  #     - redisdata:/data
-  #   healthcheck:
-  #     test: ["CMD", "redis-cli", "ping"]
-  #     interval: 1s
-  #     timeout: 3s
-  #     retries: 30   
-  #   restart: unless-stopped
-  #   entrypoint: ["redis-server", "--appendonly yes", "--maxmemory 100mb", "--tcp-backlog 128"]
-
+      
   postgresql:
     container_name: postgres
     image: postgres:alpine3.15
