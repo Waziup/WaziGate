@@ -5,8 +5,8 @@ wazigate-host                                                       /var/lib/waz
 .env                                                                /var/lib/wazigate
 start.sh                                                            /var/lib/wazigate
 update_containers.sh                                                /var/lib/wazigate
-wazigate-edge/wazigate-dashboard/node_modules/react/umd             /var/lib/wazigate/www/node_modules/react/umd
-wazigate-edge/wazigate-dashboard/node_modules/react-dom/umd         /var/lib/wazigate/www/node_modules/react-dom/umd
+wazigate-edge/wazigate-dashboard/node_modules/react/umd             /var/lib/wazigate/www/node_modules/react/
+wazigate-edge/wazigate-dashboard/node_modules/react-dom/umd         /var/lib/wazigate/www/node_modules/react-dom/
 wazigate-edge/wazigate-dashboard/index.html                         /var/lib/wazigate/www
 wazigate-edge/wazigate-dashboard/favicon.ico                        /var/lib/wazigate/www
 wazigate-edge/wazigate-dashboard/wazigate.png                       /var/lib/wazigate/www

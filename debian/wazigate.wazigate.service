@@ -1,6 +1,6 @@
 [Unit]
 Description=Wazigate Service
-After=network.target
+After=network.target mongodb.service
 
 [Service]
 Type=simple
