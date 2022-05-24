@@ -35,6 +35,9 @@ pipeline {
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
+        // Build wazigate(-edge) and wazigate-dashboard
+        sh 'wazigate-edge/build.sh'
+
         // Create the Debian package and manifest (including the docker images)
         sh 'dpkg-buildpackage -uc -us -b; mv ../$DEB_NAME .'
         sh 'dpkg-scanpackages -m . | gzip --fast > Packages.gz'

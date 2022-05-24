@@ -1,9 +1,10 @@
 #!/bin/bash -e
 
 source .env
+touch /tmp/wazigate-setup-step.txt
 
 log () {
-  echo "Step $1/4: $2" > /tmp/wazigate-setup-step.txt
+  echo "Step $1/4: ${2}This might take several minutes." > /tmp/wazigate-setup-step.txt
 }
 
 # Delete all connections associated with "WAZIGATE-AP"
@@ -28,7 +29,7 @@ setup_new_connection () {
 
 ################################################################################
 
-log 0 "Prepare : This might take several minutes, thanks for your patience."
+log 0 "Prepare: "
 
 if [ -f  /sys/class/net/eth0/address ] ; then
   WAZIGATE_ID=$(cat /sys/class/net/eth0/address)
@@ -40,7 +41,7 @@ SSID="WAZIGATE_${WAZIGATE_ID^^}"
 
 ################################################################################
 
-log 1 "Enabling interfaces : This might take several minutes, thanks for your patience."
+log 1 "Enabling interfaces: "
 
 # Enable SPI
 echo "Enabling SPI ..."
@@ -51,7 +52,7 @@ raspi-config nonint do_i2c 0
 
 ################################################################################
 
-log 2 "Configuring Access Point : This might take several minutes, thanks for your patience."
+log 2 "Configuring Access Point: "
 
 echo "Current MAC: $WAZIGATE_ID"
 if [ -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
@@ -78,7 +79,7 @@ fi
 
 ################################################################################
 
-log 3 "Loading docker images : This might take several minutes, thanks for your patience."
+log 3 "Loading docker images: "
 # Read from docker compose: load images
 if [ -f wazigate_images.tar ]; then
   docker load -i wazigate_images.tar
@@ -86,6 +87,6 @@ if [ -f wazigate_images.tar ]; then
 fi
 
 
-log 4 "Starting docker containers : This might take several minutes, thanks for your patience."
+log 4 "Starting docker containers: "
 # Create containers
 docker-compose up > /dev/null
