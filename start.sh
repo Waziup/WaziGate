@@ -1,7 +1,6 @@
 #!/bin/bash -e
 
 source .env
-touch /tmp/wazigate-setup-step.txt
 
 log () {
   echo "Step $1/4: ${2}This might take several minutes." > /tmp/wazigate-setup-step.txt
