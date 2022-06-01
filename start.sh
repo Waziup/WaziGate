@@ -82,10 +82,10 @@ log 3 "Loading docker images: "
 # Read from docker compose: load images
 if [ -f wazigate_images.tar ]; then
   docker load -i wazigate_images.tar
-  #rm -f wazigate_images.tar
+  rm -f wazigate_images.tar
 fi
 
 
 log 4 "Starting docker containers: "
 # Create containers
-docker-compose up > /dev/null
+docker-compose up -d
