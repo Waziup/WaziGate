@@ -42,7 +42,7 @@ pipeline {
           }
         }
         dir("wazigate-edge") {
-          go build -ldflags "-s -w" -o wazigate .
+          sh 'go build -ldflags "-s -w" -o wazigate .'
         }
 
         // Create the Debian package and manifest (including the docker images)
