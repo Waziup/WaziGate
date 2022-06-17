@@ -15,9 +15,9 @@ NC='\033[0m'
 #---------------------------------#
 
 # Wait for WaziGate to be started
-# Is container healthy? = started
+# Is service active? = started
 sp='/-\|'
-while [ "$(docker inspect -f {{.State.Health.Status}} waziup.wazigate-lora 2>/dev/null)" != "healthy" ]
+while [ "$(systemctl is-active wazigate)" == "active" ]
 do
  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
  sp=${sp#?}${sp%???}
