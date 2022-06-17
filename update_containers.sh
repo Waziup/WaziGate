@@ -17,11 +17,11 @@ fi
 # Restart
 docker-compose up -d 
 
-# Wait for starting
+# Wait for starting of service wazigate
 EDGE_STATUS=
-while [ "$EDGE_STATUS" != "healthy" ]
+while [ "$EDGE_STATUS" != "active" ]
 do
-  EDGE_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-edge`
+  EDGE_STATUS=`systemctl is-active wazigate`
   echo -n "."
   sleep 2
 done
