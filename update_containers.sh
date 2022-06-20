@@ -18,10 +18,10 @@ fi
 docker-compose up -d 
 
 # Wait for starting
-EDGE_STATUS=
-while [ "$EDGE_STATUS" != "healthy" ]
+SYSTEM_STATUS=
+while [ "$SYSTEM_STATUS" != "healthy" ]
 do
-  EDGE_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-lora`
+  SYSTEM_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-system`
   echo -n "."
   sleep 2
 done
