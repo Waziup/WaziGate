@@ -120,7 +120,7 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-application-server:/etc/chirpstack-application-server
-      - /var/run/redis.sock:/var/run/redis.sock
+      - /var/run/redis/redis.sock:/var/run/redis.sock
     ports:
       - 8080:8080 
     restart: unless-stopped
@@ -138,7 +138,7 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-network-server:/etc/chirpstack-network-server
-      - /var/run/redis.sock:/var/run/redis.sock
+      - /var/run/redis/redis.sock:/var/run/redis.sock
     restart: unless-stopped
     extra_hosts: 
       - "wazigate:172.17.0.1"
@@ -155,5 +155,3 @@ networks:
 volumes:
   postgresqldata:
     name: postgresqldata
-  redisdata:
-    name: redisdata
