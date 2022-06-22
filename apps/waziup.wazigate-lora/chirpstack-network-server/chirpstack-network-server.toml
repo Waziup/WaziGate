@@ -9,7 +9,7 @@ dsn="postgres://chirpstack_ns:chirpstack_ns@postgresql/chirpstack_ns?sslmode=dis
 
 [redis]
 servers=[
-  "/var/run/redis.sock",
+  "/var/run/redis/redis.sock",
 ]
 
 [network_server]
