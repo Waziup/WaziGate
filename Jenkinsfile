@@ -43,8 +43,16 @@ pipeline {
         }
         // Build wazigate(-edge) go backend
         dir("wazigate-edge") {
-          sh 'export GOOS=linux GOARCH=arm64'
-          sh 'go build -ldflags "-s -w" -o wazigate .'
+          script {
+            env.GOARCH = "arm64"
+            env.GOOS = "linux"
+          }
+          SEC_SINCE_UNIX_EPOCH = sh (
+            script: 'date +%s',
+            returnStdout: true
+          ).trim()
+          sh 'echo "Seconds since UNIX epoch: ${SEC_SINCE_UNIX_EPOCH}"'
+          sh 'go build -ldflags "-s -w -X main.branch=v2 -X main.version=$WAZIGATE_TAG -X main.buildtime=$SEC_SINCE_UNIX_EPOCH" -o wazigate .'
         }
 
         // Create the Debian package and manifest (including the docker images)
