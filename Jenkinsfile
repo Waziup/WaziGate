@@ -35,13 +35,15 @@ pipeline {
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
-        // Build wazigate(-edge) and wazigate-dashboard
+        // Build wazigate-dashboard
         dir("wazigate-edge") {
           dir("wazigate-dashboard") {
             sh 'npm i && npm run build'
           }
         }
+        // Build wazigate(-edge) go backend
         dir("wazigate-edge") {
+          sh 'env GOOS=linux GOARCH=arm64'
           sh 'go build -ldflags "-s -w" -o wazigate .'
         }
 
