@@ -43,7 +43,7 @@ pipeline {
         }
         // Build wazigate(-edge) go backend
         dir("wazigate-edge") {
-          sh 'env GOOS=linux GOARCH=arm64'
+          sh 'export GOOS=linux GOARCH=arm64'
           sh 'go build -ldflags "-s -w" -o wazigate .'
         }
 
