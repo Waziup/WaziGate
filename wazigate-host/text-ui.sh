@@ -17,7 +17,7 @@ NC='\033[0m'
 # Wait for WaziGate to be started
 # Is service active? = started
 sp='/-\|'
-while [ "$(systemctl is-active wazigate)" == "active" ]
+while [ "$(systemctl is-active wazigate)" != "active" ]
 do
  printf '\r%.1s %s' "$sp" "$(</tmp/wazigate-setup-step.txt)"
  sp=${sp#?}${sp%???}

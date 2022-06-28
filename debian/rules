@@ -6,5 +6,6 @@
 override_dh_installsystemd:
 	dh_installsystemd --name=wazigate
 	dh_installsystemd --name=wazigate-host
-override_dh_builddeb:
-	dh_builddeb -- -Zgzip
+# only for local deploy:
+# override_dh_builddeb:
+# 	dh_builddeb -- -Zgzip
