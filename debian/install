@@ -1,7 +1,6 @@
 docker-compose.yml                                                  /var/lib/wazigate
 wazigate_images.tar                                                 /var/lib/wazigate
 apps                                                                /var/lib/wazigate
-wazigate-host                                                       /var/lib/wazigate
 .env                                                                /var/lib/wazigate
 start.sh                                                            /var/lib/wazigate
 update_containers.sh                                                /var/lib/wazigate
@@ -16,5 +15,4 @@ wazigate-edge/wazigate-dashboard/docs                               /var/lib/waz
 wazigate-edge/wazigate-dashboard/admin                              /var/lib/wazigate/www
 
 
-wazigate-host/wazigate-host                                         /usr/bin
 wazigate-edge/wazigate                                              /usr/bin
