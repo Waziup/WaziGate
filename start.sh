@@ -71,7 +71,7 @@ if [ -f /etc/NetworkManager/system-connections/WAZIGATE-AP.nmconnection ]; then
     setup_new_connection
   fi
 else
-  # Create a new "WAZIGATE-A"P connection, if there are no connections 
+  # Create a new "WAZIGATE-AP" connection, if there are no connections 
   echo "Setup a new connection"
   setup_new_connection
 fi
