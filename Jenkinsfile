@@ -32,7 +32,6 @@ pipeline {
       steps {
         // update each submodule
         sh 'git submodule update --recursive'
-        sh 'git submodule foreach git pull'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
         // Save all images in a single tar file
