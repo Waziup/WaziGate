@@ -89,7 +89,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5  
-    command: postgres -c autovacuum = off 
+    command: postgres -c autovacuum=off 
     restart: unless-stopped
     extra_hosts: 
       - "wazigate:172.17.0.1"
