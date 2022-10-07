@@ -3,7 +3,7 @@
 source .env
 
 log () {
-  echo "Step $1/4: ${2}This might take several minutes." > /tmp/wazigate-setup-step.txt
+  echo "Step $1/5: ${2}This might take several minutes." > /tmp/wazigate-setup-step.txt
 }
 
 # Delete all connections associated with "WAZIGATE-AP"
