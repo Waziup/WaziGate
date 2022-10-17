@@ -21,7 +21,7 @@ docker-compose up -d
 SYSTEM_STATUS=
 while [ "$SYSTEM_STATUS" != "healthy" ]
 do
-  SYSTEM_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-system > /dev/null 2>&1`
+  SYSTEM_STATUS=`docker inspect -f {{.State.Health.Status}} waziup.wazigate-system`
   echo -n "."
   sleep 2
 done
