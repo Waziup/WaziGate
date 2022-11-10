@@ -26,3 +26,5 @@ do
   sleep 2
 done
 echo "Done"
+
+sudo systemctl restart wazigate
