@@ -1,3 +1,18 @@
+V2.3.0
+------
+
+- Memory performance improvement: 10 time less SD card writes
+- CPU Performance improvement 
+- New app management feature
+- Better Wifi support
+- Display of sensor historical values
+- Transition to 64 bits architecture
+
+V2.2.0
+------
+
+- First Debian release of WaziGate
+
 V1.1.1
 ------
 Bug fixes: 
