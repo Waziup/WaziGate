@@ -5,20 +5,9 @@ WaziApps
 
 _This document explains how the App mechanism works in the WaziGate firmware which can be used for further development._
 
-Apps are stored in `~/waziup-gateway/apps/<org>/<appName>` and managed by `wazigate-edge` service whose repo is here: https://github.com/Waziup/wazigate-edge/
+Apps are stored in `/var/lib/wazigate/apps/<org>/<appName>` and managed by `wazigate-edge` service whose repo is here: https://github.com/Waziup/wazigate-edge/
 Under the `api` folder there is a file called `apps.go` which provides a set of APIs for managing the Apps.
 
------------------------------
-
-`const appsDirectoryOnHost = "../apps/"`
-
-This constant keeps the relative path to the `apps` directory on the host. The path is relative to `~/waziup-gateway/wazigate-host/wazigate-host` which handles executing commands directly on the host.
-
------------------------------
-
-`const appsDirectoryMapped = "/root/apps"`
-
-The apps folder is also mapped to the `wazigate-edge` container in order to make it easier and faster for some operations.
 
 -----------------------------
 
@@ -63,7 +52,7 @@ This function handles the installation of an App. It receives a docker image nam
 
 `func installApp(imageName string) (string, error)`
 
-This function performs the App installation. It downloads the given image from the docker hub, then creates a temporary container in order to extract `index.zip` file which holds all the config and docker-compose files. The temporary container will be deleted afterwards. It then pulls all the dependency images indicated in the `docker-compose.yml` file using `docker-compose` tool running on the host via `wazigate-host` microservice.
+This function performs the App installation. It downloads the given image from the docker hub, then creates a temporary container in order to extract `index.zip` file which holds all the config and docker-compose files. The temporary container will be deleted afterwards. It then pulls all the dependency images indicated in the `docker-compose.yml` file using `docker-compose` tool.
 
 -----------------------------
 

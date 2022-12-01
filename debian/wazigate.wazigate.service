@@ -1,11 +1,15 @@
 [Unit]
 Description=Wazigate Service
-After=network.target
+After=network.target mongodb.service redis-server.service
 
 [Service]
 Type=simple
 WorkingDirectory=/var/lib/wazigate
-ExecStart=/var/lib/wazigate/start.sh
+ExecStartPre=/var/lib/wazigate/start.sh
+ExecStart=/usr/bin/wazigate
+Environment="WAZIUP_WWW=/var/lib/wazigate/www"
+Environment="WAZIUP_MONGO=mongodb://localhost:27017/?connect=direct"
+TimeoutStartSec=15min
 
 [Install]
 WantedBy=multi-user.target

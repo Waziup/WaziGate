@@ -1,4 +1,21 @@
-wazigate (2.2.0) UNRELEASED; urgency=medium
+wazigate (2.3.1) UNRELEASED; urgency=medium
+
+  * TBD
+ 
+  -- Corentin Dupont <cdupont@waziup.org>  Wed, 2 Nov 2022 22:21:56 +0100
+
+wazigate (2.3.0) unstable; urgency=medium
+
+  * Memory performance improvement: 10 time less SD card writes
+  * CPU Performance improvement 
+  * New app management feature
+  * Better Wifi support
+  * Display of sensor historical values
+  * Transition to 64 bits architecture
+
+  -- Felix Markwordt <felix.markwordt@waziup.org>  Tue, 11 Oct 2022 09:51:28 +0100
+
+wazigate (2.2.0) unstable; urgency=medium
 
   * First Debian release of WaziGate
 

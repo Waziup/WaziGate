@@ -30,10 +30,34 @@ pipeline {
     }
     stage('Build') {
       steps {
+        // update each submodule
+        sh 'git submodule update --recursive'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
+
+        // Build wazigate-dashboard
+        dir("wazigate-edge") {
+          dir("wazigate-dashboard") {
+            sh 'npm i && npm run build'
+          }
+        }
+        // Build wazigate(-edge) go backend
+        dir("wazigate-edge") {
+          script {
+            env.GOARCH = "arm64"
+            env.GOOS = "linux"
+            SEC_SINCE_UNIX_EPOCH = sh (
+              script: 'date +%s',
+              returnStdout: true
+            ).trim()
+            echo "Seconds since UNIX epoch: ${SEC_SINCE_UNIX_EPOCH}"
+            env.SEC_SINCE_UNIX_EPOCH = "$SEC_SINCE_UNIX_EPOCH"
+          }
+          sh 'echo "2nd:Seconds since UNIX epoch: ${SEC_SINCE_UNIX_EPOCH}"'
+          sh 'go build -ldflags "-s -w -X main.branch=v2 -X main.version=$WAZIGATE_TAG -X main.buildNr=$BUILD_ID -X main.buildtime=$SEC_SINCE_UNIX_EPOCH" -o wazigate .'
+        }
 
         // Create the Debian package and manifest (including the docker images)
         sh 'dpkg-buildpackage -uc -us -b; mv ../$DEB_NAME .'
@@ -80,12 +104,14 @@ pipeline {
       junit 'tests/results.xml'
       junit 'tests/results_of_repeated_tests.xml'
       // Create Plot for tracking performance
-      // plot xmlFileName: 'aggregated_performance_results.xml', 
+      // plot xmlFileName: 'plot_aggregated_performance_results_test1test.csv', 
       //   xmlSeries: [[
       //                       file: 'aggregated_performance_results.xml',
       //                       exclusionValues: '',
       //                       displayTableFlag: false,
       //                       inclusionFlag: 'OFF',
+      //                       nodeType: 'Nodeset', 
+      //                       xpath: '/root/test1/*',
       //                       url: '']],
       //   group: 'Performance evaluation',
       //   title: 'Time taken for individual tests',
@@ -96,8 +122,8 @@ pipeline {
       //   numBuilds: '',
       //   useDescr: false,
       //   yaxis: 'testime',
-      //   yaxisMaximum: '',
-      //   yaxisMinimum: ''
+      //   yaxisMaximum: '250',
+      //   yaxisMinimum: '0'
     plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
       csvFileName: 'plot_aggregated_performance_results_test1.csv',
       xmlSeries: [[file: 'aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/test1/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],

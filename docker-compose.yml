@@ -1,26 +1,6 @@
 version: "3.9"
 
 services:
-  wazigate-edge:
-    container_name: waziup.wazigate-edge
-    image: waziup/wazigate-edge:$WAZIGATE_TAG
-    build:
-      context: ./wazigate-edge
-      x-bake:
-        platforms: "linux/arm64"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
-      - ./apps:/root/apps
-    environment:
-      - WAZIGATE_ID=$WAZIGATE_ID   # The ID of the gateway, e.g. the MAC address
-      - WAZIGATE_VERSION=v$WAZIGATE_TAG (build $BUILD_ID)  # The version display on the UI
-      - WAZIUP_MONGO=mongodb://waziup.wazigate-mongo:27017/?connect=direct
-    ports:
-      - "80:80"
-      - "1883:1883"
-    restart: always
-
   wazigate-system:
     container_name: waziup.wazigate-system
     image: waziup/wazigate-system:$WAZIGATE_TAG
@@ -41,6 +21,10 @@ services:
       timeout: 5s
       retries: 30 # Will try for 5 minutes
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   wazigate-lora:
     container_name: waziup.wazigate-lora
@@ -59,6 +43,9 @@ services:
       timeout: 5s
       retries: 30 # Will try for 5 minutes      
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
@@ -83,35 +70,11 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     privileged: true  
     restart: unless-stopped
-
-  wazigate-mongo:
-    container_name: waziup.wazigate-mongo
-    image: waziup/wazigate-mongo:4.4.11
-    platform: linux/arm64
-    volumes:
-      - ./wazigate-mongo/data:/data/db
-    healthcheck:
-      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
-      interval: 10s
-      timeout: 5s
-      retries: 12
-    restart: always
-    entrypoint: ["mongod", "--bind_ip_all"]
-
-  redis:
-    container_name: redis
-    image: redis:6-alpine
-    platform: linux/arm64/v8
-    volumes:
-      - redisdata:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 1s
-      timeout: 3s
-      retries: 30   
-    restart: unless-stopped
-    entrypoint: ["redis-server", "--appendonly yes", "--maxmemory 100mb", "--tcp-backlog 128"]
-
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
+      
   postgresql:
     container_name: postgres
     image: postgres:alpine3.15
@@ -126,7 +89,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5  
+    command: postgres -c autovacuum=off 
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
 
   chirpstack-gateway-bridge:
     container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
@@ -140,6 +107,10 @@ services:
     ports:
       - 1700:1700/udp
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   chirpstack-application-server:
     container_name: waziup.wazigate-lora.chirpstack-application-server
@@ -150,9 +121,14 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-application-server:/etc/chirpstack-application-server
+      - /var/run/redis:/var/run/redis
     ports:
       - 8080:8080 
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   chirpstack-network-server:
     container_name: waziup.wazigate-lora.chirpstack-network-server
@@ -163,7 +139,12 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-network-server:/etc/chirpstack-network-server
+      - /var/run/redis:/var/run/redis
     restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
 
 #-------------------------#
@@ -175,5 +156,3 @@ networks:
 volumes:
   postgresqldata:
     name: postgresqldata
-  redisdata:
-    name: redisdata
