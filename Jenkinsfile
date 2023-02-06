@@ -40,7 +40,8 @@ pipeline {
         // Build wazigate-dashboard
         dir("wazigate-edge") {
           dir("wazigate-dashboard") {
-            sh 'npm i && npm run build'
+            // install all needed modules, run build, run create stats -> saved in wazigate-dashboard (open with npn )
+            sh 'npm i && npm run build && npm run build-stats'
           }
         }
         // Build wazigate(-edge) go backend
