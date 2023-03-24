@@ -1,3 +1,11 @@
+V2.3.2
+------
+
+  - integrated SSH terminal to UI for remote maintenance
+  - introduced function to export gateways data in different manners 
+  - set clock and timezone automatically
+  - compression of resources to support slow networks
+
 V2.3.0
 ------
 
