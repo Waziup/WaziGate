@@ -25,7 +25,7 @@ pipeline {
           env.WAZIGATE_TAG = props.WAZIGATE_TAG
           env.DEB_NAME = "wazigate_${WAZIGATE_TAG}_all.deb"
         }
-        sh 'echo "BUILD_ID=$BUILD_ID" >> .env'
+        sh 'echo -e "\nBUILD_ID=$BUILD_ID" >> .env'
       }
     }
     stage('Build') {
