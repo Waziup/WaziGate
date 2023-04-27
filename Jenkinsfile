@@ -103,7 +103,7 @@ pipeline {
       // Publish artifacts
       archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
       junit 'tests/results.xml'
-      //junit 'tests/results_of_repeated_tests.xml'
+      // junit 'tests/results_of_repeated_tests.xml'
       // Create Plot for tracking performance
       // plot xmlFileName: 'plot_aggregated_performance_results_test1test.csv', 
       //   xmlSeries: [[
@@ -125,11 +125,10 @@ pipeline {
       //   yaxis: 'testime',
       //   yaxisMaximum: '250',
       //   yaxisMinimum: '0'
-      plot
-        csvFileName: 'plot_aggregated_performance_results.csv',
+      plot csvFileName: 'plot_aggregated_performance_results.csv',
         csvSeries: [[
-          file: 'tests/aggregated_performance_results.csv', 
-          url: '']],
+                              file: 'tests/aggregated_performance_results.csv', 
+                              url: '']],
         group: 'Performance evaluation', 
         title: 'Time taken for aggregated performance tests',
         style: 'line', 
@@ -140,8 +139,7 @@ pipeline {
         useDescr: false,
         yaxis: 'Time in sec', 
         yaxisMinimum: '0', 
-        yaxisMaximum: '250',
-        keepRecords: false
+        yaxisMaximum: '250'
     }
   }
 }
