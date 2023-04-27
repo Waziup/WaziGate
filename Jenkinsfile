@@ -125,16 +125,11 @@ pipeline {
       //   yaxis: 'testime',
       //   yaxisMaximum: '250',
       //   yaxisMinimum: '0'
-    plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
-      csvFileName: 'plot_aggregated_performance_results_test1.csv',
-      xmlSeries: [[file: 'tests/aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],
-      style: 'line', yaxis: 'Time in sec', yaxisMinimum: '0', yaxisMaximum: '250',
-      keepRecords: false)
-    plot(group: 'Performance evaluation', title: 'Time taken for test_sensor_and_actuator_value',
-      csvFileName: 'plot_aggregated_performance_results_test2.csv',
-      xmlSeries: [[file: 'tests/aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],
-      style: 'line', yaxis: 'Time in sec', yaxisMinimum: '0', yaxisMaximum: '250',
-      keepRecords: false)  
+      plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
+        csvFileName: 'plot_aggregated_performance_results.csv',
+        xmlSeries: [[file: 'tests/aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],
+        style: 'line', yaxis: 'Time in sec', yaxisMinimum: '0', yaxisMaximum: '250',
+        keepRecords: false)
     }
   }
 }
