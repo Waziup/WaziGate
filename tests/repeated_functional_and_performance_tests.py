@@ -1,3 +1,4 @@
+import csv
 import json
 import requests
 from time import sleep
@@ -92,31 +93,40 @@ def evaluate_status_code(self,statusCode,expected_statusCode):
     
 # append values in xml file for evaluation of performance metrics over time
 def save_values_for_evaluation(time_1,time_2):
-    name_of_file = "aggregated_performance_results.xml"
-    #path_exists = os.path.exists(name_of_file)
+    name_of_file = "aggregated_performance_results.csv"
+    # #path_exists = os.path.exists(name_of_file)
     
-    # if path_exists: #append data
-    #     tree = ET.parse(name_of_file)
-    #     root = tree.getroot()
+    # # if path_exists: #append data
+    # #     tree = ET.parse(name_of_file)
+    # #     root = tree.getroot()
 
-    #     test1 = root.find('test1')
-    #     ET.SubElement(test1, "b"+str(build_nr)).text = str(test_1_time)
+    # #     test1 = root.find('test1')
+    # #     ET.SubElement(test1, "b"+str(build_nr)).text = str(test_1_time)
         
-    #     test2 = root.find('test2')
-    #     ET.SubElement(test2, "b"+str(build_nr)).text = str(test_2_time)
+    # #     test2 = root.find('test2')
+    # #     ET.SubElement(test2, "b"+str(build_nr)).text = str(test_2_time)
         
-    #     tree = ET.ElementTree(root)    
-    #     tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
-    # else:
-    root = ET.Element("root")
-    #build = ET.SubElement(root, "build", buildnr=str(build_nr))
+    # #     tree = ET.ElementTree(root)    
+    # #     tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
+    # # else:
+    # root = ET.Element("root")
+    # #build = ET.SubElement(root, "build", buildnr=str(build_nr))
     
-    ET.SubElement(root, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
+    # ET.SubElement(root, "test1", name="test_post_get_delete_devices").text = str(test_1_time)
     
-    ET.SubElement(root, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
+    # ET.SubElement(root, "test2", name="test_sensor_and_actuator_value").text = str(test_2_time)
     
-    tree = ET.ElementTree(root)
-    tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
+    # tree = ET.ElementTree(root)
+    # tree.write(name_of_file,encoding = "UTF-8", xml_declaration = True)
+    data = [
+        ['test_post_get_delete_devices','test_sensor_and_actuator_value'],
+        [str(test_1_time),str(test_2_time)]
+    ]
+    with open(name_of_file, mode='w', newline='') as csvfile:
+        # Create a writer object
+        csvwriter = csv.writer(csvfile)
+        # Write the data to the CSV file
+        csvwriter.writerows(data)
     
     
 # Classes for the tests     

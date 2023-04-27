@@ -103,7 +103,7 @@ pipeline {
       // Publish artifacts
       archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
       junit 'tests/results.xml'
-      junit 'tests/results_of_repeated_tests.xml'
+      //junit 'tests/results_of_repeated_tests.xml'
       // Create Plot for tracking performance
       // plot xmlFileName: 'plot_aggregated_performance_results_test1test.csv', 
       //   xmlSeries: [[
@@ -125,10 +125,22 @@ pipeline {
       //   yaxis: 'testime',
       //   yaxisMaximum: '250',
       //   yaxisMinimum: '0'
-      plot(group: 'Performance evaluation', title: 'Time taken for test_post_get_delete_devices',
+      plot(
+        group: 'Performance evaluation', 
+        title: 'Time taken for aggregated performance tests',
         csvFileName: 'plot_aggregated_performance_results.csv',
-        xmlSeries: [[file: 'tests/aggregated_performance_results.xml', nodeType: 'Nodeset', xpath: '/root/*', url: '']],//,url: "${env.JOB_URL}%build%/"]],
-        style: 'line', yaxis: 'Time in sec', yaxisMinimum: '0', yaxisMaximum: '250',
+        csvSeries: [[
+          file: 'tests/aggregated_performance_results.csv', 
+          url: '']],
+        style: 'line', 
+        exclZero: false,
+        keepRecords: false,
+        logarithmic: false,
+        numBuilds: '',
+        useDescr: false,
+        yaxis: 'Time in sec', 
+        yaxisMinimum: '0', 
+        yaxisMaximum: '250',
         keepRecords: false)
     }
   }
