@@ -125,13 +125,13 @@ pipeline {
       //   yaxis: 'testime',
       //   yaxisMaximum: '250',
       //   yaxisMinimum: '0'
-      plot(
-        group: 'Performance evaluation', 
-        title: 'Time taken for aggregated performance tests',
+      plot
         csvFileName: 'plot_aggregated_performance_results.csv',
         csvSeries: [[
           file: 'tests/aggregated_performance_results.csv', 
           url: '']],
+        group: 'Performance evaluation', 
+        title: 'Time taken for aggregated performance tests',
         style: 'line', 
         exclZero: false,
         keepRecords: false,
@@ -141,7 +141,7 @@ pipeline {
         yaxis: 'Time in sec', 
         yaxisMinimum: '0', 
         yaxisMaximum: '250',
-        keepRecords: false)
+        keepRecords: false
     }
   }
 }
