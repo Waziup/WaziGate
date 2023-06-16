@@ -210,7 +210,7 @@
     },
 
     "gateway_conf": {
-        "gateway_ID": "dca632609cc6056e",
+        "gateway_ID": "AA55A00000000000",
         /* change with default server address/ports, or overwrite in local_conf.json */
         "server_address": "waziup.wazigate-lora.chirpstack-gateway-bridge",
         "serv_port_up": 1700,
