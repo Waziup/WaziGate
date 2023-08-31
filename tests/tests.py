@@ -297,7 +297,6 @@ class TestWaziGateActuators(unittest.TestCase):
 
 class TestWaziGateClouds(unittest.TestCase):
 
-    """
     def_cloud = {
     "rest": "//api.waziup.io/api/v2",
     "mqtt": "",
@@ -305,15 +304,6 @@ class TestWaziGateClouds(unittest.TestCase):
         "username": "my username",
         "password": "my password"
         }
-    }
-    """
-    def_cloud = {
-       "rest": "//api.waziup.io/api/v2",
-       "mqtt": "",
-       "credentials": {
-           "username": "solomon.githu@waziup.org",
-           "password": "SoloWaziCloudPassword?"
-           }
     }
     token = None
     
