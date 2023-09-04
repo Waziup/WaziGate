@@ -93,6 +93,6 @@ docker-compose up -d
 
 ################################################################################
 
-log 5 "Set time: "
+#log 5 "Set time: "
 # Set time 
-date -s "$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
+#date -s "$(curl -s --head http://google.com | grep ^Date: | sed 's/Date: //g')"
