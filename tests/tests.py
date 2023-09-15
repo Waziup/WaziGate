@@ -26,7 +26,8 @@ wazidev_sensor_value = 45.7
 wazidev_actuator_id = 'act1'
 wazidev_actuator_value = json.dumps(True)
 
-wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
+#wazigate_ip = os.environ.get('WAZIGATE_IP', '172.16.11.186')
+wazigate_ip = os.environ.get('WAZIGATE_IP', 'localhost')
 wazigate_url = 'http://' + wazigate_ip + '/'
 
 wazigate_device = {
@@ -57,26 +58,40 @@ auth = {
   "password": "loragateway"
 }
 
+auth_Token_header_Accept_text_plain = {
+	'content-type': 'application/json',
+	'authorization': 'Bearer **',
+    'Accept': 'text/plain'
+}
+
+header_Accept_text_plain = {
+    'Content-Type' : 'application/json',
+    'Accept' : 'text/plain'
+}
+
 class TestWaziGateAuth(unittest.TestCase):
 
     def test_get_token(self):
         # Get WaziGate token
-        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
+        resp = requests.post(wazigate_url + '/auth/token', json = auth, headers = header_Accept_text_plain) 
         self.assertEqual(resp.status_code, 200)
         self.assertNotEqual(len(resp.text), 0)
         self.assertNotIn("\"", resp.text)
 
     def test_get_retoken(self):
         # Get WaziGate token
-        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        resp2 = requests.post(wazigate_url + '/auth/retoken', json = resp.text) 
+        resp = requests.post(wazigate_url + '/auth/token', json = auth, headers = header_Accept_text_plain)
+        auth_Token_header_Accept_text_plain['Authorization'] = 'Bearer ' + resp.text
+        resp2 = requests.post(wazigate_url + '/auth/retoken', headers = auth_Token_header_Accept_text_plain) 
         self.assertEqual(resp2.status_code, 200)
         self.assertNotEqual(len(resp2.text), 0)
 
     def test_get_profile(self):
         # Get WaziGate token
-        resp = requests.post(wazigate_url + '/auth/token', json = auth) 
-        resp2 = requests.post(wazigate_url + '/auth/profile', json = resp.text) 
+        resp = requests.post(wazigate_url + '/auth/token', json = auth, headers = header_Accept_text_plain) 
+        auth_Token_header_Accept_text_plain['Authorization'] = 'Bearer ' + resp.text
+        resp2 = requests.post(wazigate_url + '/auth/profile', json = auth, 
+        headers = auth_Token_header_Accept_text_plain) 
         self.assertEqual(resp2.status_code, 200)
         self.assertNotEqual(len(resp2.text), 0)
 
@@ -124,18 +139,19 @@ class TestWaziGateDevices(unittest.TestCase):
         # Create a new LoRaWAN device on WaziGate
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
-        print(resp.text)
+        test_device_id = resp.text[1:-2]
+        print(test_device_id)
         
         # Check that it's effectively created
-        resp2 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        resp2 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp2.status_code, 200)
         self.assertEqual(resp2.json()["name"], "test")
     
-        print(wazigate_url + '/devices/' + resp.text)
-        resp3 = requests.delete(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        print(wazigate_url + '/devices/' + test_device_id)
+        resp3 = requests.delete(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp3.status_code, 200)
         
-        resp4 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        resp4 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp4.status_code, 404)
     
     def test_update_name_devices(self):
@@ -143,13 +159,14 @@ class TestWaziGateDevices(unittest.TestCase):
 
         # Create a new LoRaWAN device on WaziGate
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
+        test_device_id = resp.text[1:-2]
         self.assertEqual(resp.status_code, 200)
         
         # Check that it's effectively created
-        resp2 = requests.post(wazigate_url + '/devices/' + resp.text + "/name", json="test2", headers = self.token)
+        resp2 = requests.post(wazigate_url + '/devices/' + test_device_id + "/name", json="test2", headers = self.token)
         self.assertEqual(resp2.status_code, 200)
         
-        resp3 = requests.get(wazigate_url + '/devices/' + resp.text, headers = self.token)
+        resp3 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp3.status_code, 200)
         self.assertEqual(resp3.json()["name"], "test2")
 
@@ -281,13 +298,13 @@ class TestWaziGateActuators(unittest.TestCase):
 class TestWaziGateClouds(unittest.TestCase):
 
     def_cloud = {
-       "rest": "//api.waziup.io/api/v2",
-       "mqtt": "",
-       "credentials": {
-           "username": "my username",
-           "token": "my password"
-           }
-       }
+    "rest": "//api.waziup.io/api/v2",
+    "mqtt": "",
+    "credentials": {
+        "username": "my username",
+        "password": "my password"
+        }
+    }
     token = None
     
     def setUp(self):
