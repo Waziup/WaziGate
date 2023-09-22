@@ -3,6 +3,9 @@
 
 pipeline {
   agent any
+  parameters {
+    booleanParam(name: 'skip_perf_tests', defaultValue: false, description: 'Set to true to skip the perf test stage')
+  }
   options {
     timeout(time: 1, unit: 'HOURS')
   }
@@ -83,7 +86,8 @@ pipeline {
         }
       }
     }
-    stage('Repeated_Tests') {
+    stage('Perf_Tests') {
+      when { expression { params.skip_perf_tests != true } }
       steps {
         dir('tests'){
           catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -103,28 +107,6 @@ pipeline {
       // Publish artifacts
       archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
       junit 'tests/results.xml'
-      // junit 'tests/results_of_repeated_tests.xml'
-      // Create Plot for tracking performance
-      // plot xmlFileName: 'plot_aggregated_performance_results_test1test.csv', 
-      //   xmlSeries: [[
-      //                       file: 'aggregated_performance_results.xml',
-      //                       exclusionValues: '',
-      //                       displayTableFlag: false,
-      //                       inclusionFlag: 'OFF',
-      //                       nodeType: 'Nodeset', 
-      //                       xpath: '/root/test1/*',
-      //                       url: '']],
-      //   group: 'Performance evaluation',
-      //   title: 'Time taken for individual tests',
-      //   style: 'line',
-      //   exclZero: false,
-      //   keepRecords: false,
-      //   logarithmic: false,
-      //   numBuilds: '',
-      //   useDescr: false,
-      //   yaxis: 'testime',
-      //   yaxisMaximum: '250',
-      //   yaxisMinimum: '0'
       plot csvFileName: 'plot_aggregated_performance_results.csv',
         csvSeries: [[
                               file: 'tests/aggregated_performance_results.csv', 
