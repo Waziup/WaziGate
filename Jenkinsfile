@@ -121,7 +121,7 @@ pipeline {
         useDescr: false,
         yaxis: 'Time in sec', 
         yaxisMinimum: '0', 
-        yaxisMaximum: '400'
+        yaxisMaximum: '1000'
     }
   }
 }
