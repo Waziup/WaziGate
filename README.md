@@ -35,7 +35,7 @@ Have a look at the [waziup.io documentation](https://www.waziup.io/documentation
 
 https://www.waziup.io/documentation/wazigate/
 
-## Development
+## Connecting via SSH
 
 You can connect to the Raspberry Pi via SSH after you enabled the SSH server.
 
@@ -57,6 +57,24 @@ To build the debian package, use:
 ```
 dpkg-buildpackage -uc -us
 ```
+
+## Running the WaziGate in a local debug environment
+
+For development, the WaziGate can be run locally. For debugging, we recommend Visual Studio Code. There are some steps involved to make it possible to run locally. In the following these steps will be explained:
+1. Clone the WaziGate repository and all sub-modules: 
+```git clone --recursive https://github.com/Waziup/WaziGate```
+2. Open Visual Studio Code and open the **wazigate-edge** folder as a project.
+3. Navigate to [github.com/Waziup/wazigate-edge/blob/v2/.vscode/launch.json](github.com/Waziup/wazigate-edge/blob/v2/.vscode/launch.json) and change build-flags to: 
+```"buildFlags": "-ldflags='-X main.branch=v2 -X main.version=2.0.0'" /* -X main.buildtime=1655894260 main.buildNr=1234*/```
+4. Navigate to [github.com/Waziup/wazigate-edge/blob/v2/tools/host_linux.go](github.com/Waziup/wazigate-edge/blob/v2/tools/host_linux.go) and change the line from ```const sockAddr = "/var/run/wazigate-host.sock"``` to ```const sockAddr = "/tmp/wazigate-host.sock"```
+5. Now press [F5] to run **wazigate-edge**.
+6. Open **wazigate-dashboard** in Visual Studio Code.
+7. Issue the command ```npm i``` and afterwards ```npm run watch-dev``` and press [F5] afterwards.
+8. A browser will open now. The dashboard will be available at [http://localhost:8080/dev.html](http://localhost:8080/dev.html)
+9. You can now put breakpoints for wazigate-edge (backend) in Visual Studio Code and for wazigate-dashboard (frontend) you can put your breakpoints in the browsers development enviroment.
+10. Happy coding!
+
+
 
 
 
