@@ -16,3 +16,4 @@ wazigate-edge/wazigate-dashboard/admin                              /var/lib/waz
 
 
 wazigate-edge/wazigate                                              /usr/bin
+waziconfig/wazi-config.sh                                           /usr/bin
