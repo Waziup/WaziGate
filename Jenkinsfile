@@ -60,7 +60,7 @@ pipeline {
             env.SEC_SINCE_UNIX_EPOCH = "$SEC_SINCE_UNIX_EPOCH"
           }
           sh 'echo "2nd:Seconds since UNIX epoch: ${SEC_SINCE_UNIX_EPOCH}"'
-          sh 'go build -ldflags "-s -w -X main.branch=v3 -X main.version=$WAZIGATE_TAG -X main.buildNr=$BUILD_ID -X main.buildtime=$SEC_SINCE_UNIX_EPOCH" -o wazigate .'
+          sh 'go build -ldflags "-s -w -X main.branch=v3 -X main.version=$WAZIGATE_TAG -X main.buildNr=$BUILD_ID -X main.buildtime=$SEC_SINCE_UNIX_EPOCH" -buildvcs=false -o wazigate .'
         }
 
         // Create the Debian package and manifest (including the docker images)
