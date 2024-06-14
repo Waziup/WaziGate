@@ -37,6 +37,14 @@ pipeline {
         sh 'git submodule update --recursive'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
+        // *************** test *************** //
+        sh 'docker images'
+        sh 'docker pull postgres:14-alpine'
+        sh 'docker pull eclipse-mosquitto:1.6'
+        sh 'docker pull chirpstack/chirpstack-gateway-bridge:4'
+        sh 'docker pull chirpstack/chirpstack:4'
+        sh 'docker pull chirpstack/chirpstack-rest-api:4'
+        // ************************************ //
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
