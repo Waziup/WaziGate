@@ -78,7 +78,12 @@ services:
   postgresql:
     container_name: postgres
     image: postgres:14-alpine
-    platform: linux/arm64
+    #platform: linux/arm64
+
+    build:
+      x-bake:
+        platforms: "linux/arm64"
+
     volumes:
       - ./apps/waziup.wazigate-lora/postgresql/initdb:/docker-entrypoint-initdb.d
       - postgresqldata:/var/lib/postgresql/data
@@ -99,7 +104,12 @@ services:
     container_name: mosquitto
     image: eclipse-mosquitto:1.6  # The MQTT bridge seems to work only with eclipse-mosquitto 1.6
     #image: eclipse-mosquitto:2
-    platform: linux/arm64/v8
+    #platform: linux/arm64/v8
+
+    build:
+      x-bake:
+        platforms: "linux/arm64/v8"
+
     restart: unless-stopped
     ports:
       - 1884:1884 # Using port 1884 because WaziGate Edge MQTT uses port 1883
@@ -115,7 +125,12 @@ services:
     container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
     # TODO: upload chirpstack docker images to Waziup Docker HUB
     image: chirpstack/chirpstack-gateway-bridge:4
-    platform: linux/arm64
+    #platform: linux/arm64
+
+    build:
+      x-bake:
+        platforms: "linux/arm64"
+
     labels: 
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
@@ -136,7 +151,12 @@ services:
     container_name: waziup.wazigate-lora.chirpstack-v4
     # TODO: upload chirpstack docker images to Waziup Docker HUB
     image: chirpstack/chirpstack:4
-    platform: linux/arm64
+    #platform: linux/arm64
+
+    build:
+      x-bake:
+        platforms: "linux/arm64"
+
     command: -c /etc/chirpstack
     restart: unless-stopped
     volumes:
@@ -157,7 +177,12 @@ services:
   chirpstack-rest-api:
     container_name: chirpstack-rest-api
     image: chirpstack/chirpstack-rest-api:4
-    platform: linux/arm64
+    #platform: linux/arm64
+
+    build:
+      x-bake:
+        platforms: "linux/arm64"
+
     restart: unless-stopped
     command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
     ports:
