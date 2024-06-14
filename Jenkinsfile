@@ -85,7 +85,7 @@ pipeline {
         sh 'scp $DEB_NAME pi@$WAZIGATE_IP:~/'
         //sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --unpack $DEB_NAME"'
         // check disk usage 
-        sh 'ssh pi@$WAZIGATE_IP "df -h; sudo dpkg --unpack $DEB_NAME"'
+        sh 'ssh pi@$WAZIGATE_IP "df -h; cd /dev/root; ls; sudo dpkg --unpack $DEB_NAME"'
         // Restart containers on RPI
         sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
