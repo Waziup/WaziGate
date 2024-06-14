@@ -51,6 +51,8 @@ pipeline {
         // Build wazigate-dashboard
         dir("wazigate-edge") {
           dir("wazigate-dashboard") {
+            sh 'npm rebuild node-sass'
+
             // install all needed modules, run build, run create stats -> saved in wazigate-dashboard (open with npn )
             sh 'npm i && npm run build && npm run build-stats'
           }
