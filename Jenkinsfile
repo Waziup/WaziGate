@@ -51,6 +51,7 @@ pipeline {
         // Build wazigate-dashboard
         dir("wazigate-edge") {
           dir("wazigate-dashboard") {
+            // rebuild node-sass
             sh 'npm rebuild node-sass'
 
             // install all needed modules, run build, run create stats -> saved in wazigate-dashboard (open with npn )
@@ -82,7 +83,9 @@ pipeline {
       steps {
         // Copy Debian package to RPI
         sh 'scp $DEB_NAME pi@$WAZIGATE_IP:~/'
-        sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --unpack $DEB_NAME"'
+        //sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --unpack $DEB_NAME"'
+        // check disk usage 
+        sh 'ssh pi@$WAZIGATE_IP "df -h; sudo dpkg --unpack $DEB_NAME"'
         // Restart containers on RPI
         sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
