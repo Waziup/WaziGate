@@ -37,14 +37,18 @@ pipeline {
         sh 'git submodule update --recursive'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
-        // *************** test *************** //
+
+        // *************** if needed, pull missing docker images on the node *************** //
+        /*
         sh 'docker images'
         sh 'docker pull postgres:14-alpine'
         sh 'docker pull eclipse-mosquitto:1.6'
         sh 'docker pull chirpstack/chirpstack-gateway-bridge:4'
         sh 'docker pull chirpstack/chirpstack:4'
         sh 'docker pull chirpstack/chirpstack-rest-api:4'
-        // ************************************ //
+        */
+        // ********************************************************************* //
+
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
@@ -81,11 +85,22 @@ pipeline {
     }
     stage('Stage') {
       steps {
+        // *************** monitor the node *************** //
+        // Copy Debian package to RPI
+        sh 'ssh pi@$WAZIGATE_IP << EOF'
+        //  check disk usage
+        sh 'df -f'
+        sh 'cd /'
+        // list files in the /dev/root directory
+        sh 'cd /dev/root'
+        sh 'ls'
+        // close session
+        sh 'EOF'
+        // *********************************************** //
+
         // Copy Debian package to RPI
         sh 'scp $DEB_NAME pi@$WAZIGATE_IP:~/'
-        //sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --unpack $DEB_NAME"'
-        // check disk usage 
-        sh 'ssh pi@$WAZIGATE_IP "df -h; cd /; cd /dev/root; ls; sudo dpkg --unpack $DEB_NAME"'
+        sh 'ssh pi@$WAZIGATE_IP "sudo dpkg --unpack $DEB_NAME"'
         // Restart containers on RPI
         sh 'ssh pi@$WAZIGATE_IP "/var/lib/wazigate/update_containers.sh"'
       }
