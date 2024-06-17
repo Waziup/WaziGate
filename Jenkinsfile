@@ -39,14 +39,14 @@ pipeline {
         sh 'docker buildx bake --load --progress plain'
 
         // *************** if needed, pull missing docker images on the node *************** //
-        /*
+        
         sh 'docker images'
-        sh 'docker pull postgres:14-alpine'
-        sh 'docker pull eclipse-mosquitto:1.6'
-        sh 'docker pull chirpstack/chirpstack-gateway-bridge:4'
-        sh 'docker pull chirpstack/chirpstack:4'
-        sh 'docker pull chirpstack/chirpstack-rest-api:4'
-        */
+        sh 'docker pull --platform linux/arm64 postgres:14-alpine'
+        sh 'docker pull --platform linux/arm64/v8 eclipse-mosquitto:1.6'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-gateway-bridge:4'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack:4'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-rest-api:4'
+        
         // ********************************************************************* //
 
         // Save all images in a single tar file
