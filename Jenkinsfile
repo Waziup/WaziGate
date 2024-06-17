@@ -46,7 +46,7 @@ pipeline {
         sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-gateway-bridge:4'
         sh 'docker pull --platform linux/arm64 chirpstack/chirpstack:4'
         sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-rest-api:4'
-        
+
         // ********************************************************************* //
 
         // Save all images in a single tar file
@@ -86,7 +86,7 @@ pipeline {
     stage('Stage') {
       steps {
         // *************** monitor the node *************** //
-        sh 'ssh pi@$WAZIGATE_IP "df -h; ls -a; docker volume ls; docker images; docker rmi -f a2cd1b8e481a; docker rmi -f 8bbce97ac1c7; docker rmi -f f86f94844a31; docker rmi -f f86f94844a31; docker rmi -f e220ad642416; docker rmi -f 567929ee691f; docker rmi -f 769a7d299418; docker rmi -f 8466ea82cdb6; docker rmi -f a0d418003048; docker rmi -f d62e6764fb83; docker rmi -f d395783b4381; docker rmi -f 37997d0d2be3; docker rmi -f 445c0c08a350; docker rmi -f 445c0c08a350; docker rmi -f 58a89bcfc1ea; docker rmi -f b3ab9daf3576; docker rmi -f 8c60ca21afcb; docker rmi -f 486a413196d1; docker rmi -f b929bd06877f; docker rmi - 9ee4e3b6916b; docker rmi -f 97ef8225bf6b; docker rmi -f 96fce96a7b4a; exit"'
+        sh 'ssh pi@$WAZIGATE_IP "df -h; ls -a; docker volume ls; exit"'
         // *********************************************** //
 
         // Copy Debian package to RPI
