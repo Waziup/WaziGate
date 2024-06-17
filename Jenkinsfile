@@ -86,7 +86,7 @@ pipeline {
     stage('Stage') {
       steps {
         // *************** monitor the node *************** //
-        sh 'ssh pi@$WAZIGATE_IP "df -h; sudo cd root; sudo cd dev; ls; exit"'
+        sh 'ssh pi@$WAZIGATE_IP "df -h; sudo cd root; sudo cd dev; ls -lt --time=ctime; exit"'
         // *********************************************** //
 
         // Copy Debian package to RPI
