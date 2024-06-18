@@ -3,4 +3,6 @@
 
 [integration.mqtt.auth.generic]
 servers=["tcp://waziup.wazigate-edge:1883"]
+#username=""
+#password=""
 client_id="chirpstack-gateway-bridge"
