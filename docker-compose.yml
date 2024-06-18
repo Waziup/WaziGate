@@ -105,7 +105,7 @@ services:
       - 1884:1884 # Using port 1884 because WaziGate Edge MQTT uses port 1883
       - 1885:1885
     volumes: 
-      - ./apps/mosquitto/config/:/mosquitto/config/
+      - ./apps/waziup.wazigate-lora/mosquitto/config/:/mosquitto/config/
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -140,7 +140,7 @@ services:
     command: -c /etc/chirpstack
     restart: unless-stopped
     volumes:
-      - ./conf/chirpstack:/etc/chirpstack
+      - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
     environment:
       - MQTT_BROKER_HOST=mosquitto
       - REDIS_HOST=redis
