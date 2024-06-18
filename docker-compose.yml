@@ -141,6 +141,7 @@ services:
     restart: unless-stopped
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
+      - /var/run/redis:/var/run/redis
     environment:
       - MQTT_BROKER_HOST=mosquitto
       - REDIS_HOST=redis
