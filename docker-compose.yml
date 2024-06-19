@@ -76,20 +76,21 @@ services:
       - "wazigate-edge:172.17.0.1"
       
   postgresql:
-    container_name: postgres
+    container_name: postgresql
     image: postgres:14-alpine
     platform: linux/arm64
     volumes:
       - ./apps/waziup.wazigate-lora/postgresql/initdb:/docker-entrypoint-initdb.d
       - postgresqldata:/var/lib/postgresql/data
     environment:
-      - POSTGRES_HOST_AUTH_METHOD=trust
+      #- POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_PASSWORD=chirpstack
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "chirpstack"]
       interval: 10s
       timeout: 5s
       retries: 5  
-    command: postgres -c autovacuum=off 
+    #command: postgres -c autovacuum=off 
     restart: unless-stopped
     extra_hosts: 
       - "wazigate:172.17.0.1"
@@ -116,8 +117,6 @@ services:
     # TODO: upload chirpstack docker images to Waziup Docker HUB
     image: chirpstack/chirpstack-gateway-bridge:4
     platform: linux/arm64
-    labels: 
-      - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
     environment:
@@ -131,6 +130,8 @@ services:
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
       - "wazigate-edge:172.17.0.1"
+    labels: 
+      - io.waziup.waziapp=waziup.wazigate-lora
 
   chirpstack:
     container_name: waziup.wazigate-lora.chirpstack-v4
@@ -148,12 +149,12 @@ services:
       - POSTGRESQL_HOST=postgresql
     ports:
       - 8080:8080
-    labels:
-      io.waziup.wazigate.dep: "wazigate-lora"
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
       - "wazigate-edge:172.17.0.1"
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
 
   chirpstack-rest-api:
     container_name: chirpstack-rest-api
