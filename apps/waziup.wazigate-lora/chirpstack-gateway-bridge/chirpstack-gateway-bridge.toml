@@ -2,10 +2,10 @@
 # configuration example and documentation.
 
 [integration.mqtt.auth.generic]
-#servers=["tcp://waziup.wazigate-edge:1883"]
-servers=["tcp://mosquitto:1884"]
+servers=["tcp://waziup.wazigate-edge:1883"]
+#servers=["tcp://mosquitto:1884"]
 #username=""
 #password=""
-client_id="chirpstack-gateway-bridge"
+#client_id="chirpstack-gateway-bridge"
 # hexadecimal client_id: chirpstack-gateway-bridge
-#client_id="6368697270737461636b2d676174657761792d627269646765"
+client_id="6368697270737461636b2d676174657761792d627269646765"
