@@ -41,7 +41,7 @@
   #
   # Set multiple addresses when connecting to a cluster.
   servers=[
-    "redis://$REDIS_HOST/",
+    "/var/run/redis/redis.sock",
   ]
 
   # TLS enabled.

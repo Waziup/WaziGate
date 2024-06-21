@@ -84,7 +84,7 @@ services:
       - postgresqldata:/var/lib/postgresql/data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
-      #- POSTGRES_PASSWORD=chirpstack
+      - POSTGRES_PASSWORD=chirpstack
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "chirpstack"]
       interval: 10s
@@ -123,8 +123,6 @@ services:
       - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}
       - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/state/{{ .StateType }}
       - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/command/#
-    depends_on:
-      - mosquitto
     ports:
       - 1700:1700/udp
     restart: unless-stopped
@@ -145,10 +143,6 @@ services:
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
       - /var/run/redis:/var/run/redis
-    depends_on:
-      - postgresql
-      - mosquitto
-      - redis
     environment:
       - MQTT_BROKER_HOST=mosquitto
       - REDIS_HOST=redis
@@ -170,8 +164,6 @@ services:
     command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
     ports:
       - 8090:8090
-    depends_on:
-      - chirpstack
 
 #-------------------------#
 
