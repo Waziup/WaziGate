@@ -4,8 +4,8 @@
   # Log level.
   #
   # Options are: trace, debug, info, warn error.
-  level="info"
-
+  #level="info"
+  level="trace"
 
 # PostgreSQL configuration.
 [postgresql]
