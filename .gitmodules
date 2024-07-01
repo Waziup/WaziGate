@@ -1,6 +1,6 @@
 [submodule "wazigate-edge"]
 	path = wazigate-edge
-	url = https://github.com/Waziup/wazigate-edge.git
+	url = https://github.com/Waziup/wazigate-edge
 	branch = v2
 [submodule "wazigate-system"]
 	path = wazigate-system
