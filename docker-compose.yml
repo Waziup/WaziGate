@@ -145,7 +145,6 @@ services:
       - /var/run/redis:/var/run/redis
     environment:
       - MQTT_BROKER_HOST=mosquitto
-      - REDIS_HOST=redis
       - POSTGRESQL_HOST=postgresql
     ports:
       - 8080:8080
