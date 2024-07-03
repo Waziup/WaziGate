@@ -58,7 +58,7 @@ pipeline {
             sh 'npm rebuild node-sass'
 
             // install all needed modules, run build, run create stats -> saved in wazigate-dashboard (open with npn )
-            sh 'npm i && npm run build'
+            sh 'npm i --force && npm run build --force'
           }
         }
         // Build wazigate(-edge) go backend
