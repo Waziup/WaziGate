@@ -74,7 +74,57 @@ services:
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
       - "wazigate-edge:172.17.0.1"
-      
+
+  chirpstack:
+    container_name: waziup.wazigate-lora.chirpstack-v4
+    image: chirpstack/chirpstack:4
+    platform: linux/arm64
+    command: -c /etc/chirpstack
+    restart: unless-stopped
+    volumes:
+      - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
+      - /var/run/redis:/var/run/redis
+    environment:
+      - MQTT_BROKER_HOST=mosquitto
+      - POSTGRESQL_HOST=postgres
+    ports:
+      - 8080:8080
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
+    labels:
+      io.waziup.wazigate.dep: "wazigate-lora"
+
+  chirpstack-gateway-bridge:
+    container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
+    image: chirpstack/chirpstack-gateway-bridge:4
+    platform: linux/arm64
+    volumes:
+      - ./apps/waziup.wazigate-lora/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
+    environment:
+      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}
+      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/state/{{ .StateType }}
+      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/command/#
+    ports:
+      - 1700:1700/udp
+    restart: unless-stopped
+    extra_hosts: 
+      - "wazigate:172.17.0.1"
+      - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
+    labels: 
+      - io.waziup.waziapp=waziup.wazigate-lora
+
+  chirpstack-rest-api:
+    container_name: chirpstack-rest-api
+    image: chirpstack/chirpstack-rest-api:4
+    platform: linux/arm64
+    restart: unless-stopped
+    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
+    ports:
+      - 8090:8090
+
   postgres:
     container_name: postgres
     image: postgres:14-alpine
@@ -84,7 +134,7 @@ services:
       - postgresqldata:/var/lib/postgresql/data
     environment:
       - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_PASSWORD=chirpstack
+      - POSTGRES_PASSWORD=root
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "chirpstack"]
       interval: 10s
@@ -111,58 +161,6 @@ services:
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
       - "wazigate-edge:172.17.0.1"
-
-  chirpstack-gateway-bridge:
-    container_name: waziup.wazigate-lora.chirpstack-gateway-bridge
-    # TODO: upload chirpstack docker images to Waziup Docker HUB
-    image: chirpstack/chirpstack-gateway-bridge:4
-    platform: linux/arm64
-    volumes:
-      - ./apps/waziup.wazigate-lora/chirpstack-gateway-bridge:/etc/chirpstack-gateway-bridge
-    environment:
-      - INTEGRATION__MQTT__EVENT_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/event/{{ .EventType }}
-      - INTEGRATION__MQTT__STATE_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/state/{{ .StateType }}
-      - INTEGRATION__MQTT__COMMAND_TOPIC_TEMPLATE=eu868/gateway/{{ .GatewayID }}/command/#
-    ports:
-      - 1700:1700/udp
-    restart: unless-stopped
-    extra_hosts: 
-      - "wazigate:172.17.0.1"
-      - "waziup.wazigate-edge:172.17.0.1"
-      - "wazigate-edge:172.17.0.1"
-    labels: 
-      - io.waziup.waziapp=waziup.wazigate-lora
-
-  chirpstack:
-    container_name: waziup.wazigate-lora.chirpstack-v4
-    # TODO: upload chirpstack docker images to Waziup Docker HUB
-    image: chirpstack/chirpstack:4
-    platform: linux/arm64
-    command: -c /etc/chirpstack
-    restart: unless-stopped
-    volumes:
-      - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
-      - /var/run/redis:/var/run/redis
-    environment:
-      - MQTT_BROKER_HOST=mosquitto
-      - POSTGRESQL_HOST=postgresql
-    ports:
-      - 8080:8080
-    extra_hosts: 
-      - "wazigate:172.17.0.1"
-      - "waziup.wazigate-edge:172.17.0.1"
-      - "wazigate-edge:172.17.0.1"
-    labels:
-      io.waziup.wazigate.dep: "wazigate-lora"
-
-  chirpstack-rest-api:
-    container_name: chirpstack-rest-api
-    image: chirpstack/chirpstack-rest-api:4
-    platform: linux/arm64
-    restart: unless-stopped
-    command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
-    ports:
-      - 8090:8090
 
 #-------------------------#
 
