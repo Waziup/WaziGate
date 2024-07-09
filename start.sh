@@ -87,6 +87,11 @@ fi
 
 ################################################################################
 
-log 4 "Starting docker containers: "
+log 4 "Updating redis.sock file permissions"
+sudo chmod 777 /var/run/redis/redis.sock
+
+################################################################################
+
+log 5 "Starting docker containers: "
 # Start containers
 docker-compose up -d
