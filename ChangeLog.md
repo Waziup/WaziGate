@@ -1,3 +1,9 @@
+V3.0.0
+------
+
+  - New dashboard UI
+  - Updated ChirpStack to v4
+
 V2.3.2
 ------
 

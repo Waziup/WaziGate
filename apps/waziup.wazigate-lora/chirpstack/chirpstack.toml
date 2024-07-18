@@ -4,8 +4,8 @@
   # Log level.
   #
   # Options are: trace, debug, info, warn error.
-  #level="info"
-  level="trace"
+  level="info"
+
 
 # PostgreSQL configuration.
 [postgresql]
@@ -40,8 +40,9 @@
   # Server address or addresses.
   #
   # Set multiple addresses when connecting to a cluster.
+  #redis://$REDIS_HOST/
   servers=[
-    "/var/run/redis/redis.sock",
+    "unix:///var/run/redis/redis.sock",
   ]
 
   # TLS enabled.
