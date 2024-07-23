@@ -3,7 +3,7 @@
 
 [integration.mqtt.auth.generic]
 #servers=["tcp://waziup.wazigate-edge:1883"]
-servers=["tcp://$MQTT_BROKER_HOST:1884"]
+servers=["tcp://mosquitto:1884"]
 username=""
 password=""
 #client_id=""
