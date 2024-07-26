@@ -92,6 +92,10 @@ sudo chmod 777 /var/run/redis/redis.sock
 
 ################################################################################
 
-log 5 "Starting docker containers: "
+log 5 "Updating wait-for-wazigate-edge.sh file permissions"
+sudo chmod u+x /var/lib/wazigate/apps/waziup.wazigate-lora/mosquitto/config/wait-for-wazigate-edge.sh
+
+################################################################################
+log 6 "Starting docker containers: "
 # Start containers
 docker-compose up -d
