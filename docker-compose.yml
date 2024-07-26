@@ -164,6 +164,7 @@ services:
       - 1885:1885
     volumes: 
       - ./apps/waziup.wazigate-lora/mosquitto/config/:/mosquitto/config/
+    entrypoint: ["sh", "-c", "./wait-for-wazigate-edge.sh waziup.wazigate-edge:1883 -- mosquitto -c /mosquitto/config/mosquitto.conf"]
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
