@@ -10,6 +10,8 @@ ExecStart=/usr/bin/wazigate
 Environment="WAZIUP_WWW=/var/lib/wazigate/www"
 Environment="WAZIUP_MONGO=mongodb://localhost:27017/?connect=direct"
 TimeoutStartSec=15min
+Restart=always
+RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
