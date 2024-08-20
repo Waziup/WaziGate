@@ -55,6 +55,11 @@ services:
       x-bake:
         platforms: "linux/arm64"
     tty: true 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - ./apps/waziup.wazigate-lora/forwarders/:/root/conf
       - /var/run/dbus:/var/run/dbus
