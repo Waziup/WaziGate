@@ -46,6 +46,7 @@ services:
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
