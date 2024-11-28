@@ -44,9 +44,12 @@ services:
       retries: 30 # Will try for 5 minutes      
     restart: unless-stopped
     extra_hosts: 
-      - "wazigate:172.17.0.1"
-      - "waziup.wazigate-edge:172.17.0.1"
-      - "wazigate-edge:172.17.0.1"
+      #- "wazigate:172.17.0.1"
+      #- "waziup.wazigate-edge:172.17.0.1"
+      #- "wazigate-edge:172.17.0.1"
+      - "wazigate:10.42.0.1"
+      - "waziup.wazigate-edge:10.42.0.1"
+      - "wazigate-edge:10.42.0.1"
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
