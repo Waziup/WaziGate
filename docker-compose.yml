@@ -46,6 +46,7 @@ services:
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
+      - "wazigate-edge:172.17.0.1"
 
   wazigate-lora-forwarders:
     container_name: waziup.wazigate-lora.forwarders
@@ -55,6 +56,11 @@ services:
       x-bake:
         platforms: "linux/arm64"
     tty: true 
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
     volumes:
       - ./apps/waziup.wazigate-lora/forwarders/:/root/conf
       - /var/run/dbus:/var/run/dbus
@@ -164,6 +170,7 @@ services:
       - 1885:1885
     volumes: 
       - ./apps/waziup.wazigate-lora/mosquitto/config/:/mosquitto/config/
+    entrypoint: ["sh", "-c", "./mosquitto/config/wait-for-wazigate-edge.sh waziup.wazigate-edge:1883 -- mosquitto -c /mosquitto/config/mosquitto.conf"]
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
