@@ -9,4 +9,4 @@
 [submodule "wazigate-lora"]
 	path = wazigate-lora
 	url = https://github.com/Waziup/wazigate-lora.git
-	branch = v3
+	branch = main
