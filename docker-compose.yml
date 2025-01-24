@@ -36,12 +36,7 @@ services:
     labels: 
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
-      - ./apps/waziup.wazigate-lora:/var/lib/waziapp
-    healthcheck:
-      test: curl --fail --unix-socket /var/lib/waziapp/proxy.sock http://localhost/ || exit 1
-      interval: 10s
-      timeout: 5s
-      retries: 30 # Will try for 5 minutes      
+      - ./apps/waziup.wazigate-lora:/var/lib/waziapp    
     restart: unless-stopped
     extra_hosts: 
       - "wazigate:172.17.0.1"
