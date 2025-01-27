@@ -295,6 +295,79 @@ class TestWaziGateActuators(unittest.TestCase):
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
         self.assertEqual(resp.status_code, 200)
 
+
+class TestWazigateSystemAPI(unittest.TestCase):
+    token = None
+    dev_id = ""
+    system_url = wazigate_url+"apps/waziup.wazigate-system/"
+    def setUp(self):
+        # Get WaziGate token
+        resp = requests.post(wazigate_url + '/auth/token', json = auth)
+        self.token = {"Authorization": "Bearer " + resp.json()}
+
+    def test_get_uptime(self):
+        """ Tests getting system uptime """
+        resp = requests.get(wazigate_url+'/sys/uptime',headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(len(resp.text), 0)
+
+    def test_get_buildnumber(self):
+        """ Tests getting os build number """
+        resp = requests.get(wazigate_url+ '/buildnr', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(len(resp.text), 0)
+
+    def test_get_usageinfo(self):
+        """ Test get usage info """
+        resp = requests.get(self.system_url+ 'usage', headers=self.token)
+        respr = resp.json()
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('disk',respr)
+        self.assertIn('cpu_usage',respr)
+        self.assertIn('mem_usage',respr)
+
+    def test_get_gatewayconf(self):
+        """ Tests getting gateway configuration"""
+        resp = requests.get(self.system_url + 'conf', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        respr = resp.json()
+        self.assertIn('local_timezone',respr)
+
+    def test_get_networkdevices(self):
+        """ Test get network devices """
+        resp = requests.get(self.system_url + 'net', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertGreater(len(resp.json()),0)
+    
+    def test_get_wifiscan(self):
+        """ Test  getting nearby wifi"""
+        resp = requests.get(self.system_url+'net/wifi/scan',headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertGreater(len(resp.json()),0)
+
+    def test_get_internetstatus(self):
+        """ Tests getting internet status """
+        resp = requests.get(self.system_url + 'internet', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+
+    def test_get_all_containers(self):
+        """ Test get all containers """
+        resp = requests.get(self.system_url + 'docker', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(len(resp.json()),0)
+    
+    def test_get_timezones(self):
+        """ Test get timezones """
+        resp = requests.get(self.system_url + 'timezones', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(len(resp.json()),0)
+    
+    def test_get_timezoneauto(self):
+        """ Test get timezone auto """
+        resp = requests.get(self.system_url + 'timezone/auto', headers=self.token)
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotEqual(len(resp.text), 0)
+    
 class TestWaziGateClouds(unittest.TestCase):
 
     def_cloud = {
