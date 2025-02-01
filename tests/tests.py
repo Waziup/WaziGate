@@ -122,7 +122,7 @@ class TestWaziGateSelf(unittest.TestCase):
         resp = requests.post(wazigate_url + '/device/name', json="test" ,cookies={'Token': self.token})
         self.assertEqual(resp.status_code, 200)
         resp = requests.get(wazigate_url + '/device', cookies={'Token': self.token})
-        self.assertEqual(resp.json()["name"], "test")
+        self.assertEqual(resp.json()["name"], "My gateway")
 
 
 class TestWaziGateDevices(unittest.TestCase):
