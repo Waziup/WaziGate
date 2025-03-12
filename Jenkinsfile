@@ -13,7 +13,7 @@ pipeline {
     stage('checkout') {
        steps {
           //Fetch HEAD for all submodules
-          sh 'git submodule foreach --recursive "git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)"'
+          sh 'git submodule foreach --recursive \'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)\''
        }
     }
     stage('Prepare') {
