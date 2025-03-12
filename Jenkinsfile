@@ -39,8 +39,6 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // update each submodule
-        sh 'git submodule update --recursive'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
 
