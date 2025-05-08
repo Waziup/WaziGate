@@ -164,19 +164,19 @@ class TestWaziGateDevices(unittest.TestCase):
         test_device_id = resp.text[1:-2]
         self.assertEqual(resp.status_code, 200)
         
-        # Check that it's effectively created
+        # Update the name of the device
         resp2 = requests.post(wazigate_url + '/devices/' + test_device_id + "/name", json="test2", headers = self.token)
         self.assertEqual(resp2.status_code, 200)
         
         resp3 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp3.status_code, 200)
         self.assertEqual(resp3.json()["name"], "test2")
-    
-    # Remove any resources that was created
-    def tearDown(self):
-        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
-        self.assertEqual(resp.status_code, 200)
-        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+
+        print(wazigate_url + '/devices/' + test_device_id)
+        resp3 = requests.delete(wazigate_url + '/devices/' + test_device_id, headers = self.token)
+        self.assertEqual(resp3.status_code, 200)
+        
+        resp4 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp4.status_code, 404)
 
 
