@@ -128,6 +128,7 @@ class TestWaziGateSelf(unittest.TestCase):
 class TestWaziGateDevices(unittest.TestCase):
 
     token = None
+    dev_id = ""
     def setUp(self):
         # Get WaziGate token
         resp = requests.post(wazigate_url + '/auth/token', json = auth) 
@@ -139,6 +140,7 @@ class TestWaziGateDevices(unittest.TestCase):
         # Create a new LoRaWAN device on WaziGate
         resp = requests.post(wazigate_url + '/devices', json={'name':'test'}, headers = self.token)
         self.assertEqual(resp.status_code, 200)
+        self.dev_id = resp.json()
         test_device_id = resp.text[1:-2]
         print(test_device_id)
         
@@ -169,6 +171,13 @@ class TestWaziGateDevices(unittest.TestCase):
         resp3 = requests.get(wazigate_url + '/devices/' + test_device_id, headers = self.token)
         self.assertEqual(resp3.status_code, 200)
         self.assertEqual(resp3.json()["name"], "test2")
+    
+    # Remove any resources that was created
+    def tearDown(self):
+        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
 
 
 class TestWaziGateSensors(unittest.TestCase):
@@ -232,6 +241,8 @@ class TestWaziGateSensors(unittest.TestCase):
     def tearDown(self):
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
         self.assertEqual(resp.status_code, 200)
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
 
 class TestWaziGateActuators(unittest.TestCase):
 
@@ -294,6 +305,8 @@ class TestWaziGateActuators(unittest.TestCase):
     def tearDown(self):
         resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
         self.assertEqual(resp.status_code, 200)
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp4.status_code, 404)
 
 
 class TestWazigateSystemAPI(unittest.TestCase):

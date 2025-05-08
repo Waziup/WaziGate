@@ -237,6 +237,15 @@ class TestWaziGateSensorsAndActuators(unittest.TestCase):
         test_2_time = total_time
             
         print("test_sensor_and_actuator_value: Time in total: " + str(total_time) + "sek     Time for post one sensor value, check, post one actuator value and check: " + str(total_time/amount_tests) +"sek")
+    
+    # Remove any resources that was created
+    def tearDown(self):
+        resp = requests.delete(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        self.assertEqual(resp.status_code, 200)
+        resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        if evaluate_status_code(self,resp4.status_code,404): # was 404 in function token gets renewed
+            resp4 = requests.get(wazigate_url + '/devices/' + self.dev_id, headers = self.token)
+        print("If device was deleted it should show, that it was not found: " + resp4.text)
         
 
 if __name__ == "__main__":
