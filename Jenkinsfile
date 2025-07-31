@@ -35,8 +35,8 @@ pipeline {
       steps {
         // update each submodule
         sh 'git submodule update --recursive'
-        // Build all images
-        sh 'docker buildx bake --load --progress plain'
+        // Build all images -> for debug to prevent it building wg-sys, there is an error with minimatch package
+        sh 'docker buildx bake -f docker-compose.yml wazigate-lora wazigate-lora-forwarders postgresql chirpstack-gateway-bridge chirpstack-application-server chirpstack-network-server --load --progress plain'
         // Save all images in a single tar file
         sh 'docker save -o wazigate_images.tar `cat docker-compose.yml | yq .services[].image | envsubst`'
 
