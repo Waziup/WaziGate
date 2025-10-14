@@ -39,8 +39,8 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // Build all images -> for debug to prevent it building wg-sys, there is an error with minimatch package
-        sh 'docker buildx bake -f docker-compose.yml wazigate-lora wazigate-lora-forwarders --load --progress plain'
+        // Build all images
+        sh 'docker buildx bake --load --progress plain'
 
 
         // *************** if needed, pull missing docker images on the node *************** //
