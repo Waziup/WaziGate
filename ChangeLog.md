@@ -1,3 +1,9 @@
+V3.0.1
+------
+Bug fixes:
+  - WaziGate LoRa v3- Chirpstack API token not refreshing (PLAT-3642)
+  - WaziGate: actuation downlink is received as string instead of XLPP (PLAT-3872)
+
 V3.0.0
 ------
 

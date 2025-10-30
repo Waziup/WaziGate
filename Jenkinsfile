@@ -10,6 +10,12 @@ pipeline {
     timeout(time: 1, unit: 'HOURS')
   }
   stages {
+    stage('checkout') {
+       steps {
+          //Fetch HEAD for all submodules
+          sh 'git submodule foreach --recursive \'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)\''
+       }
+    }
     stage('Prepare') {
       steps {
         sh 'pip3 install unittest-xml-reporting'
@@ -33,19 +39,18 @@ pipeline {
     }
     stage('Build') {
       steps {
-        // update each submodule
-        sh 'git submodule update --recursive'
         // Build all images
         sh 'docker buildx bake --load --progress plain'
 
+
         // *************** if needed, pull missing docker images on the node *************** //
-        //sh 'docker images'
-        //sh 'docker pull --platform linux/arm64 postgres:14-alpine'
-        //sh 'docker pull --platform linux/arm64 redis:7-alpine'
-        //sh 'docker pull --platform linux/arm64/v8 eclipse-mosquitto:1.6'
-        //sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-gateway-bridge:4'
-        //sh 'docker pull --platform linux/arm64 chirpstack/chirpstack:4'
-        //sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-rest-api:4'
+        sh 'docker images'
+        sh 'docker pull --platform linux/arm64 postgres:14-alpine'
+        sh 'docker pull --platform linux/arm64 redis:7-alpine'
+        sh 'docker pull --platform linux/arm64/v8 eclipse-mosquitto:1.6'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-gateway-bridge:4'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack:4.6'
+        sh 'docker pull --platform linux/arm64 chirpstack/chirpstack-rest-api:4.6'
         // ********************************************************************* //
 
         // Save all images in a single tar file

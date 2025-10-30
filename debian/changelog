@@ -1,3 +1,5 @@
+wazigate (3.1.0) UNRELEASED; urgency=medium
+  * Adding VPN
 wazigate (3.0.0) UNRELEASED; urgency=medium
   * New dashboard UI
   * Updated ChirpStack to v4
