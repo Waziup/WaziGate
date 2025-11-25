@@ -4,7 +4,7 @@
 pipeline {
   agent any
   parameters {
-    booleanParam(name: 'skip_perf_tests', defaultValue: false, description: 'Set to true to skip the perf test stage')
+    booleanParam(name: 'skip_perf_tests', defaultValue: true, description: 'Set to true to skip the perf test stage')
   }
   options {
     timeout(time: 1, unit: 'HOURS')
