@@ -1,6 +1,6 @@
 [Unit]
 Description=Wazigate Service
-After=network.target mongodb.service redis-server.service
+After=network.target mongodb.service redis-server.service NetworkManager
 
 [Service]
 Type=simple
