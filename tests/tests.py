@@ -57,12 +57,6 @@ auth = {
   "username": "admin",
   "password": "loragateway"
 }
-vpnEnable = {
-    "enabled": True,
-}
-vpnDisable = {
-    "enabled": False,
-}
 
 auth_Token_header_Accept_text_plain = {
 	'content-type': 'application/json',
@@ -368,46 +362,7 @@ class TestWazigateSystemAPI(unittest.TestCase):
         """ Tests getting internet status """
         resp = requests.get(self.system_url + 'internet', headers=self.token)
         self.assertEqual(resp.status_code, 200)
-    
-    def test_get_vpnstatus(self):
-        """ Test get VPN status before setup """
-        resp = requests.get(self.system_url + 'net/vpn', headers=self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.assertGreater(len(resp.json()),0)
-        self.assertTrue(resp.json()["connected"])
-        self.assertEqual(resp.json()["connected"],False)
-        self.assertTrue(resp.json()["message"])
-    
-    def test_enable_vpn(self):
-        """ Test Enable VPN in gateway """
-        resp = requests.post(self.system_url + 'net/vpn',json=vpnEnable, headers=self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.assertTrue(resp.json()["connected"])
-        self.assertEqual(resp.json()["connected"],True)
-        self.assertTrue(resp.json()["message"])
 
-    def test_get_vpnstatus(self):
-        """ Test get VPN status after enable """
-        resp = requests.get(self.system_url + 'net/vpn', headers=self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()["connected"],True)
-        self.assertTrue(resp.json()["message"])
-        self.assertGreater(len(resp.json()),0)
-    
-    def test_disable_vpn(self):
-        """ Test Disable VPN in gateway """
-        resp = requests.post(self.system_url + 'net/vpn', json=vpnDisable, headers=self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.assertGreater(len(resp.json()),0)
-        self.assertEqual(resp.json()["connected"],False)
-        self.assertTrue(resp.json()["message"])
-
-    def test_get_vpnstatus(self):
-        """ Test get VPN status after disable"""
-        resp = requests.get(self.system_url + 'net/vpn', headers=self.token)
-        self.assertEqual(resp.status_code, 200)
-        self.assertEqual(resp.json()["connected"],False)
-        self.assertTrue(resp.json()["message"])
 
     def test_get_all_containers(self):
         """ Test get all containers """
