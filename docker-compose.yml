@@ -26,7 +26,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 30 # Will try for 5 minutes
-    restart: unless-stopped
+    restart: always
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -43,7 +43,7 @@ services:
       - io.waziup.waziapp=waziup.wazigate-lora
     volumes:
       - ./apps/waziup.wazigate-lora:/var/lib/waziapp    
-    restart: unless-stopped
+    restart: always
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -76,7 +76,7 @@ services:
     labels:
       - io.waziup.waziapp=waziup.wazigate-lora
     privileged: true  
-    restart: unless-stopped
+    restart: always
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -87,7 +87,7 @@ services:
     image: chirpstack/chirpstack:4.6
     platform: linux/arm64
     command: -c /etc/chirpstack
-    restart: unless-stopped
+    restart: always
     volumes:
       - ./apps/waziup.wazigate-lora/chirpstack:/etc/chirpstack
       - /var/run/redis:/var/run/redis
@@ -120,7 +120,7 @@ services:
       - mosquitto
     ports:
       - 1700:1700/udp
-    restart: unless-stopped
+    restart: always
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -132,7 +132,7 @@ services:
     container_name: chirpstack-rest-api
     image: chirpstack/chirpstack-rest-api:4.6
     platform: linux/arm64
-    restart: unless-stopped
+    restart: always
     command: --server chirpstack:8080 --bind 0.0.0.0:8090 --insecure
     ports:
       - 8090:8090
@@ -155,7 +155,7 @@ services:
       timeout: 5s
       retries: 5  
     command: postgres -c autovacuum=off 
-    restart: unless-stopped
+    restart: always
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -165,7 +165,7 @@ services:
     image: eclipse-mosquitto:1.6  # The MQTT bridge seems to work only with eclipse-mosquitto 1.6
     #image: eclipse-mosquitto:2
     platform: linux/arm64/v8
-    restart: unless-stopped
+    restart: always
     ports:
       - 1884:1884 # Using port 1884 because WaziGate Edge MQTT uses port 1883
       - 1885:1885
