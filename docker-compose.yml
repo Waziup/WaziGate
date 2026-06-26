@@ -13,7 +13,6 @@ services:
       - /var/run:/var/run
       - /sys/class/gpio:/sys/class/gpio
       - /dev/mem:/dev/mem
-      - /usr/bin:/usr/bin
       - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
       - /etc/NetworkManager:/etc/NetworkManager
       - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
