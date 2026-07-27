@@ -40,7 +40,8 @@ pipeline {
     stage('Build') {
       steps {
         // Build all images
-        sh 'docker buildx bake --load --progress plain'
+        // sh 'docker buildx bake --load --progress plain'
+        sh 'docker compose config | grep -v "cgroup:" | docker buildx bake -f - --load --progress plain'
 
 
         // *************** if needed, pull missing docker images on the node *************** //
