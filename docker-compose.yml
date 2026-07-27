@@ -187,7 +187,9 @@ services:
       - "wazigate-edge:172.17.0.1"
 
 #-------------------------#
-
+x-bake:
+  wazigate-system:
+    inherits: []
 networks:
   default:
     name: wazigate
