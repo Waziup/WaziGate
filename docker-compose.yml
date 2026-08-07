@@ -16,11 +16,8 @@ services:
       - /var/run/wazigate-host.sock:/var/run/wazigate-host.sock
       - /etc/NetworkManager:/etc/NetworkManager
       - /run/dbus/system_bus_socket:/run/dbus/system_bus_socket
-      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket:rw
       - /sys/class/net:/sys/class/net:ro
       - /etc/openvpn:/etc/openvpn
-      - /etc/systemd/system:/etc/systemd/system
-      - /sys/fs/cgroup:/sys/fs/cgroup:rw
       - /root/.cert/nm-openvpn:/root/.cert/nm-openvpn
       - /run/NetworkManager:/run/NetworkManager
     privileged: true
@@ -30,12 +27,6 @@ services:
       timeout: 5s
       retries: 30 # Will try for 5 minutes
     restart: unless-stopped
-    pid: host
-    network_mode: host
-    environment:
-      - DBUS_SYSTEM_BUS_ADDRESS=unix:path=/run/dbus/system_bus_socket
-      - container=docker
-    cgroup: host
     extra_hosts: 
       - "wazigate:172.17.0.1"
       - "waziup.wazigate-edge:172.17.0.1"
@@ -187,9 +178,6 @@ services:
       - "wazigate-edge:172.17.0.1"
 
 #-------------------------#
-x-bake:
-  wazigate-system:
-    inherits: []
 networks:
   default:
     name: wazigate
