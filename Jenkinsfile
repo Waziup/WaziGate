@@ -7,7 +7,7 @@ pipeline {
     booleanParam(name: 'skip_perf_tests', defaultValue: true, description: 'Set to true to skip the perf test stage')
   }
   options {
-    timeout(time: 1, unit: 'HOURS')
+    timeout(time: 2, unit: 'HOURS')
   }
   stages {
     stage('checkout') {
