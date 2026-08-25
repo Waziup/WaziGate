@@ -1,8 +1,25 @@
 wazigate (3.1.0) UNRELEASED; urgency=medium
+
   * Adding VPN
+  * VPN remote access added, configurable from the dashboard
+  * UPS module support added
+  * Network traffic drastically reduced
+  * Automatic token refresh in the dashboard
+  * MQTT and REST API addresses configurable
+  * LoRa downlink payload and queue fixed
+  * System resource reporting hardened
+  * Automatic service restart after crash or reboot
+  * Base images updated, Go toolchain pinned, build caching added
+  * Redundant API endpoints removed, VPN routes documented
+
+ -- Felix Markwordt <felix.markwordt@waziup.org>  Mon, 24 Aug 2026 14:53:53 +0200
+
 wazigate (3.0.0) UNRELEASED; urgency=medium
+
   * New dashboard UI
   * Updated ChirpStack to v4
+
+ -- Solomon Muhunyo Githu <solomgithu@gmail.com>  Wed, 03 Jul 2024 12:56:07 +0300
 
 wazigate (2.3.2) UNRELEASED; urgency=medium
 
@@ -11,7 +28,7 @@ wazigate (2.3.2) UNRELEASED; urgency=medium
   * Set clock and timezone automatically
   * Compression of resources to support slow networks
  
-  -- Felix Markwordt <felix.markwordt@waziup.org>  Tue, 24 Mar 2023 12:42:28 +0100
+ -- Felix Markwordt <felix.markwordt@waziup.org>  Tue, 24 Mar 2023 12:42:28 +0100
 
 wazigate (2.3.1) UNRELEASED; urgency=medium
 
@@ -22,7 +39,7 @@ wazigate (2.3.1) UNRELEASED; urgency=medium
   * Display of sensor historical values
   * Transition to 64 bits architecture
  
-  -- Corentin Dupont <cdupont@waziup.org>  Wed, 2 Nov 2022 22:21:56 +0100
+ -- Corentin Dupont <cdupont@waziup.org>  Wed, 2 Nov 2022 22:21:56 +0100
 
 wazigate (2.3.0) unstable; urgency=medium
 
@@ -33,7 +50,7 @@ wazigate (2.3.0) unstable; urgency=medium
   * Display of sensor historical values
   * Transition to 64 bits architecture
 
-  -- Felix Markwordt <felix.markwordt@waziup.org>  Tue, 11 Oct 2022 09:51:28 +0100
+ -- Felix Markwordt <felix.markwordt@waziup.org>  Tue, 11 Oct 2022 09:51:28 +0100
 
 wazigate (2.2.0) unstable; urgency=medium
 
