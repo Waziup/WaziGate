@@ -5,7 +5,7 @@ V3.1.0
 * Major network traffic reduction
 * Better session handling in the dashboard
 * Fixed LoRa downlink payload handling and the downlink queue
-* Updated base images to Debian trixie / Ubuntu 22.04 following the buster archival
+* Updated base images to Debian trixie following the buster archival
 
 
 V3.0.1
