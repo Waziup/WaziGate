@@ -25,6 +25,33 @@ setup_new_connection () {
   nmcli c up WAZIGATE-AP
 }
 
+# Image backup: a copy of all compose images, used as last resort if the images
+# stored in docker are corrupted. The .ids file records which image IDs the tar
+# contains, so it is only rewritten when images actually changed (e.g. via update.sh).
+IMAGE_BACKUP=wazigate_images.backup.tar
+IMAGE_BACKUP_IDS=wazigate_images.backup.ids
+
+current_image_ids () {
+  docker image inspect --format '{{.Id}}' $(docker-compose config --images) 2>/dev/null
+}
+
+update_image_backup () {
+  local ids
+  ids=$(current_image_ids) || { echo "Image backup: could not read image IDs, skipping."; return 0; }
+  if [ -f "$IMAGE_BACKUP" ] && [ "$ids" == "$(cat "$IMAGE_BACKUP_IDS" 2>/dev/null)" ]; then
+    return 0
+  fi
+  echo "Images changed, updating image backup ..."
+  if docker save -o "$IMAGE_BACKUP.tmp" $(docker-compose config --images); then
+    mv -f "$IMAGE_BACKUP.tmp" "$IMAGE_BACKUP"
+    echo "$ids" > "$IMAGE_BACKUP_IDS"
+    sync
+  else
+    echo "Image backup: docker save failed, keeping old backup."
+    rm -f "$IMAGE_BACKUP.tmp"
+  fi
+}
+
 
 ################################################################################
 
@@ -82,7 +109,9 @@ log 3 "Loading docker images: "
 # Read from docker compose: load images
 if [ -f wazigate_images.tar ]; then
   docker load -i wazigate_images.tar
-  rm -f wazigate_images.tar
+  # The tar contains exactly the compose images (see Jenkinsfile), keep it as backup
+  mv -f wazigate_images.tar "$IMAGE_BACKUP"
+  current_image_ids > "$IMAGE_BACKUP_IDS" || rm -f "$IMAGE_BACKUP_IDS"
 fi
 
 ################################################################################
@@ -97,5 +126,28 @@ sudo chmod u+x /var/lib/wazigate/apps/waziup.wazigate-lora/mosquitto/config/wait
 
 ################################################################################
 log 6 "Starting docker containers: "
-# Start containers
-docker-compose up -d
+# Start containers. After an unclean shutdown or SD card write error, a container's
+# rootfs snapshot can be corrupted (e.g. "lstat /var/lib/docker/rootfs/overlayfs/<id>/etc:
+# not a directory"). In that case remove the containers and recreate them from the
+# existing images. If the images themselves are corrupted, restore them from the
+# image backup. Data lives in bind mounts and named volumes (postgresqldata),
+# which are kept (no -v flag).
+if ! docker-compose up -d; then
+  echo "docker-compose up failed, removing and recreating containers from images ..."
+  docker-compose rm -f -s || true
+  if ! docker-compose up -d --force-recreate; then
+    if [ ! -f "$IMAGE_BACKUP" ]; then
+      echo "Recreating containers failed and no image backup found."
+      exit 1
+    fi
+    echo "Recreating containers failed, restoring images from $IMAGE_BACKUP ..."
+    # Remove containers and the (possibly corrupted) images first, otherwise
+    # docker load may reuse the broken local content.
+    docker-compose down --rmi all || true
+    docker load -i "$IMAGE_BACKUP"
+    docker-compose up -d
+  fi
+fi
+
+# Containers are running, so the current images are good: refresh the backup if they changed
+update_image_backup
