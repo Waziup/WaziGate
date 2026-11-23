@@ -31,21 +31,46 @@ setup_new_connection () {
 IMAGE_BACKUP=wazigate_images.backup.tar
 IMAGE_BACKUP_IDS=wazigate_images.backup.ids
 
+# Image list as array: the access point setup below sets IFS='' globally, so
+# unquoted $(...) would not be split into words anymore.
+compose_images () {
+  mapfile -t COMPOSE_IMAGES < <(docker-compose config --images 2>/dev/null)
+  [ ${#COMPOSE_IMAGES[@]} -gt 0 ]
+}
+
+# Sorted image IDs. "docker-compose config --images" returns the images in a
+# random order on every call, an unsorted list would never match the stored one.
+image_ids_of () {
+  local out
+  out=$(docker image inspect --format '{{.Id}}' "$@") || return 1
+  sort <<<"$out"
+}
+
 current_image_ids () {
-  docker image inspect --format '{{.Id}}' $(docker-compose config --images) 2>/dev/null
+  compose_images || return 1
+  image_ids_of "${COMPOSE_IMAGES[@]}"
 }
 
 update_image_backup () {
-  local ids
-  ids=$(current_image_ids) || { echo "Image backup: could not read image IDs, skipping."; return 0; }
+  local ids platform
+  # Not inside $(...): COMPOSE_IMAGES must be set in this shell for docker save
+  compose_images || { echo "Image backup: could not list compose images, skipping."; return 0; }
+  ids=$(image_ids_of "${COMPOSE_IMAGES[@]}") \
+    || { echo "Image backup: could not read image IDs, skipping."; return 0; }
   if [ -f "$IMAGE_BACKUP" ] && [ "$ids" == "$(cat "$IMAGE_BACKUP_IDS" 2>/dev/null)" ]; then
     return 0
   fi
-  echo "Images changed, updating image backup ..."
-  if docker save -o "$IMAGE_BACKUP.tmp" $(docker-compose config --images); then
+  echo "Images changed, updating image backup (${#COMPOSE_IMAGES[@]} images) ..."
+  # With the containerd image store, saving images pulled from multi-arch
+  # indexes can fail (other platforms missing locally): retry for this platform.
+  platform=$(docker version --format '{{.Server.Os}}/{{.Server.Arch}}' 2>/dev/null)
+  if docker save -o "$IMAGE_BACKUP.tmp" "${COMPOSE_IMAGES[@]}" \
+     || { [ -n "$platform" ] && echo "Retrying docker save for $platform ..." \
+          && docker save --platform "$platform" -o "$IMAGE_BACKUP.tmp" "${COMPOSE_IMAGES[@]}"; }; then
     mv -f "$IMAGE_BACKUP.tmp" "$IMAGE_BACKUP"
     echo "$ids" > "$IMAGE_BACKUP_IDS"
     sync
+    echo "Image backup written: $(du -h "$IMAGE_BACKUP" | cut -f1)"
   else
     echo "Image backup: docker save failed, keeping old backup."
     rm -f "$IMAGE_BACKUP.tmp"
