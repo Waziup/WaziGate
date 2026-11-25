@@ -8,11 +8,14 @@ pipeline {
   }
   options {
     timeout(time: 2, unit: 'HOURS')
+    // Wall-clock timestamps on every console line, so a stalled step is visible.
+    // Needs the Timestamper plugin; drop this line if the pipeline fails to load.
+    timestamps()
   }
   stages {
     stage('checkout') {
        steps {
-          //Fetch HEAD for all submodules
+          // Fetch HEAD for all submodules
           sh 'git submodule foreach --recursive \'git fetch origin; git checkout $(git rev-parse --abbrev-ref HEAD); git reset --hard origin/$(git rev-parse --abbrev-ref HEAD)\''
        }
     }
@@ -20,15 +23,15 @@ pipeline {
       steps {
         sh 'pip3 install unittest-xml-reporting'
        
-        //Install docker buildx builder
-        sh 'docker run --rm --privileged multiarch/qemu-user-static --reset -p yes'
+        // Install docker buildx builder
+        sh 'docker run --privileged --rm tonistiigi/binfmt --install arm64'
         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
-            sh 'docker buildx create --name rpibuilder --platform linux/arm64/v8; true'
+            sh 'docker buildx create --name rpibuilder --platform linux/arm64/v8 || true'
         }
         sh 'docker buildx use rpibuilder'
         sh 'docker buildx inspect --bootstrap'
 
-        //read environment variables
+        // Read environment variables
         script {
           def props = readProperties interpolate: true, file: '.env'
           env.WAZIGATE_TAG = props.WAZIGATE_TAG
@@ -37,7 +40,11 @@ pipeline {
         sh 'echo "BUILD_ID=$BUILD_ID" >> .env'
       }
     }
-    stage('Build') {
+    stage('Build') {      
+      options {
+        // Fail this stage on its own rather than silently eating the 2h budget.
+        timeout(time: 60, unit: 'MINUTES')
+      }
       steps {
         // Build all images
         sh 'docker buildx bake --load --progress plain'
@@ -123,13 +130,18 @@ pipeline {
   }
   post {
     success {
+      // Tests are evaluated FIRST, so the build status reflects them before
+      // anything is published. allowEmptyResults stops a missing report from
+      // aborting this block: publishing is meant to happen regardless of test
+      // outcome, it just must not happen before the results are recorded.
+      junit allowEmptyResults: true, testResults: 'tests/results.xml'
+
       // Pushing all images to dockerhub
       sh 'docker-compose push'
       // Install debian package in download repo
       sh 'cp $DEB_NAME Packages.gz /var/www/Staging/downloads/'
       // Publish artifacts
       archiveArtifacts artifacts: 'Packages.gz, $DEB_NAME', fingerprint: true
-      junit 'tests/results.xml'
       plot csvFileName: 'plot_aggregated_performance_results.csv',
         csvSeries: [[
                               file: 'tests/aggregated_performance_results.csv', 
