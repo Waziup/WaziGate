@@ -7,7 +7,7 @@ services:
     build:
       context: ./wazigate-system
       x-bake:
-        platforms: "linux/arm/v7"
+        platforms: "linux/arm64"
     volumes:
       - ./apps/waziup.wazigate-system:/var/lib/waziapp
       - /var/run:/var/run

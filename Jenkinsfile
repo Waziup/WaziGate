@@ -24,7 +24,14 @@ pipeline {
         sh 'pip3 install unittest-xml-reporting'
        
         // Install docker buildx builder
-        sh 'docker run --privileged --rm tonistiigi/binfmt --install arm64'
+        // --install alone is a no-op when any handler is already registered, so
+        // uninstall first. The cat records which emulator this build ran on.
+        sh '''
+          docker run --privileged --rm tonistiigi/binfmt --uninstall qemu-aarch64 || true
+          docker run --privileged --rm tonistiigi/binfmt --install arm64
+          echo "--- active aarch64 binfmt handler ---"
+          cat /proc/sys/fs/binfmt_misc/qemu-aarch64
+        '''
         catchError(buildResult: 'SUCCESS', stageResult: 'SUCCESS') {
             sh 'docker buildx create --name rpibuilder --platform linux/arm64/v8 || true'
         }
