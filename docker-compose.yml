@@ -1,6 +1,40 @@
 version: "3.9"
 
 services:
+  wazigate-mongo:
+    container_name: waziup.wazigate-mongo
+    # 4.4.18 is the last MongoDB that runs on the gateway's Cortex-A72. Every
+    # build from 4.4.19 onwards requires ARMv8.2-A atomics (LSE), which this
+    # ARMv8.0-A core does not have, and mongod is killed with SIGILL. The
+    # image carries its own OpenSSL 1.1, which is why mongod cannot be a host
+    # package any more: trixie ships OpenSSL 3 only.
+    image: mongo:4.4.18
+    platform: linux/arm64
+    # Host networking, so mongod binds 127.0.0.1:27017 -- exactly where
+    # /usr/bin/wazigate (WAZIUP_MONGO=mongodb://localhost:27017) looks for it.
+    # Nothing that talks to the database had to change.
+    command: mongod --bind_ip 127.0.0.1 --port 27017 --dbpath /data/db --journal --quiet
+    network_mode: host
+    volumes:
+      # Bind mount, not a named volume: a gateway that is updated rather than
+      # reflashed keeps the database it already has. The official image's
+      # entrypoint chowns this to its own mongodb user on first start.
+      - /var/lib/mongodb:/data/db
+    # The old host mongod.conf sent its log to /dev/null to spare the SD card.
+    # Capping the json-file driver keeps that intent while leaving enough to
+    # debug a failure with.
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "2"
+    healthcheck:
+      test: echo 'db.stats().ok' | mongo localhost:27017/local --quiet
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    restart: unless-stopped
+
   wazigate-system:
     container_name: waziup.wazigate-system
     image: waziup/wazigate-system:$WAZIGATE_TAG

@@ -1,6 +1,10 @@
 [Unit]
 Description=Wazigate Service
-After=network.target mongodb.service redis-server.service
+# docker.service, not mongodb.service: the database is the wazigate-mongo
+# container now, brought up by start.sh, and mongodb.service never existed on
+# this image anyway (the host unit was called mongod.service).
+After=network.target docker.service redis-server.service
+Wants=docker.service
 
 [Service]
 Type=simple

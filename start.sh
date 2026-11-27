@@ -176,3 +176,50 @@ fi
 
 # Containers are running, so the current images are good: refresh the backup if they changed
 update_image_backup
+
+################################################################################
+log 7 "Waiting for the database: "
+# MongoDB is a container now, not a host service, so nothing orders it before
+# /usr/bin/wazigate -- and wazigate dials the database before it ever listens
+# on port 80.
+#
+# That dial is not cheap to get wrong. mgo retries internally and ignores the
+# 30s timeout the code asks for: on this gateway a dial against a dead mongod
+# took 56 minutes to fail, during which systemd reports wazigate.service as
+# "active" while nothing is listening and every container that waits for
+# wazigate-edge gives up and restarts. Losing a couple of seconds here is far
+# cheaper than losing an hour there.
+#
+# A successful TCP connect means mongod's listener is up, which is exactly what
+# wazigate needs. Done with bash's /dev/tcp so this needs no mongo client.
+MONGO_WAIT_SECONDS=180
+
+mongo_accepting () {
+  (exec 3<>/dev/tcp/127.0.0.1/27017) 2>/dev/null
+}
+
+wait_for_mongo () {
+  local started=$SECONDS
+  local deadline=$((started + MONGO_WAIT_SECONDS))
+  while [ "$SECONDS" -lt "$deadline" ]; do
+    if mongo_accepting; then
+      echo "MongoDB is accepting connections after $((SECONDS - started))s."
+      return 0
+    fi
+    sleep 1
+  done
+  return 1
+}
+
+if ! wait_for_mongo; then
+  echo "MongoDB did not accept connections on 127.0.0.1:27017 within ${MONGO_WAIT_SECONDS}s."
+  echo "Container status:"
+  docker ps -a --filter name=waziup.wazigate-mongo \
+    --format '  {{.Names}}: {{.Status}}' || true
+  echo "Last log lines from the database container:"
+  docker logs --tail 20 waziup.wazigate-mongo 2>&1 | sed 's/^/  /' || true
+  # Fail here rather than let wazigate start and stall for an hour: systemd
+  # marks the unit failed, wazigate-watchdog retries, and the problem is
+  # visible in "systemctl status wazigate" within minutes instead of never.
+  exit 1
+fi

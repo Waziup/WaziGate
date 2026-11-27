@@ -59,6 +59,7 @@ pipeline {
 
         // *************** if needed, pull missing docker images on the node *************** //
         sh 'docker images'
+        sh 'docker pull --platform linux/arm64 mongo:4.4.18'
         sh 'docker pull --platform linux/arm64 postgres:14-alpine'
         sh 'docker pull --platform linux/arm64 redis:7-alpine'
         sh 'docker pull --platform linux/arm64/v8 eclipse-mosquitto:1.6'
